@@ -16,7 +16,7 @@ extern uint32_t num_outstanding_packets;
 extern uint32_t max_outstanding_packets;
 extern uint32_t duplicated_packets_received;
 
-Flow::Flow(uint32_t id, double start_time, uint32_t size, Host *s, Host *d) {
+Flow::Flow(uint32_t id, double start_time, uint32_t size, HeirScheduleHost *s, HeirScheduleHost *d) {
     this->id = id;
     this->start_time = start_time;
     this->finish_time = 0;

@@ -12,7 +12,7 @@ class FlowProcessingEvent;
 
 class Flow {
     public:
-        Flow(uint32_t id, double start_time, uint32_t size, Host *s, Host *d);
+        Flow(uint32_t id, double start_time, uint32_t size, HeirScheduleHost *s, HeirScheduleHost *d);
 
         ~Flow(); // Destructor
 
@@ -37,8 +37,8 @@ class Flow {
         double start_time;
         double finish_time;
         uint32_t size;
-        Host *src;
-        Host *dst;
+        HeirScheduleHost *src;
+        HeirScheduleHost *dst;
         uint32_t cwnd_mss;
         uint32_t max_cwnd;
         double retx_timeout;

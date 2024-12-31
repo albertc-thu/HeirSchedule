@@ -90,3 +90,117 @@ FastpassSchedulePkt::FastpassSchedulePkt(Flow *flow, Host *src, Host *dst, Fastp
     this->schedule = schd;
 }
 
+
+int HeirScheduleDataPkt::new_num = 0;
+int HeirScheduleDataPkt::delete_num = 0;
+HeirScheduleDataPkt::HeirScheduleDataPkt(double sending_time, Flow *flow, uint32_t seq_no, uint32_t pf_priority,
+                       uint32_t size, Host *src, Host *dst): Packet(sending_time, flow, seq_no, pf_priority, size, src, dst)
+{
+    this->type = HeirScheduleData;
+    this->path = path;
+    new_num++;
+    // if(new_num > -1){
+    //     cout << "new_num: " << new_num << endl;
+    // } 
+}
+HeirScheduleDataPkt::~HeirScheduleDataPkt()
+{
+    delete_num++;
+}
+
+int HeirScheduleRTSPkt::new_num = 0;
+int HeirScheduleRTSPkt::delete_num = 0;
+HeirScheduleRTSPkt::HeirScheduleRTSPkt(double sending_time, Host *src, Host *dst, std::vector<struct rts> rts_vector):Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
+{
+
+    this->type = HeirScheduleRTS;
+    this->rts_vector = rts_vector;
+    new_num++;
+}
+
+HeirScheduleRTSPkt::~HeirScheduleRTSPkt()
+{
+    // cout << "delete HeirScheduleRTSPkt" << endl;
+    this->rts_vector.clear();
+    delete_num++;
+}
+
+int HeirScheduleSCHDPkt::new_num = 0;
+int HeirScheduleSCHDPkt::delete_num = 0;
+HeirScheduleSCHDPkt::HeirScheduleSCHDPkt(double sending_time, Host *src, Host *dst,
+                        double offset, double rts_offset, bool if_rts, struct path sending_path,
+                        uint32_t endhost_id, uint32_t flag, bool dummy_flag, double time_to_run):Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
+{
+    this->type = HeirScheduleSCHD;
+    this->offset = offset;
+    this->rts_offset = rts_offset;
+    this->if_rts = if_rts;
+    this->sending_path = sending_path;
+    this->endhost_id = endhost_id;
+    this->dummy_flag = dummy_flag;
+    this->time_to_run = time_to_run;
+
+    new_num++;
+}
+
+HeirScheduleSCHDPkt::~HeirScheduleSCHDPkt()
+{
+    delete_num++;
+}
+
+int HeirScheduleIPRPkt::new_num = 0;
+int HeirScheduleIPRPkt::delete_num = 0;
+HeirScheduleIPRPkt::HeirScheduleIPRPkt(double sending_time, Host *src, Host *dst, struct ipr ipr): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
+{
+    this->type = HeirScheduleIPR;
+    this->ipr = ipr;
+    new_num++;
+}
+
+HeirScheduleIPRPkt::~HeirScheduleIPRPkt()
+{
+    delete_num++;
+}
+
+int HeirScheduleIPSPkt::new_num = 0;
+int HeirScheduleIPSPkt::delete_num = 0;
+HeirScheduleIPSPkt::HeirScheduleIPSPkt(double sending_time, Host *src, Host *dst, struct ips ips): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
+{
+    this->type = HeirScheduleIPS;
+    this->ips = ips;
+    new_num++;
+}
+
+HeirScheduleIPSPkt::~HeirScheduleIPSPkt()
+{
+    delete_num++;
+}
+
+
+int HeirScheduleAARPkt::new_num = 0;
+int HeirScheduleAARPkt::delete_num = 0;
+HeirScheduleAARPkt::HeirScheduleAARPkt(double sending_time, Host *src, Host *dst, struct aar aar): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
+{
+    this->type = HeirScheduleAAR;
+    this->aar = aar;
+    new_num++;
+}
+
+HeirScheduleAARPkt::~HeirScheduleAARPkt()
+{
+    delete_num++;
+}
+
+int HeirScheduleAASPkt::new_num = 0;
+int HeirScheduleAASPkt::delete_num = 0;
+HeirScheduleAASPkt::HeirScheduleAASPkt(double sending_time, Host *src, Host *dst, struct aas aas): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
+{
+    this->type = HeirScheduleAAS;
+    this->aas = aas;
+    new_num++;
+}
+
+HeirScheduleAASPkt::~HeirScheduleAASPkt()
+{
+    delete_num++;
+}

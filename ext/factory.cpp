@@ -21,6 +21,8 @@
 
 #include "ideal.h"
 
+#include "node.h"
+
 IdealArbiter* ideal_arbiter = NULL;
 
 /* Factory method to return appropriate queue */
@@ -132,5 +134,14 @@ Host* Factory::get_host(
     std::cerr << host_type << " unknown\n";
     assert(false);
     return NULL;
+}
+
+HeirScheduleHost* Factory::get_HeirScheduleHost(
+        uint32_t id, 
+        double r1, 
+        double r2, 
+        uint32_t queue_type
+        ) {
+    return new HeirScheduleHost(id, r1, r2, queue_type);
 }
 

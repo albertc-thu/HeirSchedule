@@ -29,6 +29,7 @@
 #define FASTPASS_HOST 14
 #define FASTPASS_ARBITER 10
 #define IDEAL_HOST 20
+#define HeirSchedule_HOST 31
 
 class Factory {
     public:
@@ -66,6 +67,12 @@ class Factory {
                 double rate, 
                 uint32_t queue_type, 
                 uint32_t host_type
+                );
+        static HeirScheduleHost* get_HeirScheduleHost(
+                uint32_t id, 
+                double r1,
+                double r2, 
+                uint32_t queue_type
                 );
 };
 

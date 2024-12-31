@@ -125,66 +125,105 @@ FlowArrivalEvent::~FlowArrivalEvent() {
 }
 
 void FlowArrivalEvent::process_event() {
-    //Flows start at line rate; so schedule a packet to be transmitted
-    //First packet scheduled to be queued
-
-    num_outstanding_packets += (this->flow->size / this->flow->mss);
-    arrival_packets_count += this->flow->size_in_pkt;
-    if (num_outstanding_packets > max_outstanding_packets) {
-        max_outstanding_packets = num_outstanding_packets;
-    }
-    this->flow->start_flow();
-    flow_arrival_count++;
-    if (flow_arrivals.size() > 0) {
+    if (flow_arrivals.size() > 0) // Flow arrival 的链式连锁反应
+    {
         add_to_event_queue(flow_arrivals.front());
         flow_arrivals.pop_front();
     }
 
-    if(params.num_flows_to_run > 10 && flow_arrival_count % 100000 == 0){
-        double curr_time = get_current_time();
-        uint32_t num_unfinished_flows = 0;
-        for (uint32_t i = 0; i < flows_to_schedule.size(); i++) {
-            Flow *f = flows_to_schedule[i];
-            if (f->start_time < curr_time) {
-                if (!f->finished) {
-                    num_unfinished_flows ++;
-                }
-            }
+    cout << "Flow " << flow->id << " arrived at " << get_current_time() << endl;
+
+    HeirScheduleHost* src = flow->src;
+    HeirScheduleHost* dst = flow->dst;
+
+    src->sending_flows.insert(flow);
+
+    if(params.pias == 1){
+
+        // < pias_1
+        flow_data_at_src new_data_1;
+        new_data_1.flow = flow;
+        new_data_1.remaining_size = min(params.pias_1, flow->size);
+        new_data_1.priority = 0;
+        src->per_dst_queues[0][dst->id].push_back(new_data_1);
+
+        // cout << "new_data_1.remaining_size: " << new_data_1.remaining_size << endl;
+        // cout << "new_data_1.flow->remaining_size: " << new_data_1.flow->remaining_size_to_send << endl;
+
+        // pias_1 < < pias_2
+        if(flow->size > params.pias_1){
+            flow_data_at_src new_data_2;
+            new_data_2.flow = flow;
+            new_data_2.remaining_size = min(flow->size - params.pias_1, params.pias_2 - params.pias_1);
+            new_data_2.priority = 1;
+            src->per_dst_queues[1][dst->id].push_back(new_data_2);
+            // cout << "new_data_2: " << new_data_2.remaining_size << endl;
+            // cout << "new_data_2.flow->remaining_size: " << new_data_2.flow->remaining_size_to_send << endl;
+
         }
-        if(flow_arrival_count == (int)(params.num_flows_to_run * 0.5))
-        {
-            arrival_packets_at_50 = arrival_packets_count;
-            num_outstanding_packets_at_50 = num_outstanding_packets;
+
+        // > pias_2
+        if(flow->size > params.pias_2){
+            flow_data_at_src new_data_3;
+            new_data_3.flow = flow;
+            new_data_3.remaining_size = flow->size - params.pias_2;
+            new_data_3.priority = 2;
+            src->per_dst_queues[2][dst->id].push_back(new_data_3);
+            // cout << "new_data_3: " << new_data_3.remaining_size << endl;
         }
-        if(flow_arrival_count == params.num_flows_to_run)
-        {
-            arrival_packets_at_100 = arrival_packets_count;
-            num_outstanding_packets_at_100 = num_outstanding_packets;
-        }
-        std::cout << "## " << current_time << " NumPacketOutstanding " << num_outstanding_packets
-            << " NumUnfinishedFlows " << num_unfinished_flows << " StartedFlows " << flow_arrival_count
-            << " StartedPkts " << arrival_packets_count << "\n";
+    }else{
+        flow_data_at_src new_data_1;
+        new_data_1.flow = flow;
+        new_data_1.remaining_size = flow->size;
+        new_data_1.priority = 0;
+        src->per_dst_queues[0][dst->id].push_back(new_data_1);
     }
 }
 
-
-/* Packet Queuing */
-PacketQueuingEvent::PacketQueuingEvent(double time, Packet *packet,
-        Queue *queue) : Event(PACKET_QUEUING, time) {
-    this->packet = packet;
-    this->queue = queue;
-}
-
+PacketQueuingEvent::PacketQueuingEvent(double time, Packet *packet, Queue *queue)
+    : Event(PACKET_QUEUING, time) {
+        this->packet = packet;
+        this->queue = queue;
+    }
 PacketQueuingEvent::~PacketQueuingEvent() {
 }
-
+// 处理 PacketQueuingEvent
 void PacketQueuingEvent::process_event() {
     if (!queue->busy) {
+        // 新包触发的 processing
         queue->queue_proc_event = new QueueProcessingEvent(get_current_time(), queue);
         add_to_event_queue(queue->queue_proc_event);
         queue->busy = true;
         queue->packet_transmitting = packet;
     }
+
+    // if (packet->flow->id == 28237){
+    //     string Node = "Null";
+    //     if (queue->src->type == 0){
+    //         Node = "End Host ";
+    //     }
+    //     else{
+    //         switch (((Switch*) queue->src)->switch_type)
+    //         {
+    //         case 10:
+    //             Node = "Core Switch ";
+    //             break;
+    //         case 11:
+    //             Node = "Agg Switch ";
+    //             break;
+    //         case 12:
+    //             Node = "Edge Switch ";
+    //             break;
+            
+    //         default:
+    //             break;
+    //         }
+    //     }
+        
+    //     cout << "seq: " << packet->seq_no << " queueing at " << Node << queue->src->id << endl;
+    // }
+
+    // 抢占，只有 pfabric 会用到
     else if( params.preemptive_queue && this->packet->pf_priority < queue->packet_transmitting->pf_priority) {
         double remaining_percentage = (queue->queue_proc_event->time - get_current_time()) / queue->get_transmission_delay(queue->packet_transmitting->size);
 
@@ -218,6 +257,13 @@ void PacketArrivalEvent::process_event() {
     packet->flow->receive(packet);
 }
 
+DataPacketArrivalEvent::DataPacketArrivalEvent(double time, Packet *packet)
+    : Event(DATA_PACKET_ARRIVAL, time) {
+        this->packet = packet;
+}
+DataPacketArrivalEvent::~DataPacketArrivalEvent(){
+    
+}
 
 /* Queue Processing */
 QueueProcessingEvent::QueueProcessingEvent(double time, Queue *queue)
@@ -246,7 +292,35 @@ void QueueProcessingEvent::process_event() {
         add_to_event_queue(queue->queue_proc_event);
         queue->busy_events.push_back(queue->queue_proc_event);
         if (next_hop == NULL) {
-            Event* arrival_evt = new PacketArrivalEvent(time + td + pd, packet);
+            Event* arrival_evt;
+            // 根据包的种类，确定下一步的处理
+            switch (packet->type)
+            {
+            case HeirScheduleData:
+                arrival_evt = new DataPacketArrivalEvent(time + td + pd, packet);
+                break;
+            case HeirScheduleRTS:
+                arrival_evt = new RTSPacketArrivalEvent(time + td + pd, packet);
+                break;
+            case HeirScheduleIPR:
+                arrival_evt = new IPRPacketArrivalEvent(time + td + pd, packet);
+                break;
+            case HeirScheduleIPS:
+                arrival_evt = new IPSPacketArrivalEvent(time + td + pd, packet);
+                break;
+            case HeirScheduleAAR:
+                arrival_evt = new AARPacketArrivalEvent(time + td + pd, packet);
+                break;
+            case HeirScheduleAAS:
+                arrival_evt = new AASPacketArrivalEvent(time + td + pd, packet);
+                break;
+            case HeirScheduleSCHD:
+                arrival_evt = new SCHDPacketArrivalEvent(time + td + pd, packet);
+                break;
+            default:
+                break;
+            }
+            
             add_to_event_queue(arrival_evt);
             queue->busy_events.push_back(arrival_evt);
         } else {
@@ -269,6 +343,24 @@ void QueueProcessingEvent::process_event() {
         queue->queue_proc_event = NULL;
     }
 }
+
+
+RTSPacketArrivalEvent::RTSPacketArrivalEvent(double time, Packet *packet)
+    : Event(RTS_PACKET_ARRIVAL, time) {
+        this->packet = packet;
+    }
+RTSPacketArrivalEvent::~RTSPacketArrivalEvent() {
+}
+
+void RTSPacketArrivalEvent::process_event() {
+    //将rts保存到LA的received_rts中
+    for (auto it = ((HeirScheduleRTSPkt*)packet)->rts_vector.begin(); it != ((HeirScheduleRTSPkt*)packet)->rts_vector.end(); it++) {
+        ((LocalArbiter* )packet->dst)->received_rts.push_back(*it);
+    }
+    ((LocalArbiter* )packet->dst)->process_rts();
+
+}
+
 
 
 LoggingEvent::LoggingEvent(double time) : Event(LOGGING, time){
@@ -362,5 +454,86 @@ RetxTimeoutEvent::~RetxTimeoutEvent() {
 
 void RetxTimeoutEvent::process_event() {
     flow->handle_timeout();
+}
+
+HostSendRTSEvent::HostSendRTSEvent(double time, HeirScheduleHost *src, LocalArbiter *dst)
+    : Event(HOST_SEND_RTS, time) {
+        this->src = src;
+        this->dst = dst;
+    }
+
+HostSendRTSEvent::~HostSendRTSEvent() {
+}
+
+void HostSendRTSEvent::process_event() {
+    src->host_send_rts(time);
+}
+
+HostSendDataEvent::HostSendDataEvent(double time, HeirScheduleHost *src, HeirScheduleHost *dst)
+    : Event(HOST_SEND_DATA, time) {
+        this->src = src;
+        this->dst = dst;
+    }
+
+HostSendDataEvent::~HostSendDataEvent() {
+}
+
+void HostSendDataEvent::process_event() {
+    src->host_send_data(time);
+}
+
+LASendIPREvent::LASendIPREvent(double time, LocalArbiter *src, LocalArbiter *dst)
+    : Event(LA_SEND_IPR, time) {
+        this->src = src;
+        this->dst = dst;
+    }
+LASendIPREvent::~LASendIPREvent() {}
+
+void LASendIPREvent::process_event() {
+    src->send_interpod_rts(time);
+}
+
+LASendIPSEvent::LASendIPSEvent(double time, LocalArbiter *src, LocalArbiter *dst)
+    : Event(LA_SEND_IPS, time) {
+        this->src = src;
+        this->dst = dst;
+    }
+LASendIPSEvent::~LASendIPSEvent() {}
+
+void LASendIPSEvent::process_event() {
+    src->send_interpod_schd();
+}
+
+LASendAAREvent::LASendAAREvent(double time, LocalArbiter *src, GlobalArbiter *dst)
+    : Event(LA_SEND_AAR, time) {
+        this->src = src;
+        this->dst = dst;
+    }
+LASendAAREvent::~LASendAAREvent() {}
+
+void LASendAAREvent::process_event() {
+    src->send_agg_agg_rts();
+}
+
+GASendAASEvent::GASendAASEvent(double time, GlobalArbiter *src, LocalArbiter *dst)
+    : Event(GA_SEND_AAS, time) {
+        this->src = src;
+        this->dst = dst;
+    }
+GASendAASEvent::~GASendAASEvent() {}
+
+void GASendAASEvent::process_event() {
+    src->send_agg_agg_schd();
+}
+
+LASendResultEvent::LASendResultEvent(double time, LocalArbiter *src, HeirScheduleHost *dst)
+    : Event(LA_SEND_RESULT, time) {
+        this->src = src;
+        this->dst = dst;
+    }
+LASendResultEvent::~LASendResultEvent() {}
+
+void LASendResultEvent::process_event() {
+    src->send_final_results();
 }
 

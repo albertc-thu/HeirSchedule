@@ -81,6 +81,12 @@ class DCExpParams {
             return size_in_byte * 8 / this->bandwidth;
         }
 
+        uint32_t num_of_ports;
+        uint32_t slot_length;
+        int pias;
+        uint32_t pias_1;
+        uint32_t pias_2;
+
 };
 
 

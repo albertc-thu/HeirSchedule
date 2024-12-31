@@ -23,15 +23,20 @@ class Queue {
         virtual void drop(Packet *packet);
         double get_transmission_delay(uint32_t size);
         void preempt_current_transmission();
+        uint32_t limit_pkts;
+        uint32_t pkt_num;
 
         // Members
         uint32_t id;
         uint32_t unique_id;
         static uint32_t instance_count;
         double rate;
+
+        //限制队列长度
         uint32_t limit_bytes;
         std::deque<Packet *> packets;
         uint32_t bytes_in_queue;
+        //在处理 QueueProcessingEvent 和 PacketQueuingEvent 时，标记为真
         bool busy;
         QueueProcessingEvent *queue_proc_event;
 
@@ -51,7 +56,22 @@ class Queue {
         uint64_t spray_counter;
 
         int location;
+
+        double output_stop_occupied;
+
+        void print_packet(Packet* packet);
+
+        uint32_t pkt_num_cutthrough = 0;
+
+        Packet* packet_in_occupation;
 };
+
+class CPQueue : public Queue {
+    public:
+        CPQueue(uint32_t id, double rate, uint32_t limit_bytes, int location);
+        virtual void enque(Packet *packet);
+};
+
 
 
 class ProbDropQueue : public Queue {

@@ -29,6 +29,24 @@
 #define FLOW_CREATION_EVENT 8
 #define LOGGING 9
 
+#define HOST_SEND_RTS 10
+#define HOST_SEND_DATA 11
+#define LA_SEND_IPR 12
+#define LA_SEND_IPS 13
+#define LA_SEND_AAR 14
+#define LA_SEND_RESULT 15
+#define GA_SEND_AAS 16
+
+#define DATA_PACKET_ARRIVAL 20
+#define RTS_PACKET_ARRIVAL 21
+#define IPR_PACKET_ARRIVAL 22
+#define IPS_PACKET_ARRIVAL 23
+#define AAR_PACKET_ARRIVAL 24
+#define AAS_PACKET_ARRIVAL 25
+#define SCHD_PACKET_ARRIVAL 26
+
+extern void add_to_event_queue(Event *);
+
 class Event {
     public:
         Event(uint32_t type, double time);
@@ -114,6 +132,64 @@ class PacketArrivalEvent : public Event {
         Packet *packet;
 };
 
+class DataPacketArrivalEvent : public Event {
+    public:
+        DataPacketArrivalEvent(double time, Packet *packet);
+        ~DataPacketArrivalEvent();
+        void process_event();
+        Packet *packet;
+};
+
+class RTSPacketArrivalEvent : public Event {
+    public:
+        RTSPacketArrivalEvent(double time, Packet *packet);
+        ~RTSPacketArrivalEvent();
+        void process_event();
+        Packet *packet;
+};
+
+class IPRPacketArrivalEvent : public Event {
+    public:
+        IPRPacketArrivalEvent(double time, Packet *packet);
+        ~IPRPacketArrivalEvent();
+        void process_event();
+        Packet *packet;
+};
+
+class IPSPacketArrivalEvent : public Event {
+    public:
+        IPSPacketArrivalEvent(double time, Packet *packet);
+        ~IPSPacketArrivalEvent();
+        void process_event();
+        Packet *packet;
+
+};
+
+class AARPacketArrivalEvent : public Event {
+    public:
+        AARPacketArrivalEvent(double time, Packet *packet);
+        ~AARPacketArrivalEvent();
+        void process_event();
+        Packet *packet;
+};
+
+class AASPacketArrivalEvent : public Event {
+    public:
+        AASPacketArrivalEvent(double time, Packet *packet);
+        ~AASPacketArrivalEvent();
+        void process_event();
+        Packet *packet;
+};
+
+class SCHDPacketArrivalEvent : public Event {
+    public:
+        SCHDPacketArrivalEvent(double time, Packet *packet);
+        ~SCHDPacketArrivalEvent();
+        void process_event();
+        Packet *packet;
+};
+
+
 class QueueProcessingEvent : public Event {
     public:
         QueueProcessingEvent(double time, Queue *queue);
@@ -156,6 +232,81 @@ class RetxTimeoutEvent : public Event {
         ~RetxTimeoutEvent();
         void process_event();
         Flow *flow;
+};
+
+class HostSendRTSEvent : public Event {
+    public:
+        HostSendRTSEvent(double time, HeirScheduleHost *src, LocalArbiter *dst);
+        ~HostSendRTSEvent();
+        void process_event();
+        HeirScheduleHost *src;
+        LocalArbiter *dst;
+};
+
+class HostSendDataEvent : public Event {
+    public:
+        HostSendDataEvent(double time, HeirScheduleHost *src, HeirScheduleHost *dst);
+        ~HostSendDataEvent();
+        void process_event();
+        HeirScheduleHost *src;
+        HeirScheduleHost *dst;
+};
+
+class LASendIPREvent : public Event {
+    public:
+        LASendIPREvent(double time, LocalArbiter *src, LocalArbiter *dst);
+        ~LASendIPREvent();
+        void process_event();
+        LocalArbiter *src;
+        LocalArbiter *dst;
+};
+
+class LASendIPSEvent : public Event {
+    public:
+        LASendIPSEvent(double time, LocalArbiter *src, LocalArbiter *dst);
+        ~LASendIPSEvent();
+        void process_event();
+        LocalArbiter *src;
+        LocalArbiter *dst;
+};
+
+class LASendAAREvent : public Event {
+    public:
+        LASendAAREvent(double time, LocalArbiter *src, GlobalArbiter *dst);
+        ~LASendAAREvent();
+        void process_event();
+        LocalArbiter *src;
+        GlobalArbiter *dst;
+};
+
+class GASendAASEvent : public Event {
+    public:
+        GASendAASEvent(double time, GlobalArbiter *src, LocalArbiter *dst);
+        ~GASendAASEvent();
+        void process_event();
+        GlobalArbiter *src;
+        LocalArbiter *dst;
+};
+
+class LASendResultEvent : public Event {
+    public:
+        LASendResultEvent(double time, LocalArbiter *src, HeirScheduleHost *dst);
+        ~LASendResultEvent();
+        void process_event();
+        LocalArbiter *src;
+        HeirScheduleHost *dst;
+};
+
+
+
+// 拓扑时间槽改变
+class TimeslotChangeEvent : public Event
+{
+public:
+    TimeslotChangeEvent(double time, Topology* topology);
+    ~TimeslotChangeEvent();
+    void process_event();
+    Topology* topology;
 };
 
 #endif /* defined(EVENT_H) */
