@@ -159,25 +159,27 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
 
     std::string conf_filename(argv[2]);
     read_experiment_parameters(conf_filename, exp_type);
-    params.num_hosts = 144;
-    params.num_agg_switches = 9;
-    params.num_core_switches = 4;
+    // params.num_hosts = 144;
+    // params.num_agg_switches = 9;
+    // params.num_core_switches = 4;
     
-    if (params.flow_type == FASTPASS_FLOW) {
-        topology = new FastpassTopology(params.num_hosts, params.num_agg_switches, params.num_core_switches, params.bandwidth, params.queue_type);
-    }
-    else if (params.big_switch) {
-        topology = new BigSwitchTopology(params.num_hosts, params.bandwidth, params.queue_type);
-    } 
-    else {
-        topology = new PFabricTopology(params.num_hosts, params.num_agg_switches, params.num_core_switches, params.bandwidth, params.queue_type);
-    }
+    // if (params.flow_type == FASTPASS_FLOW) {
+    //     topology = new FastpassTopology(params.num_hosts, params.num_agg_switches, params.num_core_switches, params.bandwidth, params.queue_type);
+    // }
+    // else if (params.big_switch) {
+    //     topology = new BigSwitchTopology(params.num_hosts, params.bandwidth, params.queue_type);
+    // } 
+    // else {
+    //     topology = new PFabricTopology(params.num_hosts, params.num_agg_switches, params.num_core_switches, params.bandwidth, params.queue_type);
+    // }
+    topology = new HeirScheduleTopology(params.k, params.bandwidth_data, params.bandwidth_ctrl, params.queue_type);
 
-    uint32_t num_flows = params.num_flows_to_run;
+    uint32_t num_flows = 0;
 
     FlowGenerator *fg;
     if (params.use_flow_trace) {
-        fg = new FlowReader(num_flows, topology, params.cdf_or_flow_trace);
+        std::cout << "🫛 read flows!" << std::endl;
+        fg = new FlowReader(num_flows, dynamic_cast<HeirScheduleTopology*>(topology), params.cdf_or_flow_trace);
         fg->make_flows();
     }
     else if (params.interarrival_cdf != "none") {
@@ -215,6 +217,12 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
     } fc;
 
     std::sort (flows_sorted.begin(), flows_sorted.end(), fc);
+    // 打印流的信息
+    // std::cout << "🫐 flow size: " << flows_sorted.size() << "\n";
+    // for(uint32_t i = 0; i < flows_sorted.size(); i++){
+    //     Flow* f = flows_sorted[i];
+    //     std::cout << "💧 " << f->id << " " << f->size << " " << f->src->id << " " << f->dst->id << " " << 1e6*f->start_time << "\n";
+    // }
 
     for (uint32_t i = 0; i < flows_sorted.size(); i++) {
         Flow* f = flows_sorted[i];
@@ -235,6 +243,9 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
     if (params.flow_type == FASTPASS_FLOW) {
         dynamic_cast<FastpassTopology*>(topology)->arbiter->start_arbiter();
     }
+
+    // dynamic_cast<HeirScheduleTopology*>(topology)->global_arbiter
+
 
     // 
     // everything before this is setup; everything after is analysis

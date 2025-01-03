@@ -173,11 +173,29 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         else if (key == "bytes_mode") {
             lineStream >> params.bytes_mode;
         }
+        else if (key == "k"){
+            lineStream >> params.k;
+        }
+        else if (key == "propagation_delay_data") {
+            lineStream >> params.propagation_delay_data;
+        }
+        else if (key == "propagation_delay_ctrl") {
+            lineStream >> params.propagation_delay_ctrl;
+        }
+        else if (key == "bandwidth_data") {
+            lineStream >> params.bandwidth_data;
+        }
+        else if (key == "bandwidth_ctrl") {
+            lineStream >> params.bandwidth_ctrl;
+        }
+        else if (key == "queue_size_ctrl"){
+            lineStream >> params.queue_size_ctrl;
+        }
         //else if (key == "dctcp_delayed_ack_freq") {
         //    lineStream >> params.dctcp_delayed_ack_freq;
         //}
         else {
-            std::cout << "Unknown conf param: " << key << " in file: " << conf_filename << "\n";
+            std::cout << "Unknown conf param: " << key << " in file: " << conf_filename << std::endl;
             assert(false);
         }
 

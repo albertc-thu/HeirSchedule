@@ -5,7 +5,8 @@
 #include <deque>
 #include <stdint.h>
 #include <time.h>
-#include "assert.h"
+#include <cassert>
+#include <random>
 
 #include "flow.h"
 #include "packet.h"
@@ -119,8 +120,8 @@ int main (int argc, char ** argv) {
     time_t start_time;
     time(&start_time);
 
-    //srand(time(NULL));
-    srand(0);
+    srand(time(NULL));
+    // srand(0);
     std::cout.precision(15);
 
     uint32_t exp_type = atoi(argv[1]);

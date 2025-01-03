@@ -5,6 +5,9 @@
 #include "../run/params.h"
 #include "topology.h"
 #include <cassert>
+#include <random>
+
+using namespace std;
 
 extern DCExpParams params;
 extern HeirScheduleTopology *heirschedule_topology;
@@ -40,6 +43,12 @@ bool FlowComparator::operator() (Flow *a, Flow *b) {
 Node::Node(uint32_t id, uint32_t type) {
     this->id = id;
     this->type = type;
+    // 随机初始化时间，服从正态分布，均值为0，方差为1e-6
+    std::random_device rd;  // Get a random seed from the hardware
+    std::default_random_engine generator(rd());  // Seed the generator
+    std::normal_distribution<double> distribution(0, 1e-6);
+    this->time = distribution(generator);
+    // cout << "Node " << id << " initial time: " << this->time << endl;
 }
 
 // TODO FIX superclass constructor
@@ -55,7 +64,7 @@ Host::Host(uint32_t id, double rate, uint32_t queue_type, uint32_t host_type) : 
 HeirScheduleHost::HeirScheduleHost(uint32_t id, double rate_data, double rate_control, uint32_t queue_type) : Host(id, 0, queue_type, HeirSchedule_HOST) {
     this->type = HeirSchedule_HOST;
     toToRQueue = Factory::get_queue(0, rate_data, params.queue_size, queue_type, 0, HOST_TO_TOR);
-    toLAQueue = Factory::get_queue(0, rate_control, params.queue_size, queue_type, 0, HOST_TO_LCS);
+    toLAQueue = Factory::get_queue(0, rate_control, params.queue_size_ctrl, queue_type, 0, HOST_TO_LCS);
     // this->host_type = HeirSchedule_HOST;
     this->received_bytes_all = 0;
     this->received_first_packet_time = -1;
@@ -98,11 +107,11 @@ HeirScheduleHost::HeirScheduleHost(uint32_t id, double rate_data, double rate_co
 LocalArbiter::LocalArbiter(uint32_t id, double rate, uint32_t num_gcs, uint32_t queue_type) : Host(id, 0, queue_type, LOCAL_ARBITER) {
     this->type = LOCAL_ARBITER;
     this->num_gcs = num_gcs;
-    for (uint32_t i = 0; i < params.num_of_ports/2; i++) {
-        toLCSQueues.push_back(Factory::get_queue(i, rate, params.queue_size, queue_type, 0, LA_TO_LCS));
+    for (uint32_t i = 0; i < params.k/2; i++) {
+        toLCSQueues.push_back(Factory::get_queue(i, rate, params.queue_size_ctrl, queue_type, 0, LA_TO_LCS));
     }
     for(uint32_t i = 0; i < num_gcs; i++){
-        toGCSQueues.push_back(Factory::get_queue(i, rate, params.queue_size, queue_type, 0, LA_TO_GCS));
+        toGCSQueues.push_back(Factory::get_queue(i, rate, params.queue_size_ctrl, queue_type, 0, LA_TO_GCS));
     }
 }
 
@@ -125,9 +134,9 @@ LocalArbiter::LocalArbiter(uint32_t id, double rate, uint32_t num_gcs, uint32_t 
 
 // }
 
-GlobalArbiter::GlobalArbiter(uint32_t id, uint32_t queue_type, double rate) : Host(id, 0, queue_type, GLOBAL_ARBITER) {
+GlobalArbiter::GlobalArbiter(uint32_t id, double rate, uint32_t queue_type) : Host(id, 0, queue_type, GLOBAL_ARBITER) {
     this->type = GLOBAL_ARBITER;
-    toGCSQueue = Factory::get_queue(0, rate, params.queue_size, queue_type, 0, GA_TO_GCS);
+    toGCSQueue = Factory::get_queue(0, rate, params.queue_size_ctrl, queue_type, 0, GA_TO_GCS);
 }
 
 Switch::Switch(uint32_t id, uint32_t switch_type) : Node(id, SWITCH) {
@@ -183,19 +192,19 @@ ToRSwitch::ToRSwitch(
 LocalControlSwitch::LocalControlSwitch(uint32_t id, uint32_t numOfQToHost, double r1, uint32_t numOfQToLA, double r2, uint32_t queue_type) : Switch(id, LOCAL_CONTROL_SWITCH) {
     //向下连host的端口数
     for (uint32_t i = 0; i < numOfQToHost; i++) {
-        toHostQueues.push_back(Factory::get_queue(i, r1, params.queue_size, type, 0, LCS_TO_HOST));
+        toHostQueues.push_back(Factory::get_queue(i, r1, params.queue_size_ctrl, DCTCP_QUEUE, 0, LCS_TO_HOST));
     }
     
     // 向上连LA的端口数
-    toLAQueue = Factory::get_queue(0, r2, params.queue_size, type, 0, LCS_TO_LA);
+    toLAQueue = Factory::get_queue(0, r2, params.queue_size_ctrl, DCTCP_QUEUE, 0, LCS_TO_LA);
 }
 
 GlobalControlSwitch::GlobalControlSwitch(uint32_t id, uint32_t numOfQToLA, double r1, uint32_t numOfQToGA, double r2, uint32_t queue_type) : Switch(id, GLOBAL_CONTROL_SWITCH) {
     //连接LA的端口数，连向k个LA
     for (uint32_t i = 0; i < numOfQToLA; i++) {
-        toLAQueues.push_back(Factory::get_queue(i, r1, params.queue_size, type, 0, GCS_TO_LA));
+        toLAQueues.push_back(Factory::get_queue(i, r1, params.queue_size_ctrl, DCTCP_QUEUE, 0, GCS_TO_LA));
     }
 
     //连接GA的端口
-    toGAQueue = Factory::get_queue(0, r2, params.queue_size, type, 0, GCS_TO_GA);
+    toGAQueue = Factory::get_queue(0, r2, params.queue_size_ctrl, DCTCP_QUEUE, 0, GCS_TO_GA);
 }

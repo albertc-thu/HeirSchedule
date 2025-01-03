@@ -146,30 +146,45 @@ void PoissonFlowBytesGenerator::make_flows() {
 
 FlowReader::FlowReader(uint32_t num_flows, Topology *topo, std::string filename) : FlowGenerator(num_flows, topo, filename) {};
 
-void FlowReader::make_flows() {
+// 从文件中读取流信息
+void FlowReader::make_flows()
+{
+    cout << "Reading flows from trace, this is flow_generator.cpp." << endl;
+    cout << filename << endl;
     std::ifstream input(filename);
     std::string line;
-    while (std::getline(input, line)) {
+    // std::cout << getline(input, line).good() << endl;
+    while (std::getline(input, line))
+    {
         std::istringstream iss(line);
-        double start_time, temp;
-        uint32_t size, s, d;
+        double start_time;
+        uint32_t temp1, temp2, temp3, temp;
+        uint32_t s, d;
         uint32_t id;
-        
-        // <id> <start_time> blah blah <size in packets> blah blah <src> <dst>
+        int size;
+        // std::cout << line << std::endl;
 
-        if (!(iss >> id >> start_time >> temp >> temp >> size >> temp >> temp >> s >> d)) {
+        // 流文件的格式
+        // <id> <start_time> blah <size in packets> blah blah <src> <dst>
+
+        if (!(iss >> id >> start_time >> temp1 >> size >> temp2 >> temp3 >> s >> d))
+        {
+            cout << id << ' ' << start_time << ' ' << size << ' ' << s << ' ' << d << " Not standard format of flow trace, break." << endl;
             break;
         }
-        
-        size = (uint32_t) (params.mss * size);
+
+        size = (uint32_t)(size);
+        /* 输出流的信息 */
+        std::cout << "😊 Flow " << id << " " << start_time << " " << temp1  << " " << size << " " << temp2 << " " << temp3 << " " << s << " " << d << endl;
+
         assert(size > 0);
 
-        std::cout << "Flow " << id << " " << start_time << " " << size << " " << s << " " << d << "\n";
+        // flows_to_schedule 表示有待调度的流，在这种情况下，就是从文件中读取的流
         flows_to_schedule.push_back(
-            Factory::get_flow(id, start_time, size, topo->hosts[s], topo->hosts[d], params.flow_type)
-        );
+            Factory::get_flow(id, start_time, size, dynamic_cast<HeirScheduleTopology*>(topo)->hosts[s], dynamic_cast<HeirScheduleTopology*>(topo)->hosts[d], params.flow_type));
+        // std::cout << "🍠" << std::endl;
     }
-    params.num_flows_to_run = flows_to_schedule.size();
+    // params.flow_num = flows_to_schedule.size();
     input.close();
 }
 

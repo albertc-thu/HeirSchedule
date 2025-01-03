@@ -6,6 +6,7 @@
 
 class DCExpParams {
     public:
+        uint32_t k;
         std::string param_str;
 
         uint32_t initial_cwnd;
@@ -75,6 +76,11 @@ class DCExpParams {
 
         uint32_t dctcp_mark_thresh;
         //uint32_t dctcp_delayed_ack_freq;
+        double propagation_delay_data;
+        double propagation_delay_ctrl;
+        double bandwidth_data;
+        double bandwidth_ctrl;
+        uint32_t queue_size_ctrl;
 
         double get_full_pkt_tran_delay(uint32_t size_in_byte = 1500)
         {

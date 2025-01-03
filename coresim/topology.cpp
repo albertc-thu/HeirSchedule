@@ -269,6 +269,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     uint32_t hosts_per_lcs = k / 2; // lcs: local control switch
     uint32_t las_per_lcs = 1;
     uint32_t lcs_per_la = k / 2;
+    uint32_t gcs_per_la = 1; // 每个local arbiter连接一个gcs
     uint32_t las_per_gcs = k; // gcs: global control switch
     uint32_t gas_per_gcs = 1;
     assert(gas_per_gcs == 1);
@@ -286,52 +287,68 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
 
     //-------------------------------create-------------------------------
     // Create Hosts
+    cout << "💻 Start: create hosts." << endl;
+    uint32_t global_id = 0;
     for (uint32_t i = 0; i < num_hosts; i++)
     {
-        hosts.push_back(new HeirScheduleHost(i, rate_data, rate_control, queue_type));
+        hosts.push_back(new HeirScheduleHost(global_id++, rate_data, rate_control, queue_type));
         // hosts.push_back(Factory::get_HeirScheduleHost(i, bandwidth, queue_type, params.host_type));
     }
-    cout << "Finished: create hosts." << endl;
+    cout << "💻 Finished: create hosts." << endl;
 
 
     //Create ToR Switches
+    cout << "🔗 Start: create ToR switches." << endl;
     for (uint32_t i = 0; i < num_tor_switches; i++)
     {
-        tor_switches.push_back(new ToRSwitch(i, hosts_per_tor_switch, rate_data, aggs_per_tor_switch, rate_data, queue_type));
+        tor_switches.push_back(new ToRSwitch(global_id++, hosts_per_tor_switch, rate_data, aggs_per_tor_switch, rate_data, queue_type));
     }
+    cout << "🔗 Finished: create ToR switches." << endl;
 
     //Create Agg Switches
+    cout << "🍎 Start: create Agg switches." << endl;
     for (uint32_t i = 0; i < num_agg_switches; i++)
     {
-        agg_switches.push_back(new AggSwitch(i, tors_per_agg_switch, rate_data, cores_per_agg_switch, rate_data, queue_type));
+        agg_switches.push_back(new AggSwitch(global_id++, tors_per_agg_switch, rate_data, cores_per_agg_switch, rate_data, queue_type));
     }
+    cout << "🍎 Finished: create Agg switches." << endl;
 
     //Create Core Switches
+    cout << "🍍 Start: create Core switches." << endl;
     for (uint32_t i = 0; i < num_core_switches; i++)
     {
-        core_switches.push_back(new CoreSwitch(i, aggs_per_core_switch, rate_data, queue_type));
+        core_switches.push_back(new CoreSwitch(global_id++, aggs_per_core_switch, rate_data, queue_type));
     }
+    cout << "🍍 Finished: create Core switches." << endl;
 
     //Create Local Arbiters
+    cout << "🔒 Start: create Local Arbiters." << endl;
     for (uint32_t i = 0; i < num_local_arbiters; i++)
     {
-        local_arbiters.push_back(new LocalArbiter(i, rate_control, num_gcs, queue_type));
+        local_arbiters.push_back(new LocalArbiter(global_id++, rate_control, num_gcs, queue_type));
     }
+    cout << "🔒 Finished: create Local Arbiters." << endl;
 
     //Create Global Arbiter
-    global_arbiter = new GlobalArbiter(0, rate_control, queue_type);
+    cout << "🔑 Start: create Global Arbiters." << endl;
+    global_arbiter = new GlobalArbiter(global_id++, rate_control, queue_type);
+    cout << "🔑 Finished: create Global Arbiters." << endl;
 
     //Create Local Control Switches
+    cout << "🔗 Start: create Local Control Switches." << endl;
     for (uint32_t i = 0; i < num_lcs; i++)
     {
-        local_control_switches.push_back(new LocalControlSwitch(i, las_per_lcs, rate_control, hosts_per_lcs, rate_control, queue_type));
+        local_control_switches.push_back(new LocalControlSwitch(global_id++, hosts_per_lcs, rate_control, las_per_lcs, rate_control, queue_type));
     }
+    cout << "🔗 Finished: create Local Control Switches." << endl;
 
     //Create Global Control Switches
+    cout << "🌊 Start: create Global Control Switches." << endl;
     for(uint32_t i = 0; i < num_gcs; i++)
     {
-        global_control_switches.push_back(new GlobalControlSwitch(i, las_per_gcs, rate_control, gas_per_gcs, rate_control, queue_type));
+        global_control_switches.push_back(new GlobalControlSwitch(global_id++, las_per_gcs, rate_control, gas_per_gcs, rate_control, queue_type));
     }
+    cout << "🌊 Finished: create Global Control Switches." << endl;
 
 
 
@@ -346,6 +363,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     {
         hosts[i]->toLAQueue->set_src_dst(hosts[i], local_control_switches[i / hosts_per_lcs]);
     }
+    cout << "🍌 Finished linking hosts" << endl;
 
     // tor->host and tor->agg
     for (uint32_t i = 0; i < num_tor_switches; i++)
@@ -366,6 +384,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
             // std::cout << "Linking ToR " << i << " to Agg" << j << " with queue " << q->id << " " << q->unique_id << "\n";
         }
     }
+    cout << "🍎 Finished linking ToR switches" << endl;
 
     // agg->tor and agg->core
     for (uint32_t i = 0; i < num_agg_switches; i++)
@@ -387,6 +406,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
             // std::cout << "Linking Agg " << i << " to Core" << (i % aggs_per_pod) * cores_per_agg_switch + j << " with queue " << q->id << " " << q->unique_id << "\n";
         }
     }
+    cout << "🍍 Finished linking Agg switches" << endl;
 
     // core->agg
     for (uint32_t i = 0; i < num_core_switches; i++)
@@ -398,6 +418,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
             // std::cout << "Linking Core " << i << " to Agg" << i / cores_per_agg_switch * aggs_per_pod + j << " with queue " << q->id << " " << q->unique_id << "\n";
         }
     }
+    cout << "🍐 Finished linking Core switches" << endl;
 
     
     // lcs to host and lcs to la
@@ -410,12 +431,12 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
             q->set_src_dst(local_control_switches[i], hosts[i * hosts_per_lcs + j]);
             // std::cout << "Linking LCS " << i << " to Host" << i * hosts_per_lcs + j << " with queue " << q->id << " " << q->unique_id << "\n";
         }
-
         // lcs to la
         Queue *q = local_control_switches[i]->toLAQueue;
         q->set_src_dst(local_control_switches[i], local_arbiters[i/lcs_per_la]);
             // std::cout << "Linking LCS " << i << " to LA" << i << " with queue " << q->id << " " << q->unique_id << "\n";
     }
+    cout << "🍓 Finished linking Local Control Switches" << endl;
 
     // la to lcs and la to gcs 
     for (uint32_t i = 0; i < num_local_arbiters; i++)
@@ -429,7 +450,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
         }
 
         // la to gcs
-        for(uint32_t j = 0; j < las_per_gcs; j++)
+        for(uint32_t j = 0; j < gcs_per_la; j++)
         {
             Queue *q = local_arbiters[i]->toGCSQueues[j];
             q->set_src_dst(local_arbiters[i], global_control_switches[j]);
@@ -437,6 +458,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
         }
         
     }
+    cout << "🍇 Finished linking Local Arbiters" << endl;
 
     // gcs to la and gcs to ga
     for(uint32_t i = 0; i < num_gcs; i++)
@@ -457,16 +479,22 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
             // std::cout << "Linking GCS " << i << " to S3" << j << " with queue " << q->id << " " << q->unique_id << "\n";
         }
     }
+    cout << "🍉 Finished linking Global Control Switches" << endl;
+
+    cout << "✅ Establish HeirSchedule Topology." << endl;
 
 
 }
 
 // 从理论上，计算传播+传输时延
 // src, dst 是流实际的源和目的地
-double HeirScheduleTopology::get_oracle_fct(Host* src, Host* dst, uint32_t flow_size)
+double HeirScheduleTopology::get_oracle_fct(Flow* f)
 {
     // cout << "💻 This is whatever's get_oracle_fct, flow_size is " << flow_size << endl;
 
+    Host* src = f->src;
+    Host* dst = f->dst;
+    uint32_t flow_size = f->size;
     int num_hops = 4;
     int hosts_per_pod = k*k/4;
     int hosts_per_tor_switch = k / 2;
@@ -520,26 +548,26 @@ double HeirScheduleTopology::get_oracle_fct(Host* src, Host* dst, uint32_t flow_
             transmission_delay =
                 // hdr 是 header 的简称，这里是计算总的传输数据量
                 // 从 host 发出的时间 + 中间交换机上的包头时间
-                ((np * (params.mss + params.hdr_size) + over_size) / hosts[0]->host_queue->rate + \
-                params.hdr_size / tor_switches[0]->queues[0]->rate) * 8.0;
+                ((np * (params.mss + params.hdr_size) + over_size) / hosts[0]->toToRQueue->rate + \
+                params.hdr_size / tor_switches[0]->toHostQueues[0]->rate) * 8.0;
         }
         transmission_delay =
                 // 多了两个交换机的 hdr
-                ((np * (params.mss + params.hdr_size) + over_size) / hosts[0]->host_queue->rate + \
-                params.hdr_size / tor_switches[0]->queues[k / 2]->rate + \
-                params.hdr_size / agg_switches[0]->queues[0]->rate + \
-                params.hdr_size / tor_switches[0]->queues[0]->rate) * 8.0;
+                ((np * (params.mss + params.hdr_size) + over_size) / hosts[0]->toToRQueue->rate + \
+                params.hdr_size / tor_switches[0]->toAggQueues[0]->rate + \
+                params.hdr_size / agg_switches[0]->toToRQueues[0]->rate + \
+                params.hdr_size / tor_switches[0]->toHostQueues[0]->rate) * 8.0;
         if (num_hops == 6)
         {
             // 多了两个交换机的 hdr
             transmission_delay =
                 // 多了两个交换机的 hdr
-                ((np * (params.mss + params.hdr_size) + over_size) / hosts[0]->host_queue->rate + \
-                params.hdr_size / tor_switches[0]->queues[k / 2]->rate + \
-                params.hdr_size / agg_switches[0]->queues[0]->rate + \
-                params.hdr_size / core_switches[0]->queues[0]->rate + \
-                params.hdr_size / agg_switches[0]->queues[k / 2]->rate + \
-                params.hdr_size / tor_switches[0]->queues[0]->rate) * 8.0;
+                ((np * (params.mss + params.hdr_size) + over_size) / hosts[0]->toToRQueue->rate + \
+                params.hdr_size / tor_switches[0]->toAggQueues[0]->rate + \
+                params.hdr_size / agg_switches[0]->toCoreQueues[0]->rate + \
+                params.hdr_size / core_switches[0]->toAggQueues[0]->rate + \
+                params.hdr_size / agg_switches[0]->toToRQueues[0]->rate + \
+                params.hdr_size / tor_switches[0]->toHostQueues[0]->rate) * 8.0;
         }
         //std::cout << "pd: " << propagation_delay << " td: " << transmission_delay << std::endl;
     }
@@ -620,25 +648,25 @@ Queue* HeirScheduleTopology::get_next_hop(Packet *p, Queue *q){
     }
 }
 
-void HeirScheduleTopology::timeslot_start(double time){
-    this->epoch = 0;
-    for(int i =0; i < int(this->hosts.size()); i++){
-        add_to_event_queue(new HostSendRTSEvent(time, hosts[i], this->local_arbiters[i/(k*k/4)]));
-    }
+// void HeirScheduleTopology::timeslot_start(double time){
+//     this->epoch = 0;
+//     for(int i =0; i < int(this->hosts.size()); i++){
+//         add_to_event_queue(new HostSendRTSEvent(time, hosts[i], this->local_arbiters[i/(k*k/4)]));
+//     }
 
-    double next_slot_time = time + params.slot_length;
-    add_to_event_queue(new TimeslotChangeEvent(next_slot_time, this));
-}
+//     double next_slot_time = time + params.slot_length;
+//     add_to_event_queue(new TimeslotChangeEvent(next_slot_time, this));
+// }
 
-void HeirScheduleTopology::timeslot_stride(double time){
-    this->epoch++;
-    for(int i =0; i < int(this->hosts.size()); i++){
-        add_to_event_queue(new HostSendRTSEvent(time, hosts[i], this->local_arbiters[i/(k*k/4)]));
-    }
+// void HeirScheduleTopology::timeslot_stride(double time){
+//     this->epoch++;
+//     for(int i =0; i < int(this->hosts.size()); i++){
+//         add_to_event_queue(new HostSendRTSEvent(time, hosts[i], this->local_arbiters[i/(k*k/4)]));
+//     }
 
-    double next_slot_time = time + params.slot_length;
-    add_to_event_queue(new TimeslotChangeEvent(next_slot_time, this));
-}
+//     double next_slot_time = time + params.slot_length;
+//     add_to_event_queue(new TimeslotChangeEvent(next_slot_time, this));
+// }
 
 
 

@@ -44,7 +44,14 @@ Queue::Queue(uint32_t id, double rate, uint32_t limit_bytes, int location) {
         }
     }
     else {
-        this->propagation_delay = params.propagation_delay;
+        // 在控制面的时延
+        if(location == LCS_TO_LA || location == LA_TO_LCS || location == LA_TO_GCS || location == GCS_TO_LA || location == GA_TO_GCS || location == GCS_TO_GA){
+            this->propagation_delay = params.propagation_delay_ctrl;
+            std::cout << "Queue " << id << " location " << location << " propagation delay " << this->propagation_delay << std::endl;
+        }
+        else{
+            this->propagation_delay = params.propagation_delay_data;
+        }
     }
     this->p_arrivals = 0; this->p_departures = 0;
     this->b_arrivals = 0; this->b_departures = 0;

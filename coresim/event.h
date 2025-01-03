@@ -16,6 +16,7 @@
 #include "queue.h"
 #include "flow.h"
 #include "random_variable.h"
+#include "topology.h"
 
 //TODO import globals
 
@@ -46,6 +47,8 @@
 #define SCHD_PACKET_ARRIVAL 26
 
 extern void add_to_event_queue(Event *);
+
+class Topology;
 
 class Event {
     public:
@@ -234,80 +237,80 @@ class RetxTimeoutEvent : public Event {
         Flow *flow;
 };
 
-class HostSendRTSEvent : public Event {
-    public:
-        HostSendRTSEvent(double time, HeirScheduleHost *src, LocalArbiter *dst);
-        ~HostSendRTSEvent();
-        void process_event();
-        HeirScheduleHost *src;
-        LocalArbiter *dst;
-};
+// class HostSendRTSEvent : public Event {
+//     public:
+//         HostSendRTSEvent(double time, HeirScheduleHost *src, LocalArbiter *dst);
+//         ~HostSendRTSEvent();
+//         void process_event();
+//         HeirScheduleHost *src;
+//         LocalArbiter *dst;
+// };
 
-class HostSendDataEvent : public Event {
-    public:
-        HostSendDataEvent(double time, HeirScheduleHost *src, HeirScheduleHost *dst);
-        ~HostSendDataEvent();
-        void process_event();
-        HeirScheduleHost *src;
-        HeirScheduleHost *dst;
-};
+// class HostSendDataEvent : public Event {
+//     public:
+//         HostSendDataEvent(double time, HeirScheduleHost *src, HeirScheduleHost *dst);
+//         ~HostSendDataEvent();
+//         void process_event();
+//         HeirScheduleHost *src;
+//         HeirScheduleHost *dst;
+// };
 
-class LASendIPREvent : public Event {
-    public:
-        LASendIPREvent(double time, LocalArbiter *src, LocalArbiter *dst);
-        ~LASendIPREvent();
-        void process_event();
-        LocalArbiter *src;
-        LocalArbiter *dst;
-};
+// class LASendIPREvent : public Event {
+//     public:
+//         LASendIPREvent(double time, LocalArbiter *src, LocalArbiter *dst);
+//         ~LASendIPREvent();
+//         void process_event();
+//         LocalArbiter *src;
+//         LocalArbiter *dst;
+// };
 
-class LASendIPSEvent : public Event {
-    public:
-        LASendIPSEvent(double time, LocalArbiter *src, LocalArbiter *dst);
-        ~LASendIPSEvent();
-        void process_event();
-        LocalArbiter *src;
-        LocalArbiter *dst;
-};
+// class LASendIPSEvent : public Event {
+//     public:
+//         LASendIPSEvent(double time, LocalArbiter *src, LocalArbiter *dst);
+//         ~LASendIPSEvent();
+//         void process_event();
+//         LocalArbiter *src;
+//         LocalArbiter *dst;
+// };
 
-class LASendAAREvent : public Event {
-    public:
-        LASendAAREvent(double time, LocalArbiter *src, GlobalArbiter *dst);
-        ~LASendAAREvent();
-        void process_event();
-        LocalArbiter *src;
-        GlobalArbiter *dst;
-};
+// class LASendAAREvent : public Event {
+//     public:
+//         LASendAAREvent(double time, LocalArbiter *src, GlobalArbiter *dst);
+//         ~LASendAAREvent();
+//         void process_event();
+//         LocalArbiter *src;
+//         GlobalArbiter *dst;
+// };
 
-class GASendAASEvent : public Event {
-    public:
-        GASendAASEvent(double time, GlobalArbiter *src, LocalArbiter *dst);
-        ~GASendAASEvent();
-        void process_event();
-        GlobalArbiter *src;
-        LocalArbiter *dst;
-};
+// class GASendAASEvent : public Event {
+//     public:
+//         GASendAASEvent(double time, GlobalArbiter *src, LocalArbiter *dst);
+//         ~GASendAASEvent();
+//         void process_event();
+//         GlobalArbiter *src;
+//         LocalArbiter *dst;
+// };
 
-class LASendResultEvent : public Event {
-    public:
-        LASendResultEvent(double time, LocalArbiter *src, HeirScheduleHost *dst);
-        ~LASendResultEvent();
-        void process_event();
-        LocalArbiter *src;
-        HeirScheduleHost *dst;
-};
+// class LASendResultEvent : public Event {
+//     public:
+//         LASendResultEvent(double time, LocalArbiter *src, HeirScheduleHost *dst);
+//         ~LASendResultEvent();
+//         void process_event();
+//         LocalArbiter *src;
+//         HeirScheduleHost *dst;
+// };
 
 
 
-// 拓扑时间槽改变
-class TimeslotChangeEvent : public Event
-{
-public:
-    TimeslotChangeEvent(double time, Topology* topology);
-    ~TimeslotChangeEvent();
-    void process_event();
-    Topology* topology;
-};
+// // 拓扑时间槽改变
+// class TimeslotChangeEvent : public Event
+// {
+// public:
+//     TimeslotChangeEvent(double time, Topology* topology);
+//     ~TimeslotChangeEvent();
+//     void process_event();
+//     Topology* topology;
+// };
 
 #endif /* defined(EVENT_H) */
 

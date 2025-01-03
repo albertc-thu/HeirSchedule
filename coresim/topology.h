@@ -64,7 +64,7 @@ class HeirScheduleTopology : public Topology{
         void timeslot_start(double time);
         void timeslot_stride(double time);
         virtual Queue *get_next_hop(Packet *p, Queue *q);
-        virtual double get_oracle_fct(Host *src, Host *dst, uint32_t flow_size);
+        virtual double get_oracle_fct(Flow* f);
         uint32_t k;
         uint32_t num_hosts;
         uint32_t num_tor_switches;

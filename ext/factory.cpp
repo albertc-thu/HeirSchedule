@@ -21,7 +21,7 @@
 
 #include "ideal.h"
 
-#include "node.h"
+#include "../coresim/node.h"
 
 IdealArbiter* ideal_arbiter = NULL;
 
@@ -34,7 +34,7 @@ Queue* Factory::get_queue(
         double drop_prob, 
         int location
         ) { // Default drop_prob is 0.0
-
+    // std::cout << "🍊 type: " << type << std::endl;
     switch(type) {
         case DROPTAIL_QUEUE:
             return new Queue(id, rate, queue_size, location);

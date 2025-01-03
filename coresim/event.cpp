@@ -133,8 +133,9 @@ void FlowArrivalEvent::process_event() {
 
     cout << "Flow " << flow->id << " arrived at " << get_current_time() << endl;
 
-    HeirScheduleHost* src = flow->src;
-    HeirScheduleHost* dst = flow->dst;
+
+    HeirScheduleHost* src = dynamic_cast<HeirScheduleHost*>(flow->src);
+    HeirScheduleHost* dst = dynamic_cast<HeirScheduleHost*>(flow->dst);
 
     src->sending_flows.insert(flow);
 
@@ -257,13 +258,13 @@ void PacketArrivalEvent::process_event() {
     packet->flow->receive(packet);
 }
 
-DataPacketArrivalEvent::DataPacketArrivalEvent(double time, Packet *packet)
-    : Event(DATA_PACKET_ARRIVAL, time) {
-        this->packet = packet;
-}
-DataPacketArrivalEvent::~DataPacketArrivalEvent(){
+// DataPacketArrivalEvent::DataPacketArrivalEvent(double time, Packet *packet)
+//     : Event(DATA_PACKET_ARRIVAL, time) {
+//         this->packet = packet;
+// }
+// DataPacketArrivalEvent::~DataPacketArrivalEvent(){
     
-}
+// }
 
 /* Queue Processing */
 QueueProcessingEvent::QueueProcessingEvent(double time, Queue *queue)
@@ -294,32 +295,32 @@ void QueueProcessingEvent::process_event() {
         if (next_hop == NULL) {
             Event* arrival_evt;
             // 根据包的种类，确定下一步的处理
-            switch (packet->type)
-            {
-            case HeirScheduleData:
-                arrival_evt = new DataPacketArrivalEvent(time + td + pd, packet);
-                break;
-            case HeirScheduleRTS:
-                arrival_evt = new RTSPacketArrivalEvent(time + td + pd, packet);
-                break;
-            case HeirScheduleIPR:
-                arrival_evt = new IPRPacketArrivalEvent(time + td + pd, packet);
-                break;
-            case HeirScheduleIPS:
-                arrival_evt = new IPSPacketArrivalEvent(time + td + pd, packet);
-                break;
-            case HeirScheduleAAR:
-                arrival_evt = new AARPacketArrivalEvent(time + td + pd, packet);
-                break;
-            case HeirScheduleAAS:
-                arrival_evt = new AASPacketArrivalEvent(time + td + pd, packet);
-                break;
-            case HeirScheduleSCHD:
-                arrival_evt = new SCHDPacketArrivalEvent(time + td + pd, packet);
-                break;
-            default:
-                break;
-            }
+            // switch (packet->type)
+            // {
+            // case HeirScheduleData:
+            //     arrival_evt = new DataPacketArrivalEvent(time + td + pd, packet);
+            //     break;
+            // case HeirScheduleRTS:
+            //     arrival_evt = new RTSPacketArrivalEvent(time + td + pd, packet);
+            //     break;
+            // case HeirScheduleIPR:
+            //     arrival_evt = new IPRPacketArrivalEvent(time + td + pd, packet);
+            //     break;
+            // case HeirScheduleIPS:
+            //     arrival_evt = new IPSPacketArrivalEvent(time + td + pd, packet);
+            //     break;
+            // case HeirScheduleAAR:
+            //     arrival_evt = new AARPacketArrivalEvent(time + td + pd, packet);
+            //     break;
+            // case HeirScheduleAAS:
+            //     arrival_evt = new AASPacketArrivalEvent(time + td + pd, packet);
+            //     break;
+            // case HeirScheduleSCHD:
+            //     arrival_evt = new SCHDPacketArrivalEvent(time + td + pd, packet);
+            //     break;
+            // default:
+            //     break;
+            // }
             
             add_to_event_queue(arrival_evt);
             queue->busy_events.push_back(arrival_evt);
@@ -345,21 +346,21 @@ void QueueProcessingEvent::process_event() {
 }
 
 
-RTSPacketArrivalEvent::RTSPacketArrivalEvent(double time, Packet *packet)
-    : Event(RTS_PACKET_ARRIVAL, time) {
-        this->packet = packet;
-    }
-RTSPacketArrivalEvent::~RTSPacketArrivalEvent() {
-}
+// RTSPacketArrivalEvent::RTSPacketArrivalEvent(double time, Packet *packet)
+//     : Event(RTS_PACKET_ARRIVAL, time) {
+//         this->packet = packet;
+//     }
+// RTSPacketArrivalEvent::~RTSPacketArrivalEvent() {
+// }
 
-void RTSPacketArrivalEvent::process_event() {
-    //将rts保存到LA的received_rts中
-    for (auto it = ((HeirScheduleRTSPkt*)packet)->rts_vector.begin(); it != ((HeirScheduleRTSPkt*)packet)->rts_vector.end(); it++) {
-        ((LocalArbiter* )packet->dst)->received_rts.push_back(*it);
-    }
-    ((LocalArbiter* )packet->dst)->process_rts();
+// void RTSPacketArrivalEvent::process_event() {
+//     //将rts保存到LA的received_rts中
+//     for (auto it = ((HeirScheduleRTSPkt*)packet)->rts_vector.begin(); it != ((HeirScheduleRTSPkt*)packet)->rts_vector.end(); it++) {
+//         ((LocalArbiter* )packet->dst)->received_rts.push_back(*it);
+//     }
+//     ((LocalArbiter* )packet->dst)->process_rts();
 
-}
+// }
 
 
 
@@ -456,84 +457,84 @@ void RetxTimeoutEvent::process_event() {
     flow->handle_timeout();
 }
 
-HostSendRTSEvent::HostSendRTSEvent(double time, HeirScheduleHost *src, LocalArbiter *dst)
-    : Event(HOST_SEND_RTS, time) {
-        this->src = src;
-        this->dst = dst;
-    }
+// HostSendRTSEvent::HostSendRTSEvent(double time, HeirScheduleHost *src, LocalArbiter *dst)
+//     : Event(HOST_SEND_RTS, time) {
+//         this->src = src;
+//         this->dst = dst;
+//     }
 
-HostSendRTSEvent::~HostSendRTSEvent() {
-}
+// HostSendRTSEvent::~HostSendRTSEvent() {
+// }
 
-void HostSendRTSEvent::process_event() {
-    src->host_send_rts(time);
-}
+// void HostSendRTSEvent::process_event() {
+//     src->host_send_rts(time);
+// }
 
-HostSendDataEvent::HostSendDataEvent(double time, HeirScheduleHost *src, HeirScheduleHost *dst)
-    : Event(HOST_SEND_DATA, time) {
-        this->src = src;
-        this->dst = dst;
-    }
+// HostSendDataEvent::HostSendDataEvent(double time, HeirScheduleHost *src, HeirScheduleHost *dst)
+//     : Event(HOST_SEND_DATA, time) {
+//         this->src = src;
+//         this->dst = dst;
+//     }
 
-HostSendDataEvent::~HostSendDataEvent() {
-}
+// HostSendDataEvent::~HostSendDataEvent() {
+// }
 
-void HostSendDataEvent::process_event() {
-    src->host_send_data(time);
-}
+// void HostSendDataEvent::process_event() {
+//     src->host_send_data(time);
+// }
 
-LASendIPREvent::LASendIPREvent(double time, LocalArbiter *src, LocalArbiter *dst)
-    : Event(LA_SEND_IPR, time) {
-        this->src = src;
-        this->dst = dst;
-    }
-LASendIPREvent::~LASendIPREvent() {}
+// LASendIPREvent::LASendIPREvent(double time, LocalArbiter *src, LocalArbiter *dst)
+//     : Event(LA_SEND_IPR, time) {
+//         this->src = src;
+//         this->dst = dst;
+//     }
+// LASendIPREvent::~LASendIPREvent() {}
 
-void LASendIPREvent::process_event() {
-    src->send_interpod_rts(time);
-}
+// void LASendIPREvent::process_event() {
+//     src->send_interpod_rts(time);
+// }
 
-LASendIPSEvent::LASendIPSEvent(double time, LocalArbiter *src, LocalArbiter *dst)
-    : Event(LA_SEND_IPS, time) {
-        this->src = src;
-        this->dst = dst;
-    }
-LASendIPSEvent::~LASendIPSEvent() {}
+// LASendIPSEvent::LASendIPSEvent(double time, LocalArbiter *src, LocalArbiter *dst)
+//     : Event(LA_SEND_IPS, time) {
+//         this->src = src;
+//         this->dst = dst;
+//     }
+// LASendIPSEvent::~LASendIPSEvent() {}
 
-void LASendIPSEvent::process_event() {
-    src->send_interpod_schd();
-}
+// void LASendIPSEvent::process_event() {
+//     src->send_interpod_schd();
+// }
 
-LASendAAREvent::LASendAAREvent(double time, LocalArbiter *src, GlobalArbiter *dst)
-    : Event(LA_SEND_AAR, time) {
-        this->src = src;
-        this->dst = dst;
-    }
-LASendAAREvent::~LASendAAREvent() {}
+// LASendAAREvent::LASendAAREvent(double time, LocalArbiter *src, GlobalArbiter *dst)
+//     : Event(LA_SEND_AAR, time) {
+//         this->src = src;
+//         this->dst = dst;
+//     }
+// LASendAAREvent::~LASendAAREvent() {}
 
-void LASendAAREvent::process_event() {
-    src->send_agg_agg_rts();
-}
+// void LASendAAREvent::process_event() {
+//     src->send_agg_agg_rts();
+// }
 
-GASendAASEvent::GASendAASEvent(double time, GlobalArbiter *src, LocalArbiter *dst)
-    : Event(GA_SEND_AAS, time) {
-        this->src = src;
-        this->dst = dst;
-    }
-GASendAASEvent::~GASendAASEvent() {}
+// GASendAASEvent::GASendAASEvent(double time, GlobalArbiter *src, LocalArbiter *dst)
+//     : Event(GA_SEND_AAS, time) {
+//         this->src = src;
+//         this->dst = dst;
+//     }
+// GASendAASEvent::~GASendAASEvent() {}
 
-void GASendAASEvent::process_event() {
-    src->send_agg_agg_schd();
-}
+// void GASendAASEvent::process_event() {
+//     src->send_agg_agg_schd();
+// }
 
-LASendResultEvent::LASendResultEvent(double time, LocalArbiter *src, HeirScheduleHost *dst)
-    : Event(LA_SEND_RESULT, time) {
-        this->src = src;
-        this->dst = dst;
-    }
-LASendResultEvent::~LASendResultEvent() {}
+// LASendResultEvent::LASendResultEvent(double time, LocalArbiter *src, HeirScheduleHost *dst)
+//     : Event(LA_SEND_RESULT, time) {
+//         this->src = src;
+//         this->dst = dst;
+//     }
+// LASendResultEvent::~LASendResultEvent() {}
 
-void LASendResultEvent::process_event() {
-    src->send_final_results();
-}
+// void LASendResultEvent::process_event() {
+//     src->send_final_results();
+// }
 

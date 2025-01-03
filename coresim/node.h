@@ -46,6 +46,7 @@ using namespace std;
 
 class Packet;
 class Flow;
+class rts;
 
 struct dst_remaining
 {
@@ -76,13 +77,15 @@ class Node {
         Node(uint32_t id, uint32_t type);
         uint32_t id;
         uint32_t type;
+        double time;
 };
 
 class Host : public Node {
     public:
         Host(uint32_t id, double rate, uint32_t queue_type, uint32_t host_type);
+        virtual ~Host() {} // Add a virtual destructor to make the class polymorphic
         Queue *queue;
-        // int host_type;
+        int host_type;
         long long int received_bytes_all;
         double received_first_packet_time;
         double received_last_packet_time;
@@ -148,7 +151,7 @@ public:
 
 class GlobalArbiter : public Host {
     public:
-        GlobalArbiter(uint32_t id, uint32_t type, double rate);
+        GlobalArbiter(uint32_t id, double rate, uint32_t type);
         Queue *toGCSQueue;
         void recv_agg_agg_rts(); // 从LA接收agg-agg请求
         void process_agg_agg_rts(); // 处理agg-agg请求

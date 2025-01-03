@@ -28,7 +28,8 @@ using namespace std;
 #define HeirScheduleAAS 17
 
 class FastpassEpochSchedule;
-
+class Flow;
+class Host;
 
 /**
  * use to indicate which node the packet will pass
