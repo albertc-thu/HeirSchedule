@@ -190,13 +190,16 @@ PacketQueuingEvent::~PacketQueuingEvent() {
 }
 // 处理 PacketQueuingEvent
 void PacketQueuingEvent::process_event() {
+    cout << "🦈 Packet queueing" << endl;
     if (!queue->busy) {
         // 新包触发的 processing
+        // cout << "🐳" << endl;
         queue->queue_proc_event = new QueueProcessingEvent(get_current_time(), queue);
         add_to_event_queue(queue->queue_proc_event);
         queue->busy = true;
         queue->packet_transmitting = packet;
     }
+    
 
     // if (packet->flow->id == 28237){
     //     string Node = "Null";
@@ -237,34 +240,20 @@ void PacketQueuingEvent::process_event() {
             queue->packet_transmitting = packet;
         }
     }
-
+    if (packet->type == SYNC_MSG ){
+        dynamic_cast<SyncMessage*>(packet)->Enqueue_time = get_current_time();
+        cout << "🐬 SyncMessage " << packet->unique_id << " enqueue at " << get_current_time() << endl;
+    }
+    if (packet->type == DELAY_REQ_MSG){
+        dynamic_cast<DelayRequestMessage*>(packet)->Enqueue_time = get_current_time();
+        cout << "🐬 DelayRequestMessage " << packet->unique_id << " enqueue at " << get_current_time() << endl;
+    }
+    // cout << "🐬" << endl;
     queue->enque(packet);
+    // cout << "🦄" << endl;
 }
 
-/* Packet Arrival */
-PacketArrivalEvent::PacketArrivalEvent(double time, Packet *packet)
-    : Event(PACKET_ARRIVAL, time) {
-        this->packet = packet;
-    }
 
-PacketArrivalEvent::~PacketArrivalEvent() {
-}
-
-void PacketArrivalEvent::process_event() {
-    if (packet->type == NORMAL_PACKET) {
-        completed_packets++;
-    }
-
-    packet->flow->receive(packet);
-}
-
-// DataPacketArrivalEvent::DataPacketArrivalEvent(double time, Packet *packet)
-//     : Event(DATA_PACKET_ARRIVAL, time) {
-//         this->packet = packet;
-// }
-// DataPacketArrivalEvent::~DataPacketArrivalEvent(){
-    
-// }
 
 /* Queue Processing */
 QueueProcessingEvent::QueueProcessingEvent(double time, Queue *queue)
@@ -280,71 +269,138 @@ QueueProcessingEvent::~QueueProcessingEvent() {
 }
 
 void QueueProcessingEvent::process_event() {
+    // cout << "🐻 Queue processing" << endl;
     Packet *packet = queue->deque();
+    
+    // cout << (packet == nullptr ? 0 : 1) << endl;
     if (packet) {
+        if (packet->type == SYNC_MSG ){
+            SyncMessage* sync_packet = dynamic_cast<SyncMessage*>(packet);
+            sync_packet->Dequeue_time = get_current_time();
+            sync_packet->innetwork_delay += sync_packet->Dequeue_time - sync_packet->Enqueue_time;
+            cout << "🐝 SyncMessage " << packet->unique_id << " dequeue at " << get_current_time() << endl;
+        }
+        if (packet->type == DELAY_REQ_MSG){
+            DelayRequestMessage* delay_request_packet = dynamic_cast<DelayRequestMessage*>(packet);
+            delay_request_packet->Dequeue_time = get_current_time();
+            delay_request_packet->innetwork_delay += delay_request_packet->Dequeue_time - delay_request_packet->Enqueue_time;
+            cout << "🐝 DelayRequestMessage " << packet->unique_id << " dequeue at " << get_current_time() << endl;
+        }
         queue->busy = true;
-        queue->busy_events.clear();
+        // queue->busy_events.clear();
         queue->packet_transmitting = packet;
         Queue *next_hop = topology->get_next_hop(packet, queue);
+        // cout << "next_hop == NULL? " << (next_hop == NULL) << endl;
+        // cout << "nexthop location: "<< next_hop->location << endl;
         double td = queue->get_transmission_delay(packet->size);
         double pd = queue->propagation_delay;
         //double additional_delay = 1e-10;
         queue->queue_proc_event = new QueueProcessingEvent(time + td, queue);
         add_to_event_queue(queue->queue_proc_event);
-        queue->busy_events.push_back(queue->queue_proc_event);
+        // queue->busy_events.push_back(queue->queue_proc_event);
         if (next_hop == NULL) {
             Event* arrival_evt;
             // 根据包的种类，确定下一步的处理
             // switch (packet->type)
             // {
-            // case HeirScheduleData:
-            //     arrival_evt = new DataPacketArrivalEvent(time + td + pd, packet);
-            //     break;
-            // case HeirScheduleRTS:
-            //     arrival_evt = new RTSPacketArrivalEvent(time + td + pd, packet);
-            //     break;
-            // case HeirScheduleIPR:
-            //     arrival_evt = new IPRPacketArrivalEvent(time + td + pd, packet);
-            //     break;
-            // case HeirScheduleIPS:
-            //     arrival_evt = new IPSPacketArrivalEvent(time + td + pd, packet);
-            //     break;
-            // case HeirScheduleAAR:
-            //     arrival_evt = new AARPacketArrivalEvent(time + td + pd, packet);
-            //     break;
-            // case HeirScheduleAAS:
-            //     arrival_evt = new AASPacketArrivalEvent(time + td + pd, packet);
-            //     break;
-            // case HeirScheduleSCHD:
-            //     arrival_evt = new SCHDPacketArrivalEvent(time + td + pd, packet);
-            //     break;
+            // // case HeirScheduleData:
+            // //     arrival_evt = new DataPacketArrivalEvent(time + td + pd, packet);
+            // //     break;
+            // // case HeirScheduleRTS:
+            // //     arrival_evt = new RTSPacketArrivalEvent(time + td + pd, packet);
+            // //     break;
+            // // case HeirScheduleIPR:
+            // //     arrival_evt = new IPRPacketArrivalEvent(time + td + pd, packet);
+            // //     break;
+            // // case HeirScheduleIPS:
+            // //     arrival_evt = new IPSPacketArrivalEvent(time + td + pd, packet);
+            // //     break;
+            // // case HeirScheduleAAR:
+            // //     arrival_evt = new AARPacketArrivalEvent(time + td + pd, packet);
+            // //     break;
+            // // case HeirScheduleAAS:
+            // //     arrival_evt = new AASPacketArrivalEvent(time + td + pd, packet);
+            // //     break;
+            // // case HeirScheduleSCHD:
+            // //     arrival_evt = new SCHDPacketArrivalEvent(time + td + pd, packet);
+            // //     break;
+            // case SYNC_MSG:
+            //     arrival_evt = new 
             // default:
             //     break;
             // }
+            arrival_evt = new PacketArrivalEvent(time + td + pd, packet);
             
             add_to_event_queue(arrival_evt);
-            queue->busy_events.push_back(arrival_evt);
+            // queue->busy_events.push_back(arrival_evt);
         } else {
+            // cout << "🐥" << endl;
             Event* queuing_evt = NULL;
             if (params.cut_through == 1) {
-                double cut_through_delay =
-                    queue->get_transmission_delay(packet->flow->hdr_size);
+                double cut_through_delay = queue->get_transmission_delay(packet->hdr_size);
                 queuing_evt = new PacketQueuingEvent(time + cut_through_delay + pd, packet, next_hop);
+                // cout << "🐳 next queueing event" << endl;
             } else {
                 queuing_evt = new PacketQueuingEvent(time + td + pd, packet, next_hop);
             }
 
             add_to_event_queue(queuing_evt);
-            queue->busy_events.push_back(queuing_evt);
+            // queue->busy_events.push_back(queuing_evt);
         }
-    } else {
+    }else {
         queue->busy = false;
-        queue->busy_events.clear();
+        // queue->busy_events.clear();
         queue->packet_transmitting = NULL;
         queue->queue_proc_event = NULL;
     }
+    // cout << "🐴" << endl;
 }
 
+/* Packet Arrival */
+PacketArrivalEvent::PacketArrivalEvent(double time, Packet *packet)
+    : Event(PACKET_ARRIVAL, time) {
+        this->packet = packet;
+    }
+
+PacketArrivalEvent::~PacketArrivalEvent() {
+}
+
+void PacketArrivalEvent::process_event() {
+    // if (packet->type == NORMAL_PACKET) {
+    //     completed_packets++;
+    // }
+    // if (packet->type == HeirScheduleData){
+
+    // }
+    // else{ // 控制包
+    uint32_t dst_type = packet->dst->type;
+    switch (dst_type)
+    {
+    case HeirSchedule_HOST:
+        ((HeirScheduleHost*)packet->dst)->receive(packet);
+        break;
+    case LOCAL_ARBITER:
+        ((LocalArbiter*)packet->dst)->receive(packet);
+        break;
+    case GLOBAL_ARBITER:
+        ((GlobalArbiter*)packet->dst)->receive(packet);
+        break;
+
+    default:
+        break;
+    }
+    // }
+
+    // packet->flow->receive(packet);
+}
+
+// DataPacketArrivalEvent::DataPacketArrivalEvent(double time, Packet *packet)
+//     : Event(DATA_PACKET_ARRIVAL, time) {
+//         this->packet = packet;
+// }
+// DataPacketArrivalEvent::~DataPacketArrivalEvent(){
+    
+// }
 
 // RTSPacketArrivalEvent::RTSPacketArrivalEvent(double time, Packet *packet)
 //     : Event(RTS_PACKET_ARRIVAL, time) {

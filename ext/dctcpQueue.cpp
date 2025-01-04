@@ -23,6 +23,7 @@ DctcpQueue::DctcpQueue(uint32_t id, double rate, uint32_t limit_bytes, int locat
  * if queue length > params.dctcp_mark_thresh, mark (ECN = 1).
  */
 void DctcpQueue::enque(Packet *packet) {
+    cout << "🦉 DCTCP queueing" << endl;
     p_arrivals += 1;
     b_arrivals += packet->size;
     if (bytes_in_queue + packet->size <= limit_bytes) {

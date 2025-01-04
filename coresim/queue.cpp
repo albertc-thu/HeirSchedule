@@ -79,7 +79,9 @@ void Queue::enque(Packet *packet) {
 }
 
 Packet *Queue::deque() {
+    // cout << "🐼 Deque" << endl;
     if (bytes_in_queue > 0) {
+        // cout << "🐼 has bytes in queue" << endl;
         Packet *p = packets.front();
         packets.pop_front();
         bytes_in_queue -= p->size;

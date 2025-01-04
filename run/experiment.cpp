@@ -244,7 +244,11 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
         dynamic_cast<FastpassTopology*>(topology)->arbiter->start_arbiter();
     }
 
-    // dynamic_cast<HeirScheduleTopology*>(topology)->global_arbiter
+    dynamic_cast<HeirScheduleTopology*>(topology)->global_arbiter->SendSyncMessageToLA();
+    
+    // for (uint32_t i = 0; i < params.k * params.k * params.k / 4; i++) {
+    //     dynamic_cast<HeirScheduleTopology*>(topology)->hosts[i]->host_send_rts();
+    // }
 
 
     // 

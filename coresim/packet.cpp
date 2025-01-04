@@ -18,6 +18,7 @@ Packet::Packet(
     this->seq_no = seq_no;
     this->pf_priority = pf_priority;
     this->size = size;
+    this->hdr_size = params.hdr_size;
     this->src = src;
     this->dst = dst;
 
@@ -25,6 +26,8 @@ Packet::Packet(
     this->unique_id = Packet::instance_count++;
     this->total_queuing_delay = 0;
 }
+
+Packet::~Packet() {}
 
 PlainAck::PlainAck(Flow *flow, uint32_t seq_no_acked, uint32_t size, Host* src, Host *dst) : Packet(0, flow, seq_no_acked, 0, size, src, dst) {
     this->type = ACK_PACKET;
@@ -88,6 +91,20 @@ FastpassRTS::FastpassRTS(Flow *flow, Host *src, Host *dst, int remaining_pkt) : 
 FastpassSchedulePkt::FastpassSchedulePkt(Flow *flow, Host *src, Host *dst, FastpassEpochSchedule* schd) : Packet(0, flow, 0, 0, params.hdr_size, src, dst) {
     this->type = FASTPASS_SCHEDULE;
     this->schedule = schd;
+}
+
+SyncMessage::SyncMessage(Host *src, Host *dst, double time) : Packet(0, nullptr, 0, 0, params.hdr_size, src, dst) {
+    this->type = SYNC_MSG;
+    this->T1_time = time;
+}
+
+DelayRequestMessage::DelayRequestMessage(Host *src, Host *dst) : Packet(0, nullptr, 0, 0, params.hdr_size, src, dst) {
+    this->type = DELAY_REQ_MSG;
+}
+
+DelayResponseMessage::DelayResponseMessage(Host *src, Host *dst, double time) : Packet(0, nullptr, 0, 0, params.hdr_size, src, dst) {
+    this->type = DELAY_RES_MSG;
+    this->T4_time = time;
 }
 
 

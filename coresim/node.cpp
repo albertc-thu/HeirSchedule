@@ -10,7 +10,8 @@
 using namespace std;
 
 extern DCExpParams params;
-extern HeirScheduleTopology *heirschedule_topology;
+extern Topology *topology;
+extern double get_current_time();
 
 // #define HOST_TO_TOR 0
 // #define TOR_TO_AGG 1
@@ -47,12 +48,14 @@ Node::Node(uint32_t id, uint32_t type) {
     std::random_device rd;  // Get a random seed from the hardware
     std::default_random_engine generator(rd());  // Seed the generator
     std::normal_distribution<double> distribution(0, 1e-6);
-    this->time = distribution(generator);
-    // cout << "Node " << id << " initial time: " << this->time << endl;
+    this->local_time_bias = distribution(generator);
+    if(type == HeirSchedule_HOST){
+        cout << "🤖 Host " << id << " local_time_bias: " << this->local_time_bias << endl;
+    }
 }
 
-// TODO FIX superclass constructor
-Host::Host(uint32_t id, double rate, uint32_t queue_type, uint32_t host_type) : Node(id, HOST) {
+
+Host::Host(uint32_t id, double rate, uint32_t queue_type, uint32_t host_type) : Node(id, host_type) {
     // queue = Factory::get_queue(id, rate, params.queue_size, queue_type, 0, 0);
     // this->host_type = host_type;
     this->type = host_type;
@@ -83,9 +86,52 @@ HeirScheduleHost::HeirScheduleHost(uint32_t id, double rate_data, double rate_co
     }
 }
 
-// void HeirScheduleHost::host_send_rts(double time){
-//     uint32_t port_num = params.num_of_ports;
-//     uint32_t server_num = port_num * port_num * port_num / 4;
+void HeirScheduleHost::receive(Packet *packet) {
+    // TODO: implement
+    cout << "🤖 HeirScheduleHost " << this->id << " receive packet @ " << get_current_time() << endl;
+    switch (packet->type)
+    {
+    case SYNC_MSG:
+        receive_sync_message(packet);
+        break;
+    case DELAY_RES_MSG:
+        receive_delay_response_message(packet);
+        break;
+    default:
+        break;
+    }
+}
+
+void HeirScheduleHost::receive_sync_message(Packet *packet){
+    SyncMessage *sync_packet = (SyncMessage *)packet;
+    cout << "🤖 HeirScheduleHost " << this->id << " receive sync message from LocalArbiter @ " << get_current_time() << endl;
+    double T2_time = get_current_time() + local_time_bias - sync_packet->innetwork_delay;
+    master_slave_diff = T2_time - sync_packet->T1_time;
+    // cout << "🤖 HeirScheduleHost " << this->id << " master_slave_diff: " << master_slave_diff << endl;
+    delete sync_packet;
+    sync_packet = nullptr;
+    DelayRequestMessage *delay_request_packet = new DelayRequestMessage(this, packet->src);
+    T3_time = get_current_time() + local_time_bias;
+    add_to_event_queue(new PacketQueuingEvent(get_current_time(), delay_request_packet, toLAQueue));
+}
+
+void HeirScheduleHost::receive_delay_response_message(Packet *packet){
+    DelayResponseMessage *delay_response_packet = (DelayResponseMessage *)packet;
+    cout << "🤖 HeirScheduleHost " << this->id << " receive delay response message from LocalArbiter @ " << get_current_time() << endl;
+    double T4_time = delay_response_packet->T4_time;
+    slave_master_diff = T4_time - T3_time;
+    // cout << "🤖 HeirScheduleHost " << this->id << " slave_master_diff: " << slave_master_diff << endl;
+    delete delay_response_packet;
+    delay_response_packet = nullptr;
+    double one_way_delay = (master_slave_diff + slave_master_diff) / 2;
+    double offset = master_slave_diff - one_way_delay;
+    // cout << "🤖 HeirScheduleHost " << this->id << " one_way_delay: " << one_way_delay << " offset: " << offset << endl;
+    local_time_bias -= offset;
+    cout << "🤖 HeirScheduleHost " << this->id << " local_time_bias: " << local_time_bias << endl;
+
+}
+
+// void HeirScheduleHost::host_send_rts(){
 //     vector<rts> rts_vector;
 //     for (auto it = this->sending_flows.begin(); it != this->sending_flows.end(); it++){
 //         Flow *f = *it;
@@ -96,11 +142,10 @@ HeirScheduleHost::HeirScheduleHost(uint32_t id, double rate_data, double rate_co
 //         rts_vector.push_back(r);
 //     }
 
-//     HeirScheduleRTSPkt *rts_packet = new HeirScheduleRTSPkt(time, this, heirschedule_topology->local_arbiters[this->id / server_num], rts_vector);
+//     HeirScheduleRTSPkt *rts_packet = new HeirScheduleRTSPkt(get_current_time(), this, dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[this->id / (params.k * params.k / 4)], rts_vector);
     
-//     // 将rts包放入toLAQueue
-//     // TODO：将时间错开
-//     add_to_event_queue(new PacketQueuingEvent(time, rts_packet, toLAQueue));
+//     // 发送RTS
+//     add_to_event_queue(new PacketQueuingEvent(get_current_time(), rts_packet, toLAQueue));
 // }
 
 
@@ -113,6 +158,76 @@ LocalArbiter::LocalArbiter(uint32_t id, double rate, uint32_t num_gcs, uint32_t 
     for(uint32_t i = 0; i < num_gcs; i++){
         toGCSQueues.push_back(Factory::get_queue(i, rate, params.queue_size_ctrl, queue_type, 0, LA_TO_GCS));
     }
+}
+
+void LocalArbiter::receive(Packet *packet) {
+    // TODO: implement
+    // cout << "💻 LocalArbiter " << this->id << " receive packet" << endl;
+    switch (packet->type)
+    {
+    case SYNC_MSG:
+        receive_sync_message(packet);
+        break;
+    case DELAY_RES_MSG:
+        receive_delay_response_message(packet);
+        break;
+    case DELAY_REQ_MSG:
+        receive_delay_request_message_from_host(packet);
+        break;
+    case HeirScheduleRTS:
+        receive_rts(packet);
+        break;
+    default:
+        break;
+    }
+}
+
+void LocalArbiter::receive_sync_message(Packet *packet){
+    SyncMessage *sync_packet = (SyncMessage *)packet;
+    cout << "💻 LocalArbiter " << this->id << " receive sync message from GlobalArbiter @ " << get_current_time() << endl;
+    double T2_time = get_current_time() + local_time_bias - sync_packet->innetwork_delay;
+    master_slave_diff = T2_time - sync_packet->T1_time;
+    // cout << "💻 LocalArbiter " << this->id << " master_slave_diff: " << master_slave_diff << endl;
+    delete sync_packet;
+    sync_packet = nullptr;
+    DelayRequestMessage *delay_request_packet = new DelayRequestMessage(this, packet->src);
+    T3_time = get_current_time() + local_time_bias;
+    add_to_event_queue(new PacketQueuingEvent(get_current_time(), delay_request_packet, toGCSQueues[rand() % num_gcs])); // 简化处理：随机选择一个GCS发送
+}
+
+void LocalArbiter::receive_delay_response_message(Packet *packet){
+    DelayResponseMessage *delay_response_packet = (DelayResponseMessage *)packet;
+    cout << "💻 LocalArbiter " << this->id << " receive delay response message from GlobalArbiter @ " << get_current_time() << endl;
+    double T4_time = delay_response_packet->T4_time;
+    slave_master_diff = T4_time - T3_time;
+    // cout << "💻 LocalArbiter " << this->id << " slave_master_diff: " << slave_master_diff << endl;
+    delete delay_response_packet;
+    delay_response_packet = nullptr;
+    double one_way_delay = (master_slave_diff + slave_master_diff) / 2;
+    double offset = master_slave_diff - one_way_delay;
+    // cout << "💻 LocalArbiter " << this->id << " one_way_delay: " << one_way_delay << " offset: " << offset << endl;
+    local_time_bias -= offset;
+    cout << "💻 LocalArbiter " << this->id << " local_time_bias: " << local_time_bias << endl;
+
+    // 启动第二级时间同步，LA作为master向Host发SyncMessage
+    send_sync_message_to_host();
+}
+
+void LocalArbiter::send_sync_message_to_host(){
+    for (uint32_t i = 0; i < params.k/2 * params.k/2; i++){
+        uint32_t host_id = this->id * params.k/2 * params.k/2 + i;
+        SyncMessage *sync_packet = new SyncMessage(this, dynamic_cast<HeirScheduleTopology*>(topology)->hosts[host_id], get_current_time() + local_time_bias);
+        add_to_event_queue(new PacketQueuingEvent(get_current_time(), sync_packet, toLCSQueues[i / (params.k/2)]));
+        cout << "💻 LocalArbiter " << this->id << " send sync message to Host " << i << endl;
+    }
+}
+
+void LocalArbiter::receive_delay_request_message_from_host(Packet *packet){
+    cout << "💻 LocalArbiter " << this->id << " receive delay request message from Host @ " << get_current_time() << endl;
+    DelayRequestMessage *delay_request_packet = (DelayRequestMessage *)packet;
+    double T4_time = get_current_time() + local_time_bias - delay_request_packet->innetwork_delay;
+    DelayResponseMessage *delay_response_packet = new DelayResponseMessage(this, packet->src, T4_time);
+    add_to_event_queue(new PacketQueuingEvent(get_current_time(), delay_response_packet, toLCSQueues[(packet->src->id % ((params.k/2) * (params.k/2) )) / (params.k/2)]));    
 }
 
 // void LocalArbiter::send_interpod_rts(double time){
@@ -129,18 +244,57 @@ LocalArbiter::LocalArbiter(uint32_t id, double rate, uint32_t num_gcs, uint32_t 
 //     }
 // }
 
-// void LocalArbiter::process_rts(){//分配Agg
-    
-
+// void LocalArbiter::receive_rts(Packet* packet){
+//     HeirScheduleRTSPkt *rts_packet = (HeirScheduleRTSPkt *)packet;
+//     cout << "💻 LocalArbiter " << this->id << " receive rts from Host @ " << get_current_time() << ", packet delay: " << get_current_time() - packet->sending_time << endl;
 // }
 
 GlobalArbiter::GlobalArbiter(uint32_t id, double rate, uint32_t queue_type) : Host(id, 0, queue_type, GLOBAL_ARBITER) {
     this->type = GLOBAL_ARBITER;
     toGCSQueue = Factory::get_queue(0, rate, params.queue_size_ctrl, queue_type, 0, GA_TO_GCS);
+    this->local_time_bias = 0.0;
 }
 
+void GlobalArbiter::SendSyncMessageToLA(){
+    for (uint32_t i = 0; i < params.k; i++){
+    // for (uint32_t i = 0; i < 1; i++){
+        SyncMessage *sync_packet = new SyncMessage(this, dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[i], get_current_time() + local_time_bias);
+        add_to_event_queue(new PacketQueuingEvent(get_current_time(), sync_packet, toGCSQueue));
+        cout << "🧠 GlobalArbiter " << this->id << " send sync message to LocalArbiter " << i << endl;
+    }
+}
+
+void GlobalArbiter::receive(Packet *packet) {
+    // TODO: implement
+    cout << "🧠 GlobalArbiter " << this->id << " receive packet" << endl;
+    switch (packet->type)
+    {
+    case SYNC_MSG:
+        assert(false);
+        break;
+    case DELAY_REQ_MSG:
+        receive_delay_request_message(packet);
+        break;
+    case DELAY_RES_MSG:
+        assert(false);
+        break;
+    
+    default:
+        break;
+    }
+}
+
+void GlobalArbiter::receive_delay_request_message(Packet *packet){
+    cout << "🧠 GlobalArbiter " << this->id << " receive delay request message @ " << get_current_time() << endl;
+    DelayRequestMessage *delay_request_packet = (DelayRequestMessage *)packet;
+    double T4_time = get_current_time() + local_time_bias - delay_request_packet->innetwork_delay;
+    DelayResponseMessage *delay_response_packet = new DelayResponseMessage(this, packet->src, T4_time);
+    add_to_event_queue(new PacketQueuingEvent(get_current_time(), delay_response_packet, toGCSQueue));
+}
+
+
 Switch::Switch(uint32_t id, uint32_t switch_type) : Node(id, SWITCH) {
-    this->switch_type = switch_type;
+    this->type = switch_type;
 }
 
 CoreSwitch::CoreSwitch(uint32_t id, uint32_t numQueue, double rate, uint32_t type) : Switch(id, CORE_SWITCH) {

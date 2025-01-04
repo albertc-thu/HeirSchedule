@@ -272,6 +272,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     uint32_t gcs_per_la = 1; // 每个local arbiter连接一个gcs
     uint32_t las_per_gcs = k; // gcs: global control switch
     uint32_t gas_per_gcs = 1;
+    uint32_t gcs_per_ga = 1;
     assert(gas_per_gcs == 1);
 
 
@@ -288,10 +289,10 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     //-------------------------------create-------------------------------
     // Create Hosts
     cout << "💻 Start: create hosts." << endl;
-    uint32_t global_id = 0;
+    // uint32_t global_id = 0;
     for (uint32_t i = 0; i < num_hosts; i++)
     {
-        hosts.push_back(new HeirScheduleHost(global_id++, rate_data, rate_control, queue_type));
+        hosts.push_back(new HeirScheduleHost(i, rate_data, rate_control, queue_type));
         // hosts.push_back(Factory::get_HeirScheduleHost(i, bandwidth, queue_type, params.host_type));
     }
     cout << "💻 Finished: create hosts." << endl;
@@ -301,7 +302,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     cout << "🔗 Start: create ToR switches." << endl;
     for (uint32_t i = 0; i < num_tor_switches; i++)
     {
-        tor_switches.push_back(new ToRSwitch(global_id++, hosts_per_tor_switch, rate_data, aggs_per_tor_switch, rate_data, queue_type));
+        tor_switches.push_back(new ToRSwitch(i, hosts_per_tor_switch, rate_data, aggs_per_tor_switch, rate_data, queue_type));
     }
     cout << "🔗 Finished: create ToR switches." << endl;
 
@@ -309,7 +310,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     cout << "🍎 Start: create Agg switches." << endl;
     for (uint32_t i = 0; i < num_agg_switches; i++)
     {
-        agg_switches.push_back(new AggSwitch(global_id++, tors_per_agg_switch, rate_data, cores_per_agg_switch, rate_data, queue_type));
+        agg_switches.push_back(new AggSwitch(i, tors_per_agg_switch, rate_data, cores_per_agg_switch, rate_data, queue_type));
     }
     cout << "🍎 Finished: create Agg switches." << endl;
 
@@ -317,7 +318,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     cout << "🍍 Start: create Core switches." << endl;
     for (uint32_t i = 0; i < num_core_switches; i++)
     {
-        core_switches.push_back(new CoreSwitch(global_id++, aggs_per_core_switch, rate_data, queue_type));
+        core_switches.push_back(new CoreSwitch(i, aggs_per_core_switch, rate_data, queue_type));
     }
     cout << "🍍 Finished: create Core switches." << endl;
 
@@ -325,20 +326,20 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     cout << "🔒 Start: create Local Arbiters." << endl;
     for (uint32_t i = 0; i < num_local_arbiters; i++)
     {
-        local_arbiters.push_back(new LocalArbiter(global_id++, rate_control, num_gcs, queue_type));
+        local_arbiters.push_back(new LocalArbiter(i, rate_control, num_gcs, queue_type));
     }
     cout << "🔒 Finished: create Local Arbiters." << endl;
 
     //Create Global Arbiter
     cout << "🔑 Start: create Global Arbiters." << endl;
-    global_arbiter = new GlobalArbiter(global_id++, rate_control, queue_type);
+    global_arbiter = new GlobalArbiter(0, rate_control, queue_type);
     cout << "🔑 Finished: create Global Arbiters." << endl;
 
     //Create Local Control Switches
     cout << "🔗 Start: create Local Control Switches." << endl;
     for (uint32_t i = 0; i < num_lcs; i++)
     {
-        local_control_switches.push_back(new LocalControlSwitch(global_id++, hosts_per_lcs, rate_control, las_per_lcs, rate_control, queue_type));
+        local_control_switches.push_back(new LocalControlSwitch(i, hosts_per_lcs, rate_control, las_per_lcs, rate_control, queue_type));
     }
     cout << "🔗 Finished: create Local Control Switches." << endl;
 
@@ -346,7 +347,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     cout << "🌊 Start: create Global Control Switches." << endl;
     for(uint32_t i = 0; i < num_gcs; i++)
     {
-        global_control_switches.push_back(new GlobalControlSwitch(global_id++, las_per_gcs, rate_control, gas_per_gcs, rate_control, queue_type));
+        global_control_switches.push_back(new GlobalControlSwitch(i, las_per_gcs, rate_control, gas_per_gcs, rate_control, queue_type));
     }
     cout << "🌊 Finished: create Global Control Switches." << endl;
 
@@ -479,6 +480,17 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
             // std::cout << "Linking GCS " << i << " to S3" << j << " with queue " << q->id << " " << q->unique_id << "\n";
         }
     }
+
+    // ga to gcs
+    for(uint32_t i = 0; i < num_global_arbiters; i++)
+    {
+        for(uint32_t j = 0; j < gcs_per_ga; j++)
+        {
+            Queue *q = global_arbiter->toGCSQueue;
+            q->set_src_dst(global_arbiter, global_control_switches[j]);
+            // std::cout << "Linking GA " << i << " to GCS" << j << " with queue " << q->id << " " << q->unique_id << "\n";
+        }
+    }
     cout << "🍉 Finished linking Global Control Switches" << endl;
 
     cout << "✅ Establish HeirSchedule Topology." << endl;
@@ -584,6 +596,7 @@ double HeirScheduleTopology::get_oracle_fct(Flow* f)
 
 Queue* HeirScheduleTopology::get_next_hop(Packet *p, Queue *q){
     //数据包，在数据面，看p->path
+    // cout << "🚀 Start: get_next_hop" << endl;
     if (p->type == HeirScheduleData) {
         assert(p->path.src_host_id == p->src->id);
         if (q->location == HOST_TO_TOR){
@@ -609,42 +622,41 @@ Queue* HeirScheduleTopology::get_next_hop(Packet *p, Queue *q){
         }
     }
     else{
-        // 控制包的路由在交换机里写
-        // if (q->location == HOST_TO_LCS){
-        //     return ((LocalControlSwitch *) q->dst)->LA_queue;
-        // }
-        // else if(q->location == LCS_TO_LA){
-        //     return NULL;
-        // }
-        // else if(q->location == LA_TO_GCS){
-        //     assert(p->dst->type == LOCAL_ARBITER);
-        //     return ((GlobalControlSwitch *) q->dst)->LA_queues[p->dst->id];
-        // }
-        // else if(q->location == GCS_TO_LA){
-        //     return NULL;
-        // }
-        // else if(q->location == LA_TO_S3){
-        //     return ((S3_Switch *) q->dst)->GA_queue;
-        // }
-        // else if(q->location == S3_TO_GA){
-        //     return NULL;
-        // }
-        // else if(q->location == GA_TO_S3){
-        //     return ((S3_Switch *) q->dst)->LA_queues[p->dst->id];
-        // }
-        // else if(q->location == S3_TO_LA){
-        //     return NULL;
-        // }
-        // else if(q->location == LA_TO_LCS){
-        //     return ((LocalControlSwitch *) q->dst)->Host_queues[p->dst->id % (k / 2)];
-        // }
-        // else if(q->location == LCS_TO_LA){
-        //     return NULL;
-        // }
-        // else{
-        //     assert(false);
-        // }
-
+        // cout << "🐽 q->location: " << q->location << endl;
+        if (q->location == HOST_TO_LCS){
+            return ((LocalControlSwitch *) q->dst)->toLAQueue;
+        }
+        else if (q->location == LCS_TO_LA){
+            return NULL;
+        }
+        else if (q->location == LA_TO_GCS){
+            if(q->dst->type == LOCAL_ARBITER){
+                return ((GlobalControlSwitch *) q->dst)->toLAQueues[p->dst->id];
+            }
+            else{
+                return ((GlobalControlSwitch *) q->dst)->toGAQueue;
+            }
+        }
+        else if (q->location == GCS_TO_LA){
+            return NULL;
+        }
+        else if (q->location == GCS_TO_GA){
+            return NULL;
+        }
+        else if (q->location == GA_TO_GCS){
+            // cout << "🐒 p->dst->id: " << p->dst->id << endl;
+            // cout << "🐔 q->dst->type: " << (dynamic_cast<GlobalControlSwitch*> (q->dst))->type << endl;
+            return ((GlobalControlSwitch *) q->dst)->toLAQueues[p->dst->id];
+        }
+        else if (q->location == LA_TO_LCS){
+            return ((LocalControlSwitch *) q->dst)->toHostQueues[(p->dst->id % (k*k/4)) / (k/2)];
+        }
+        else if (q->location == LCS_TO_HOST){
+            return NULL;
+        }
+        else{
+            assert(false);
+        }
     }
 }
 

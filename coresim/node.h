@@ -75,15 +75,17 @@ class FlowComparator{
 class Node {
     public:
         Node(uint32_t id, uint32_t type);
+        virtual ~Node() {} // Add a virtual destructor to make the class polymorphic
         uint32_t id;
         uint32_t type;
-        double time;
+        double local_time_bias;
 };
 
 class Host : public Node {
     public:
         Host(uint32_t id, double rate, uint32_t queue_type, uint32_t host_type);
         virtual ~Host() {} // Add a virtual destructor to make the class polymorphic
+        
         Queue *queue;
         int host_type;
         long long int received_bytes_all;
@@ -99,7 +101,12 @@ class Host : public Node {
 class HeirScheduleHost : public Host{
     public:
         HeirScheduleHost(uint32_t id, double r1, double r2, uint32_t queue_type);
-        void host_send_rts(double time);
+        void receive(Packet *packet);
+        void receive_sync_message(Packet *packet);
+        void receive_delay_response_message(Packet *packet);
+        
+        
+        void host_send_rts();
         void host_recv_schd();
         void host_send_data(double time);
         
@@ -124,38 +131,59 @@ class HeirScheduleHost : public Host{
         vector<dst_remaining> remainings;
 
         map<uint32_t, host_has_flow> flows_to_send; // flow_id, flow
+        double T3_time; // 需要记录T3
+        double master_slave_diff;
+        double slave_master_diff;
+
 };
 
 class LocalArbiter : public Host {
 public:
     LocalArbiter(uint32_t id, double rate, uint32_t num_gcs, uint32_t queue_type);
+    void receive(Packet *packet);
+    // 与GA时间同步
+    void receive_sync_message(Packet *packet);
+    void receive_delay_response_message(Packet *packet);
+
+    // 与Host时间同步
+    void send_sync_message_to_host();
+    void receive_delay_request_message_from_host(Packet *packet);
+
+    void receive_rts(Packet *packet);
+    
     // vector<Queue *> queues; 
     uint32_t num_gcs;
     vector<Queue *> toLCSQueues; //前往host的队列
     vector<Queue *> toGCSQueues; //前往其他Arbiter(LA and GA)的队列
 
-    void process_rts(); //从host接收请求
-    void send_interpod_rts(double time); // 向其他LA发送interpod请求
-    void recv_interpod_rts(); // 从其他LA接收interpod请求
-    void process_interpod_rts(); // 处理interpod请求 
-    void send_interpod_schd(); // 向其他LA发送interpod中间结果
-    void recv_interpod_schd(); // 从其他LA接收interpod中间结果
-    void send_agg_agg_rts();   // 向GA发送agg-agg请求
-    void recv_agg_core_agg_schd();  // 从GA接收agg-core-agg结果
-    void glue_everyting(); // 将所有的中间结果合并为最终结果
-    void send_final_results(); // 向host发送最终结果
+    // void process_rts(); //从host接收请求
+    // void send_interpod_rts(double time); // 向其他LA发送interpod请求
+    // void recv_interpod_rts(); // 从其他LA接收interpod请求
+    // void process_interpod_rts(); // 处理interpod请求 
+    // void send_interpod_schd(); // 向其他LA发送interpod中间结果
+    // void recv_interpod_schd(); // 从其他LA接收interpod中间结果
+    // void send_agg_agg_rts();   // 向GA发送agg-agg请求
+    // void recv_agg_core_agg_schd();  // 从GA接收agg-core-agg结果
+    // void glue_everyting(); // 将所有的中间结果合并为最终结果
+    // void send_final_results(); // 向host发送最终结果
 
     vector<rts> received_rts;
     
+    double T3_time; // 需要记录T3
+    double master_slave_diff;
+    double slave_master_diff;
 };
 
 class GlobalArbiter : public Host {
     public:
         GlobalArbiter(uint32_t id, double rate, uint32_t type);
+        void SendSyncMessageToLA();
+        void receive(Packet *packet);
+        void receive_delay_request_message(Packet *packet);
         Queue *toGCSQueue;
-        void recv_agg_agg_rts(); // 从LA接收agg-agg请求
-        void process_agg_agg_rts(); // 处理agg-agg请求
-        void send_agg_agg_schd(); // 向LA发送agg-agg结果
+        // void recv_agg_agg_rts(); // 从LA接收agg-agg请求
+        // void process_agg_agg_rts(); // 处理agg-agg请求
+        // void send_agg_agg_schd(); // 向LA发送agg-agg结果
 };
 
 class Switch : public Node {

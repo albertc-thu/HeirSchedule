@@ -27,6 +27,10 @@ using namespace std;
 #define HeirScheduleAAR 16
 #define HeirScheduleAAS 17
 
+#define SYNC_MSG 18
+#define DELAY_REQ_MSG 19
+#define DELAY_RES_MSG 20
+
 class FastpassEpochSchedule;
 class Flow;
 class Host;
@@ -91,12 +95,13 @@ class Packet {
     public:
         Packet(double sending_time, Flow *flow, uint32_t seq_no, uint32_t pf_priority,
                 uint32_t size, Host *src, Host *dst);
-
+        virtual ~Packet();
         double sending_time;
         Flow *flow;
         uint32_t seq_no;
         uint32_t pf_priority;
         uint32_t size;
+        uint32_t hdr_size;
         Host *src;
         Host *dst;
         uint32_t unique_id;
@@ -200,6 +205,31 @@ class FastpassSchedulePkt : public Packet
         FastpassEpochSchedule* schedule;
 };
 
+class SyncMessage : public Packet
+{
+    public:
+        SyncMessage(Host *src, Host *dst, double time);
+        double T1_time;
+        double Enqueue_time;
+        double Dequeue_time;
+        double innetwork_delay = 0.0;
+};
+
+class DelayRequestMessage : public Packet
+{
+    public:
+        DelayRequestMessage(Host *src, Host *dst);
+        double Enqueue_time;
+        double Dequeue_time;
+        double innetwork_delay = 0.0;
+};
+
+class DelayResponseMessage : public Packet
+{
+    public:
+        DelayResponseMessage(Host *src, Host *dst, double time);
+        double T4_time;
+};
 
 class HeirScheduleDataPkt : public Packet
 {

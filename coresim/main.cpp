@@ -88,6 +88,7 @@ void run_scenario() {
     while (event_queue.size() > 0) {
         Event *ev = event_queue.top();
         event_queue.pop();
+        // cout << "Event type: " << ev->type << " time: " << ev->time << endl;
         current_time = ev->time;
         if (start_time < 0) {
             start_time = current_time;
