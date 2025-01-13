@@ -24,8 +24,8 @@ using namespace std;
 #define HeirScheduleSCHD 13
 #define HeirScheduleIPR 14
 #define HeirScheduleIPS 15
-#define HeirScheduleAAR 16
-#define HeirScheduleAAS 17
+#define CORE_RTS 16
+#define CORE_SCHD 17
 
 #define SYNC_MSG 18
 #define DELAY_REQ_MSG 19
@@ -38,9 +38,11 @@ class Host;
 /**
  * use to indicate which node the packet will pass
 */
-struct path
+class SCHD
 {
+public:
     //host id
+    uint32_t slot;
     uint32_t src_host_id;
     uint32_t src_tor_id;
     uint32_t src_agg_id;
@@ -76,13 +78,13 @@ struct ips // inter-pod schedule
     uint32_t dst_host_id;
 };
 
-struct aar // agg-agg request
+struct core_rts // agg-agg request
 {
     uint32_t src_agg_id;
     uint32_t dst_agg_id;
 };
 
-struct aas // agg-agg schedule
+struct core_schd // agg-agg schedule
 {
     uint32_t src_agg_id;
     u_int32_t core_id;
@@ -123,7 +125,7 @@ class Packet {
         bool scheduled_flag; // 显示该包是否被调度
         bool dropped_flag; // 显示该包是否被丢弃
 
-        struct path path;
+        SCHD* path;
 
         static int new_num;
         static int delete_num;
@@ -234,12 +236,16 @@ class DelayResponseMessage : public Packet
 class HeirScheduleDataPkt : public Packet
 {
     public:
-        HeirScheduleDataPkt(double sending_time, Flow *flow, uint32_t seq_no, uint32_t pf_priority,
-                       uint32_t size, Host *src, Host *dst);
+        HeirScheduleDataPkt(Host *src, Host *dst, uint32_t payload_size, uint32_t header_size, vector<Flow*> flows, 
+                vector<uint32_t> flow_segment_sizes, vector<uint32_t> flow_segment_begin_seq_no);
         ~HeirScheduleDataPkt();
 
         static int new_num;
         static int delete_num;
+
+        vector<Flow*> flows;
+        vector<uint32_t> flow_segment_sizes;
+        vector<uint32_t> flow_segment_begin_seq_no;
 };
 
 
@@ -291,27 +297,26 @@ public:
      * \param flow_dst_id allow the corresponding queue to transmit packets
     */
     HeirScheduleSCHDPkt(double sending_time, Host *src, Host *dst,
-                        double offset, double rts_offset, bool if_rts, struct path sending_path,
-                        uint32_t endhost_id, uint32_t flag, bool dummy_flag, double time_to_run);
+                        SCHD* schd);
     ~HeirScheduleSCHDPkt();
 
     //flag = 0 means the dst is host flag = 1 means the dst are pods
     // uint32_t flag;
-    double offset;
-    uint32_t rts_offset;
-    bool if_rts;
+    // double offset;
+    // uint32_t rts_offset;
+    // bool if_rts;
 
     // use to pointout the sending path
     // end_host_id指的是数据包最终的目的
-    struct path sending_path;
-    uint32_t endhost_id;
-    // std::vector<pod_schedule> pods_schedule;
-    bool dummy_flag;
+    SCHD* schd;
+    // uint32_t endhost_id;
+    // // std::vector<pod_schedule> pods_schedule;
+    // bool dummy_flag;
 
     
 
     // start of a slot. this schd pkt will be executed at this slot.
-    double time_to_run;
+    // double time_to_run;
     static int new_num;
     static int delete_num;
 };
@@ -340,28 +345,27 @@ public:
     static int delete_num;
 };
 
-class HeirScheduleAARPkt : public Packet // AAR: Agg-Agg Request 用于LA向GA发起请求
+class HeirScheduleCoreRequestPkt : public Packet // AAR: Agg-Agg Request 用于LA向GA发起请求
 {
 public:
-    HeirScheduleAARPkt(double sending_time, Host *src, Host *dst, struct aar aar);
-    ~HeirScheduleAARPkt();
+    HeirScheduleCoreRequestPkt(double sending_time, Host *src, Host *dst, struct core_rts core_rts);
+    ~HeirScheduleCoreRequestPkt();
 
-    struct aar aar;
+    struct core_rts core_rts;
     static int new_num;
     static int delete_num;
 };
 
-class HeirScheduleAASPkt : public Packet // AAS: Agg-Agg Schedule 用于GA向LA传递agg-core-agg调度结果
+class HeirScheduleCoreSCHDPkt : public Packet // AAS: Agg-Agg Schedule 用于GA向LA传递agg-core-agg调度结果
 {
 public:
-    HeirScheduleAASPkt(double sending_time, Host *src, Host *dst, struct aas aas);
-    ~HeirScheduleAASPkt();
+    HeirScheduleCoreSCHDPkt(double sending_time, Host *src, Host *dst, struct core_schd core_schd);
+    ~HeirScheduleCoreSCHDPkt();
 
-    struct aas aas;
+    struct core_schd core_schd;
     static int new_num;
     static int delete_num;
 };
 
 
 #endif
-

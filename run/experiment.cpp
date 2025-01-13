@@ -244,12 +244,20 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
         dynamic_cast<FastpassTopology*>(topology)->arbiter->start_arbiter();
     }
 
-    dynamic_cast<HeirScheduleTopology*>(topology)->global_arbiter->SendSyncMessageToLA();
-    
+    dynamic_cast<HeirScheduleTopology*>(topology)->global_arbiter->send_sync_message_to_la();
+    // cout << "✅ Done Synchronization!\n\n\n" << endl;
+    // 测试Host->LA时延
     // for (uint32_t i = 0; i < params.k * params.k * params.k / 4; i++) {
     //     dynamic_cast<HeirScheduleTopology*>(topology)->hosts[i]->host_send_rts();
     // }
-
+    // // 测试LA之间时延
+    // for (uint32_t i = 0; i < params.k; i++) {
+    //     for(uint32_t j = 0; j < params.k/2; j++){
+    //         if(i == j) continue;
+    //         dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[i]->send_request_to_la(dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[j]);
+    //     }
+    //     dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[i]->send_request_to_ga();
+    // }
 
     // 
     // everything before this is setup; everything after is analysis
@@ -271,6 +279,104 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
                 << "\n";
         }
     }
+
+    // 记录每个host的吞吐
+    std::ofstream output_goodput(params.dir_name + "/GOODPUT.txt");
+    output_goodput.precision(20);
+    for(int ii = 0; ii < int(dynamic_cast<HeirScheduleTopology*>(topology)->hosts.size()); ii++){
+        HeirScheduleHost* host = dynamic_cast<HeirScheduleTopology*>(topology)->hosts[ii];
+        output_goodput << 
+            ii << 
+            " " << 
+            8 * host->received_bytes_all / (1e9 * (host->received_last_packet_time - host->received_first_packet_time)) << 
+            " " << 
+            host->received_bytes_all << 
+            " " << 
+            host->received_first_packet_time << 
+            " " << 
+            host->received_last_packet_time << "\n";
+    }
+
+
+    // 流信息
+    uint32_t max_outoforder_buffer = 0;
+    double long_flows_num = 0;
+    double short_flows_num = 0;
+    double long_flows_slow_sum = 0;
+    double short_flows_slow_sum = 0;
+    Stats slowdown, inflation, fct, oracle_fct, first_send_time, slowdown_0_100, slowdown_100k_10m, slowdown_10m_inf, out_of_order_buffer;
+    Stats data_pkt_sent, parity_pkt_sent, data_pkt_drop, parity_pkt_drop, deadline;
+    std::ofstream output(params.dir_name + "/FCT.txt");
+    // cout << "😊 Output to " << "../" + params.dir_name + "/FCT_" + std::to_string(params.load) + ".txt" << endl;
+    output.precision(20);
+
+    for (uint32_t i = 0; i < flows_sorted.size(); i++)
+    {
+        Flow *f = flows_to_schedule[i];
+        validate_flow(f);
+        if (!f->finished)
+        {
+            std::cout
+                << "unfinished flow "
+                << "size:" << f->size
+                << " id:" << f->id
+                << " next_seq:" << f->next_seq_no
+                << " recv:" << f->received_payloads
+                << " src:" << f->src->id
+                << " dst:" << f->dst->id
+                << "\n";
+        }
+
+        
+
+        // slowdown
+        double slowdown_per_flow = 1e6 * f->flow_completion_time / topology->get_oracle_fct(f);
+        cout << "\nFlow id is " << f->id << ", and Slowdown is " << slowdown_per_flow << endl;
+        cout <<  f->flow_completion_time << " " << topology->get_oracle_fct(f) << endl;
+
+
+        if(f->size > 1e7){
+            long_flows_num++;
+            long_flows_slow_sum += slowdown_per_flow;
+        }else if(f->size < 1e5){
+            short_flows_num++;
+            short_flows_slow_sum += slowdown_per_flow;
+        }
+
+
+        output
+            << f->id << " "
+            << f->start_time << " "
+            << f->src->id << " "
+            << f->dst->id << " "
+            << f->size << " "
+            << slowdown_per_flow << " "
+            << f->finish_time << " "
+            << f->flow_completion_time << "\n";
+
+        slowdown += slowdown_per_flow;
+        if (f->size < 1e4) // 100KB, 100,000
+            slowdown_0_100 += slowdown_per_flow;
+        else if (f->size < 1e6) // 10MB, 10,000,000
+            slowdown_100k_10m += slowdown_per_flow;
+        else
+            slowdown_10m_inf += slowdown_per_flow;
+
+        // fct
+        fct += (1000000.0 * f->flow_completion_time); // us
+        oracle_fct += topology->get_oracle_fct(f);
+
+        cout << "⛔️ Out-of-order cache size is less than " << f->max_out_of_order_buffer << " Bytes." << endl;
+        uint32_t current_buffer = f->max_out_of_order_buffer;
+        out_of_order_buffer += int(current_buffer);
+        if(max_outoforder_buffer < current_buffer) max_outoforder_buffer = f->max_out_of_order_buffer;
+    }
+
+    output.close();
+
+
+
+
 
     //cleanup
     delete fg;

@@ -7,7 +7,7 @@ import os
 
 conf_str_heirschedule = '''init_cwnd: 2
 max_cwnd: 6
-k: 8
+k: 4
 retx_timeout: 9.50003e-06
 propagation_delay: 1e-6
 propagation_delay_data: 1e-6
@@ -16,6 +16,11 @@ bandwidth_data: 100000000000.0
 bandwidth_ctrl: 10000000000.0
 queue_size: 262144
 queue_size_ctrl: 26214
+slot_length: 32
+mss: 512
+slot_num_to_record: 10
+dctcp_mark_thresh: 0.125
+dir_name: {dir_name}
 queue_type: 1
 hdr_size: 40
 flow_type: 112
@@ -101,7 +106,7 @@ for r in runs:
 
         #  generate conf file
         if r == 'heirschedule':
-            conf_str = conf_str_heirschedule.format(numLines, flow_trace=flow_trace)
+            conf_str = conf_str_heirschedule.format(numLines, flow_trace=flow_trace, dir_name=dir_name)
         else:
             assert False, r
 

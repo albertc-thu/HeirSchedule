@@ -1,6 +1,8 @@
 #include "topology.h"
 
 extern DCExpParams params;
+extern unordered_map<uint32_t, string> node_type_map;
+extern unordered_map<uint32_t, string> queue_type_map;
 extern double get_current_time();
 /*
    uint32_t num_hosts = 144;
@@ -398,25 +400,59 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
             q->set_src_dst(agg_switches[i], tor_switches[pod_id * tors_per_pod + j]);
             // std::cout << "Linking Agg " << i << " to ToR" << pod_id * tors_per_pod + j << " with queue " << q->id << " " << q->unique_id << "\n";
         }
-        // agg to core
-        for (uint32_t j = 0; j < cores_per_agg_switch; j++)
-        {
-            Queue *q = agg_switches[i]->toCoreQueues[j];
-            q->set_src_dst(agg_switches[i], core_switches[(i % aggs_per_pod) * cores_per_agg_switch + j]);
-            // cout << "🐼 Agg " << i << " to Core " << (i % aggs_per_pod) * cores_per_agg_switch + j << endl;
-            // std::cout << "Linking Agg " << i << " to Core" << (i % aggs_per_pod) * cores_per_agg_switch + j << " with queue " << q->id << " " << q->unique_id << "\n";
-        }
+        // // agg to core
+        // for (uint32_t j = 0; j < cores_per_agg_switch; j++)
+        // {
+        //     Queue *q = agg_switches[i]->toCoreQueues[j];
+        //     q->set_src_dst(agg_switches[i], core_switches[(i % aggs_per_pod) * cores_per_agg_switch + j]);
+        //     // cout << "🐼 Agg " << i << " to Core " << (i % aggs_per_pod) * cores_per_agg_switch + j << endl;
+        //     // std::cout << "Linking Agg " << i << " to Core" << (i % aggs_per_pod) * cores_per_agg_switch + j << " with queue " << q->id << " " << q->unique_id << "\n";
+        // }
     }
     cout << "🍍 Finished linking Agg switches" << endl;
 
     // core->agg
+    // for (uint32_t i = 0; i < num_core_switches; i++)
+    // {
+    //     for (uint32_t j = 0; j < aggs_per_core_switch; j++)
+    //     {
+    //         Queue *q = core_switches[i]->toAggQueues[j];
+    //         q->set_src_dst(core_switches[i], agg_switches[(i / cores_per_agg_switch) + aggs_per_pod * j]);
+    //         // std::cout << "Linking Core " << i << " to Agg" << i / cores_per_agg_switch * aggs_per_pod + j << " with queue " << q->id << " " << q->unique_id << "\n";
+    //     }
+    // }
+    int conn_agg_core[num_agg_switches][params.k/2] = {
+        {0, 1}, {2, 3},
+        {0, 2}, {1, 3},
+        {0, 3}, {1, 2},
+        {0, 3}, {1, 2}
+    };
+    int conn_core_agg[num_core_switches][params.k] = {
+        {0, 2, 4, 6},
+        {0, 3, 5, 7},
+        {1, 2, 5, 7},
+        {1, 3, 4, 6}
+    };
+    cout << "🍐 Start linking Core switches" << endl;
+    cout << "num_agg_switches: " << num_agg_switches << endl;
+    cout << "num_core_switches: " << num_core_switches << endl;
+
+    for (uint32_t i = 0; i < num_agg_switches; i++)
+    {
+        for (uint32_t j = 0; j < params.k / 2; j++){
+            cout << "🍐 Linking Agg " << i << " to Core " << conn_agg_core[i][j] << endl;
+            AggSwitch *agg = agg_switches[i];
+            CoreSwitch *core = core_switches[conn_agg_core[i][j]];
+            agg->toCoreQueues[j]->set_src_dst(agg, core);
+        }
+    }
     for (uint32_t i = 0; i < num_core_switches; i++)
     {
-        for (uint32_t j = 0; j < aggs_per_core_switch; j++)
-        {
-            Queue *q = core_switches[i]->toAggQueues[j];
-            q->set_src_dst(core_switches[i], agg_switches[(i / cores_per_agg_switch) + aggs_per_pod * j]);
-            // std::cout << "Linking Core " << i << " to Agg" << i / cores_per_agg_switch * aggs_per_pod + j << " with queue " << q->id << " " << q->unique_id << "\n";
+        for (uint32_t j = 0; j < params.k; j++){
+            cout << "🍐 Linking Core " << i << " to Agg " << conn_core_agg[i][j] << endl;
+            CoreSwitch *core = core_switches[i];
+            AggSwitch *agg = agg_switches[conn_core_agg[i][j]];
+            core->toAggQueues[j]->set_src_dst(core, agg);
         }
     }
     cout << "🍐 Finished linking Core switches" << endl;
@@ -495,6 +531,29 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
 
     cout << "✅ Establish HeirSchedule Topology." << endl;
 
+    node_type_map[2] = "HeirSchedule_HOST";
+    node_type_map[3] = "LOCAL_ARBITER";
+    node_type_map[4] = "GLOBAL_ARBITER";
+    node_type_map[10] = "CORE_SWITCH";
+    node_type_map[11] = "AGG_SWITCH";
+    node_type_map[12] = "TOR_SWITCH";
+    node_type_map[13] = "LOCAL_CONTROL_SWITCH";
+    node_type_map[14] = "GLOBAL_CONTROL_SWITCH";
+
+    queue_type_map[0] = "HOST_TO_TOR";
+    queue_type_map[1] = "TOR_TO_AGG";
+    queue_type_map[2] = "AGG_TO_CORE";
+    queue_type_map[3] = "CORE_TO_AGG";
+    queue_type_map[4] = "AGG_TO_TOR";
+    queue_type_map[5] = "TOR_TO_HOST";
+    queue_type_map[10] = "HOST_TO_LCS";
+    queue_type_map[11] = "LCS_TO_LA";
+    queue_type_map[12] = "LA_TO_GCS";
+    queue_type_map[13] = "GCS_TO_LA";
+    queue_type_map[14] = "GCS_TO_GA";
+    queue_type_map[15] = "GA_TO_GCS";
+    queue_type_map[16] = "LA_TO_LCS";
+    queue_type_map[17] = "LCS_TO_HOST";
 
 }
 
@@ -534,7 +593,7 @@ double HeirScheduleTopology::get_oracle_fct(Flow* f)
         }
         if (num_hops == 6) {
             propagation_delay =
-                    hosts[0]->toToRQueue->propagation_delay + tor_switches[0]->toAggQueues[k / 2]->propagation_delay + \
+                    hosts[0]->toToRQueue->propagation_delay + tor_switches[0]->toAggQueues[0]->propagation_delay + \
                             agg_switches[0]->toCoreQueues[0]->propagation_delay +core_switches[0]->toAggQueues[0]->propagation_delay + \
                     agg_switches[0]->toToRQueues[0]->propagation_delay + tor_switches[0]->toHostQueues[0]->propagation_delay ;
         }
@@ -598,21 +657,21 @@ Queue* HeirScheduleTopology::get_next_hop(Packet *p, Queue *q){
     //数据包，在数据面，看p->path
     // cout << "🚀 Start: get_next_hop" << endl;
     if (p->type == HeirScheduleData) {
-        assert(p->path.src_host_id == p->src->id);
+        assert(p->path->src_host_id == p->src->id);
         if (q->location == HOST_TO_TOR){
-            return ((ToRSwitch *) q->dst)->toAggQueues[p->path.src_agg_id % (k / 2)];
+            return ((ToRSwitch *) q->dst)->toAggQueues[p->path->src_agg_id % (k / 2)];
         }
         else if(q->location == TOR_TO_AGG){
-            return ((AggSwitch *) q->dst)->toCoreQueues[p->path.core_id % (k / 2)];
+            return ((AggSwitch *) q->dst)->toCoreQueues[p->path->core_id % (k / 2)];
         }
         else if(q->location == AGG_TO_CORE){
-            return ((CoreSwitch *) q->dst)->toAggQueues[p->path.dst_agg_id / (k / 2)]; //要看是哪个pod
+            return ((CoreSwitch *) q->dst)->toAggQueues[p->path->dst_agg_id / (k / 2)]; //要看是哪个pod
         }
         else if(q->location == CORE_TO_AGG){
-            return ((AggSwitch *) q->dst)->toToRQueues[p->path.dst_tor_id % (k / 2)]; 
+            return ((AggSwitch *) q->dst)->toToRQueues[p->path->dst_tor_id % (k / 2)]; 
         }
         else if(q->location == AGG_TO_TOR){
-            return ((ToRSwitch *) q->dst)->toHostQueues[p->path.dst_host_id % (k / 2)];
+            return ((ToRSwitch *) q->dst)->toHostQueues[p->path->dst_host_id % (k / 2)];
         }
         else if(q->location == TOR_TO_HOST){
             return NULL;

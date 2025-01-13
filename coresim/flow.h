@@ -41,6 +41,23 @@ class Flow {
         uint32_t size;
         Host *src;
         Host *dst;
+        
+        std::map<uint32_t, uint32_t> received_seqs; //起始位置, 流的大小
+        uint32_t received_payloads;
+        uint32_t recv_till = 0; // 收到的连续数据包的最大序列号（此后中断）
+        uint32_t recv_max = 0; // 收到的序列号最大的包序号
+        uint32_t unordered_cell = 0;
+
+        uint32_t next_seq_no;
+        uint32_t remaining_size_to_send;
+
+        // 统计信息
+        bool finished;
+        double flow_completion_time;
+        double first_byte_receive_time;
+
+        uint32_t max_out_of_order_buffer = 0;
+
         uint32_t cwnd_mss;
         uint32_t max_cwnd;
         double retx_timeout;
@@ -48,7 +65,6 @@ class Flow {
         uint32_t hdr_size;
 
         // Sender variables
-        uint32_t next_seq_no;
         uint32_t last_unacked_seq;
         RetxTimeoutEvent *retx_event;
         FlowProcessingEvent *flow_proc_event;
@@ -58,7 +74,6 @@ class Flow {
         // Receiver variables
         std::unordered_map<uint32_t, bool> received;
         uint32_t received_bytes;
-        uint32_t recv_till;
         uint32_t max_seq_no_recv;
 
         uint32_t total_pkt_sent;
@@ -72,11 +87,11 @@ class Flow {
         // Sack
         uint32_t scoreboard_sack_bytes;
         // finished variables
-        bool finished;
-        double flow_completion_time;
+
+
         double total_queuing_time;
         double first_byte_send_time;
-        double first_byte_receive_time;
+
 
         uint32_t flow_priority;
         double deadline;

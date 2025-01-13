@@ -24,6 +24,8 @@
 using namespace std;
 
 Topology* topology;
+unordered_map<uint32_t, string> node_type_map;
+unordered_map<uint32_t, string> queue_type_map;
 double current_time = 0;
 std::priority_queue<Event*, std::vector<Event*>, EventComparator> event_queue;
 std::deque<Flow*> flows_to_schedule;
@@ -88,7 +90,7 @@ void run_scenario() {
     while (event_queue.size() > 0) {
         Event *ev = event_queue.top();
         event_queue.pop();
-        // cout << "Event type: " << ev->type << " time: " << ev->time << endl;
+        cout << "Event type: " << ev->type << " time: " << ev->time << endl;
         current_time = ev->time;
         if (start_time < 0) {
             start_time = current_time;

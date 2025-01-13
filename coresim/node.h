@@ -7,6 +7,7 @@
 #include <set>
 #include "queue.h"
 #include "packet.h"
+#include "../run/params.h"
 
 
 #define HOST 0
@@ -42,9 +43,13 @@
 #define LA_TO_LCS 16
 #define LCS_TO_HOST 17
 
+
 using namespace std;
+extern DCExpParams params;
+
 
 class Packet;
+class HeirScheduleDataPkt;
 class Flow;
 class rts;
 
@@ -92,10 +97,15 @@ class Host : public Node {
         double received_first_packet_time;
         double received_last_packet_time;
 
-        // 当前正在接收的流表
+
+        set<Flow *> sending_flows;
         set<Flow *> receiving_flows;
+        set<Flow*> now_receiving;
         uint32_t max_out_of_order_buffer = 0;
         uint32_t max_flow_num = 0;
+        vector<vector<deque <flow_data_at_src>>> per_dst_queues; // 发送数据的时候，将数据从 per-dst queue 取出，转移到 queue 中
+
+        vector<dst_remaining> remainings;
 };
 
 class HeirScheduleHost : public Host{
@@ -107,8 +117,10 @@ class HeirScheduleHost : public Host{
         
         
         void host_send_rts();
-        void host_recv_schd();
-        void host_send_data(double time);
+        void receive_schd_and_send_data(Packet *packet);
+        void receive_data_packet(Packet *packet);
+
+        HeirScheduleDataPkt* get_data_packet(uint32_t dst_id);
         
         Queue *toToRQueue;
         Queue *toLAQueue; //前往local arbiter的队列
@@ -118,17 +130,15 @@ class HeirScheduleHost : public Host{
         // double received_last_packet_time;
 
         // 当前正在发送的流表
-        set<Flow *> sending_flows;
+        // set<Flow *> sending_flows;
         // 当前正在接收的流表
-        set<Flow *> receiving_flows;
-        uint32_t max_out_of_order_buffer = 0;
-        uint32_t max_flow_num = 0;
+        // set<Flow *> receiving_flows;
+        // uint32_t max_out_of_order_buffer = 0;
+        // uint32_t max_flow_num = 0;
         
         // typedef vector<Queue *> priority_queue;
         // map<uint32_t, priority_queue> hosts_queue; // 发送数据的队列
-        vector<vector<deque <flow_data_at_src>>> per_dst_queues; // 发送数据的时候，将数据从 per-dst queue 取出，转移到 queue 中
-
-        vector<dst_remaining> remainings;
+        
 
         map<uint32_t, host_has_flow> flows_to_send; // flow_id, flow
         double T3_time; // 需要记录T3
@@ -150,8 +160,12 @@ public:
     void receive_delay_request_message_from_host(Packet *packet);
 
     void receive_rts(Packet *packet);
+    void send_request_to_la(LocalArbiter *dst);
+    void receive_ipr(Packet *packet);
+    void send_request_to_ga();
     
     // vector<Queue *> queues; 
+    uint32_t hosts_per_pod = params.k * params.k / 4;
     uint32_t num_gcs;
     vector<Queue *> toLCSQueues; //前往host的队列
     vector<Queue *> toGCSQueues; //前往其他Arbiter(LA and GA)的队列
@@ -172,14 +186,24 @@ public:
     double T3_time; // 需要记录T3
     double master_slave_diff;
     double slave_master_diff;
+
+
+    // 路由相关
+    vector<vector<bool>> host_is_src; // T * k^2/4, hostIsSrc[t][i]表示第t个时隙，第i个Host是否是源节点 
+    vector<vector<bool>> host_is_dst; // T * k^2/4, hostIsDst[t][i]表示第t个时隙，第i个Host是否是目的节点
+    vector<vector<vector<bool>>> ToR2Agg; // 一个$T * \frac{k}{2} * \frac{k}{2}$的矩阵, ToR2Agg[t][i][j]表示第t个时隙，ToR i->Agg j的链路是否被分配
+    vector<vector<vector<bool>>> Agg2ToR; // 一个$T * \frac{k}{2} * \frac{k}{2}$的矩阵, Agg2ToR[t][i][j]表示第t个时隙，Agg i->ToR j的链路是否被分配
+
 };
 
 class GlobalArbiter : public Host {
     public:
         GlobalArbiter(uint32_t id, double rate, uint32_t type);
-        void SendSyncMessageToLA();
+        void send_sync_message_to_la();
         void receive(Packet *packet);
         void receive_delay_request_message(Packet *packet);
+
+        void receive_core_rts(Packet *packet);
         Queue *toGCSQueue;
         // void recv_agg_agg_rts(); // 从LA接收agg-agg请求
         // void process_agg_agg_rts(); // 处理agg-agg请求

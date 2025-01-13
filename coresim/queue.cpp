@@ -14,6 +14,8 @@ extern double get_current_time(); // TODOm
 extern void add_to_event_queue(Event* ev);
 extern uint32_t dead_packets;
 extern DCExpParams params;
+extern unordered_map<uint32_t, string> queue_type_map;
+extern unordered_map<uint32_t, string> node_type_map;
 
 uint32_t Queue::instance_count = 0;
 
@@ -69,20 +71,38 @@ void Queue::set_src_dst(Node *src, Node *dst) {
 void Queue::enque(Packet *packet) {
     p_arrivals += 1;
     b_arrivals += packet->size;
-    if (bytes_in_queue + packet->size <= limit_bytes) {
-        packets.push_back(packet);
-        bytes_in_queue += packet->size;
-    } else {
-        pkt_drop++;
-        drop(packet);
+    // if (bytes_in_queue + packet->size <= limit_bytes) {
+    //     packets.push_back(packet);
+    //     bytes_in_queue += packet->size;
+    //     cout << "🍔 Packet " << packet->unique_id << " enque in queue at " << queue_type_map[this->location] << ", bytes in queue: " << bytes_in_queue << " @ " << get_current_time() << endl; 
+    // } else {
+    //     pkt_drop++;
+    //     drop(packet);
+    // }
+    if(packets.size() >= 1){
+        assert(false);
     }
+    packets.push_back(packet);
+    bytes_in_queue += packet->size;
+    cout << "🍔 Packet " << packet->unique_id << " enque in queue at " << queue_type_map[this->location] << ", bytes in queue: " << bytes_in_queue << " @ " << get_current_time() << endl; 
+
+    // cout << "🍊 enqueue, " << queue_type_map[this->location] << " queue size: " << packets.size() << endl;
 }
 
 Packet *Queue::deque() {
     // cout << "🐼 Deque" << endl;
     if (bytes_in_queue > 0) {
-        // cout << "🐼 has bytes in queue" << endl;
+        // if (this->location == HOST_TO_TOR){
+        //     cout << "🐼 has bytes in queue, packets.size(): " << packets.size() << endl;
+        // }
         Packet *p = packets.front();
+        cout << "🍚 Packet " << p->unique_id << " deque in queue at " << queue_type_map[this->location] << " from " << node_type_map[this->src->type] << " " << this->src->id << " to " << node_type_map[this->dst->type] << " " << this->dst->id << ", bytes in queue: " << bytes_in_queue << " @ " << get_current_time() << endl; 
+        // if(p->type == HeirScheduleSCHD){
+        //     SCHD* schd = ((HeirScheduleSCHDPkt*)p)->schd;
+        //     cout << "🥭 schd's address: " << schd << endl;
+        //     cout << "🍊 Deque queue->src->type: " << this->src->type << ", queue->src->id: " << this->src->id << ", queue->dst->type: " << this->dst->type << ", queue->dst->id: " << this->dst->id << " send schd: slot: " << schd->slot << ", src_host_id: " << schd->src_host_id << ", dst_host_id: " << schd->dst_host_id << ", src_tor_id: " << schd->src_tor_id << ", dst_tor_id: " << schd->dst_tor_id << ", src_agg_id: " << schd->src_agg_id << ", dst_agg_id: " << schd->dst_agg_id << ", core_id: " << schd->core_id << endl;
+        //     cout << "p's address: " << p << ", p->type: " << p->type << ", p->src->type: " << p->src->type << ", p->src->id: " << p->src->id << ", p->dst->type: " << p->dst->type << ", p->dst->id: " << p->dst->id << endl;
+        // }
         packets.pop_front();
         bytes_in_queue -= p->size;
         p_departures += 1;

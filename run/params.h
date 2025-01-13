@@ -13,6 +13,7 @@ class DCExpParams {
         uint32_t max_cwnd;
         double retx_timeout_value;
         uint32_t mss;
+        uint32_t slot_num_to_record;
         uint32_t hdr_size;
         uint32_t queue_size;
         uint32_t queue_type;
@@ -88,7 +89,9 @@ class DCExpParams {
         }
 
         uint32_t num_of_ports;
-        uint32_t slot_length;
+        uint32_t slot_length; // in packets
+        double slot_length_in_s;
+        std::string dir_name;
         int pias;
         uint32_t pias_1;
         uint32_t pias_2;

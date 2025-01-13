@@ -1,5 +1,7 @@
 #include "packet.h"
 #include "../run/params.h"
+#include <iostream>
+#include <cstddef>
 
 extern DCExpParams params;
 uint32_t Packet::instance_count = 0;
@@ -110,11 +112,15 @@ DelayResponseMessage::DelayResponseMessage(Host *src, Host *dst, double time) : 
 
 int HeirScheduleDataPkt::new_num = 0;
 int HeirScheduleDataPkt::delete_num = 0;
-HeirScheduleDataPkt::HeirScheduleDataPkt(double sending_time, Flow *flow, uint32_t seq_no, uint32_t pf_priority,
-                       uint32_t size, Host *src, Host *dst): Packet(sending_time, flow, seq_no, pf_priority, size, src, dst)
+HeirScheduleDataPkt::HeirScheduleDataPkt(Host *src, Host *dst, uint32_t payload_size, uint32_t header_size, vector<Flow*> flows, 
+                vector<uint32_t> flow_segment_sizes, vector<uint32_t> flow_segment_begin_seq_no): Packet(sending_time, flow, seq_no, pf_priority, size, src, dst)
 {
     this->type = HeirScheduleData;
     this->path = path;
+    this->flows = flows;
+    this->flow_segment_sizes = flow_segment_sizes;
+    this->flow_segment_begin_seq_no = flow_segment_begin_seq_no;
+    this->size = payload_size + header_size;
     new_num++;
     // if(new_num > -1){
     //     cout << "new_num: " << new_num << endl;
@@ -145,17 +151,16 @@ HeirScheduleRTSPkt::~HeirScheduleRTSPkt()
 int HeirScheduleSCHDPkt::new_num = 0;
 int HeirScheduleSCHDPkt::delete_num = 0;
 HeirScheduleSCHDPkt::HeirScheduleSCHDPkt(double sending_time, Host *src, Host *dst,
-                        double offset, double rts_offset, bool if_rts, struct path sending_path,
-                        uint32_t endhost_id, uint32_t flag, bool dummy_flag, double time_to_run):Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
+                       SCHD* schd):Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
 {
     this->type = HeirScheduleSCHD;
-    this->offset = offset;
-    this->rts_offset = rts_offset;
-    this->if_rts = if_rts;
-    this->sending_path = sending_path;
-    this->endhost_id = endhost_id;
-    this->dummy_flag = dummy_flag;
-    this->time_to_run = time_to_run;
+    // this->offset = offset;
+    // this->rts_offset = rts_offset;
+    // this->if_rts = if_rts;
+    this->schd = schd;
+    // this->endhost_id = endhost_id;
+    // this->dummy_flag = dummy_flag;
+    // this->time_to_run = time_to_run;
 
     new_num++;
 }
@@ -194,30 +199,30 @@ HeirScheduleIPSPkt::~HeirScheduleIPSPkt()
 }
 
 
-int HeirScheduleAARPkt::new_num = 0;
-int HeirScheduleAARPkt::delete_num = 0;
-HeirScheduleAARPkt::HeirScheduleAARPkt(double sending_time, Host *src, Host *dst, struct aar aar): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
+int HeirScheduleCoreRequestPkt::new_num = 0;
+int HeirScheduleCoreRequestPkt::delete_num = 0;
+HeirScheduleCoreRequestPkt::HeirScheduleCoreRequestPkt(double sending_time, Host *src, Host *dst, struct core_rts core_rts): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
 {
-    this->type = HeirScheduleAAR;
-    this->aar = aar;
+    this->type = CORE_RTS;
+    this->core_rts = core_rts;
     new_num++;
 }
 
-HeirScheduleAARPkt::~HeirScheduleAARPkt()
+HeirScheduleCoreRequestPkt::~HeirScheduleCoreRequestPkt()
 {
     delete_num++;
 }
 
-int HeirScheduleAASPkt::new_num = 0;
-int HeirScheduleAASPkt::delete_num = 0;
-HeirScheduleAASPkt::HeirScheduleAASPkt(double sending_time, Host *src, Host *dst, struct aas aas): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
+int HeirScheduleCoreSCHDPkt::new_num = 0;
+int HeirScheduleCoreSCHDPkt::delete_num = 0;
+HeirScheduleCoreSCHDPkt::HeirScheduleCoreSCHDPkt(double sending_time, Host *src, Host *dst, struct core_schd core_schd): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
 {
-    this->type = HeirScheduleAAS;
-    this->aas = aas;
+    this->type = CORE_SCHD;
+    this->core_schd = core_schd;
     new_num++;
 }
 
-HeirScheduleAASPkt::~HeirScheduleAASPkt()
+HeirScheduleCoreSCHDPkt::~HeirScheduleCoreSCHDPkt()
 {
     delete_num++;
 }

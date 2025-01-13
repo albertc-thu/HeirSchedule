@@ -29,7 +29,7 @@
 #define FASTPASS_HOST 14
 #define FASTPASS_ARBITER 10
 #define IDEAL_HOST 20
-#define HeirSchedule_HOST 31
+// #define HeirSchedule_HOST 31
 
 class Factory {
     public:

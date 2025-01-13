@@ -50,6 +50,9 @@ extern double get_current_time();
 extern void add_to_event_queue(Event *);
 extern int get_event_queue_size();
 
+extern unordered_map<uint32_t, string> node_type_map;
+extern unordered_map<uint32_t, string> queue_type_map;
+
 uint32_t Event::instance_count = 0;
 
 Event::Event(uint32_t type, double time) {
@@ -131,7 +134,7 @@ void FlowArrivalEvent::process_event() {
         flow_arrivals.pop_front();
     }
 
-    cout << "Flow " << flow->id << " arrived at " << get_current_time() << endl;
+    cout << "😀 Flow " << flow->id << " arrived at " << get_current_time() << endl;
 
 
     HeirScheduleHost* src = dynamic_cast<HeirScheduleHost*>(flow->src);
@@ -179,6 +182,8 @@ void FlowArrivalEvent::process_event() {
         new_data_1.priority = 0;
         src->per_dst_queues[0][dst->id].push_back(new_data_1);
     }
+
+    src->host_send_rts();
 }
 
 PacketQueuingEvent::PacketQueuingEvent(double time, Packet *packet, Queue *queue)
@@ -190,7 +195,7 @@ PacketQueuingEvent::~PacketQueuingEvent() {
 }
 // 处理 PacketQueuingEvent
 void PacketQueuingEvent::process_event() {
-    cout << "🦈 Packet queueing" << endl;
+    // cout << "🦈 Packet queueing" << endl;
     if (!queue->busy) {
         // 新包触发的 processing
         // cout << "🐳" << endl;
@@ -198,35 +203,8 @@ void PacketQueuingEvent::process_event() {
         add_to_event_queue(queue->queue_proc_event);
         queue->busy = true;
         queue->packet_transmitting = packet;
+        // cout << "🍒 Packet " << packet->unique_id << " enque in queue at " << queue_type_map[queue->location] << " @ " << get_current_time() << endl;
     }
-    
-
-    // if (packet->flow->id == 28237){
-    //     string Node = "Null";
-    //     if (queue->src->type == 0){
-    //         Node = "End Host ";
-    //     }
-    //     else{
-    //         switch (((Switch*) queue->src)->switch_type)
-    //         {
-    //         case 10:
-    //             Node = "Core Switch ";
-    //             break;
-    //         case 11:
-    //             Node = "Agg Switch ";
-    //             break;
-    //         case 12:
-    //             Node = "Edge Switch ";
-    //             break;
-            
-    //         default:
-    //             break;
-    //         }
-    //     }
-        
-    //     cout << "seq: " << packet->seq_no << " queueing at " << Node << queue->src->id << endl;
-    // }
-
     // 抢占，只有 pfabric 会用到
     else if( params.preemptive_queue && this->packet->pf_priority < queue->packet_transmitting->pf_priority) {
         double remaining_percentage = (queue->queue_proc_event->time - get_current_time()) / queue->get_transmission_delay(queue->packet_transmitting->size);
@@ -247,6 +225,10 @@ void PacketQueuingEvent::process_event() {
     if (packet->type == DELAY_REQ_MSG){
         dynamic_cast<DelayRequestMessage*>(packet)->Enqueue_time = get_current_time();
         cout << "🐬 DelayRequestMessage " << packet->unique_id << " enqueue at " << get_current_time() << endl;
+    }
+    if (packet->type == HeirScheduleData){
+        HeirScheduleDataPkt* data_packet = dynamic_cast<HeirScheduleDataPkt*>(packet);
+        // cout << "🏐 In loc: " << node_type_map[queue->src->type] << ", id: " << queue->src->id <<  " DataPacket " << packet->unique_id << " enqueue @ " << get_current_time() << endl;
     }
     // cout << "🐬" << endl;
     queue->enque(packet);
@@ -272,8 +254,9 @@ void QueueProcessingEvent::process_event() {
     // cout << "🐻 Queue processing" << endl;
     Packet *packet = queue->deque();
     
-    // cout << (packet == nullptr ? 0 : 1) << endl;
+    // cout << (packet == nullptr ? "NULL packet" : "normal packet") << endl;
     if (packet) {
+        cout << "✅ not a null paccket" << endl;
         if (packet->type == SYNC_MSG ){
             SyncMessage* sync_packet = dynamic_cast<SyncMessage*>(packet);
             sync_packet->Dequeue_time = get_current_time();
@@ -286,13 +269,23 @@ void QueueProcessingEvent::process_event() {
             delay_request_packet->innetwork_delay += delay_request_packet->Dequeue_time - delay_request_packet->Enqueue_time;
             cout << "🐝 DelayRequestMessage " << packet->unique_id << " dequeue at " << get_current_time() << endl;
         }
+        if (packet->type == HeirScheduleData){
+            HeirScheduleDataPkt* data_packet = dynamic_cast<HeirScheduleDataPkt*>(packet);
+            // cout << "🎾 In loc: " << node_type_map[queue->src->type] << ", id: " << queue->src->id <<  "  DataPacket " << packet->unique_id << " dequeue @ " << get_current_time() << endl;
+        }
+        // if (packet->type == HeirScheduleSCHD){
+        //     HeirScheduleSCHDPkt* schd_packet = dynamic_cast<HeirScheduleSCHDPkt*>(packet);
+        //     SCHD* schd = schd_packet->schd;
+        //     cout << "🍉 queue->src->type: " << queue->src->type << ", queue->src->id: " << queue->src->id << ", queue->dst->type: " << queue->dst->type << ", queue->dst->id: " << queue->dst->id << " send schd: slot: " << schd->slot << ", src_host_id: " << schd->src_host_id << ", dst_host_id: " << schd->dst_host_id << ", src_tor_id: " << schd->src_tor_id << ", dst_tor_id: " << schd->dst_tor_id << ", src_agg_id: " << schd->src_agg_id << ", dst_agg_id: " << schd->dst_agg_id << ", core_id: " << schd->core_id << endl;
+        // }
         queue->busy = true;
         // queue->busy_events.clear();
         queue->packet_transmitting = packet;
         Queue *next_hop = topology->get_next_hop(packet, queue);
         // cout << "next_hop == NULL? " << (next_hop == NULL) << endl;
         // cout << "nexthop location: "<< next_hop->location << endl;
-        double td = queue->get_transmission_delay(packet->size);
+        // double td = queue->get_transmission_delay(packet->size);
+        double td = queue->get_transmission_delay(packet->hdr_size);
         double pd = queue->propagation_delay;
         //double additional_delay = 1e-10;
         queue->queue_proc_event = new QueueProcessingEvent(time + td, queue);
@@ -333,7 +326,8 @@ void QueueProcessingEvent::process_event() {
             
             add_to_event_queue(arrival_evt);
             // queue->busy_events.push_back(arrival_evt);
-        } else {
+        } 
+        else {
             // cout << "🐥" << endl;
             Event* queuing_evt = NULL;
             if (params.cut_through == 1) {
@@ -348,6 +342,7 @@ void QueueProcessingEvent::process_event() {
             // queue->busy_events.push_back(queuing_evt);
         }
     }else {
+        cout << "❌ null packet" << endl;
         queue->busy = false;
         // queue->busy_events.clear();
         queue->packet_transmitting = NULL;

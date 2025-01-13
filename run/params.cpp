@@ -191,6 +191,18 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         else if (key == "queue_size_ctrl"){
             lineStream >> params.queue_size_ctrl;
         }
+        else if (key == "mss"){
+            lineStream >> params.mss;
+        }
+        else if (key == "slot_length"){
+            lineStream >> params.slot_length;
+        }
+        else if (key == "slot_num_to_record"){
+            lineStream >> params.slot_num_to_record;
+        }
+        else if (key == "dir_name"){
+            lineStream >> params.dir_name;
+        }
         //else if (key == "dctcp_delayed_ack_freq") {
         //    lineStream >> params.dctcp_delayed_ack_freq;
         //}
@@ -200,10 +212,11 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         }
 
         params.fastpass_epoch_time = 1500 * 8 * (FASTPASS_EPOCH_PKTS + 0.5) / params.bandwidth;
-
         params.param_str.append(line);
         params.param_str.append(", ");
     }
+    params.slot_length_in_s = params.slot_length * (params.mss + params.hdr_size) * 8 / params.bandwidth_data;
+    std::cout << "🐷 slot_length_in_s: " << params.slot_length_in_s << std::endl;
 
-    params.mss = 1460;
+    // params.mss = 1460;
 }

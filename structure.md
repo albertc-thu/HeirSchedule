@@ -12,7 +12,7 @@
 
 ## 二、控制面
 ### 0. 调度的单位
-源目的对 or chunk ？
+源目的对 or chunk？
 ### 1. LocalArbiter
 #### 链路分配状态表
 维护接下来的若干个时隙内，本Pod内的链路分配情况:ToR->Agg, Agg->ToR  
