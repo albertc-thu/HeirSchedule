@@ -197,8 +197,8 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         else if (key == "slot_length"){
             lineStream >> params.slot_length;
         }
-        else if (key == "slot_num_to_record"){
-            lineStream >> params.slot_num_to_record;
+        else if (key == "T"){
+            lineStream >> params.T;
         }
         else if (key == "dir_name"){
             lineStream >> params.dir_name;

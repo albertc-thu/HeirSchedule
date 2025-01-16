@@ -19,17 +19,19 @@ using namespace std;
 #define FASTPASS_RTS 9
 #define FASTPASS_SCHEDULE 10
 
-#define HeirScheduleData 11
-#define HeirScheduleRTS 12
-#define HeirScheduleSCHD 13
-#define HeirScheduleIPR 14
-#define HeirScheduleIPS 15
-#define CORE_RTS 16
-#define CORE_SCHD 17
+#define HeirScheduleData 20
+#define HeirScheduleRTS 21
+#define HeirScheduleSCHD 22
+#define HeirScheduleIPR 23
+#define HeirScheduleIPS 24
+#define HeirScheduleIPD 25
+#define CORE_RTS 26
+#define CORE_SCHD 27
+#define CORE_DENY 28
 
-#define SYNC_MSG 18
-#define DELAY_REQ_MSG 19
-#define DELAY_RES_MSG 20
+#define SYNC_MSG 30
+#define DELAY_REQ_MSG 31
+#define DELAY_RES_MSG 32
 
 class FastpassEpochSchedule;
 class Flow;
@@ -50,6 +52,28 @@ public:
     uint32_t dst_agg_id;
     uint32_t dst_tor_id;
     uint32_t dst_host_id;
+    SCHD(){}
+    SCHD(uint32_t slot, uint32_t src_host_id, uint32_t src_tor_id, uint32_t src_agg_id, uint32_t core_id, uint32_t dst_agg_id, uint32_t dst_tor_id, uint32_t dst_host_id)
+    {
+        this->slot = slot;
+        this->src_host_id = src_host_id;
+        this->src_tor_id = src_tor_id;
+        this->src_agg_id = src_agg_id;
+        this->core_id = core_id;
+        this->dst_agg_id = dst_agg_id;
+        this->dst_tor_id = dst_tor_id;
+        this->dst_host_id = dst_host_id;
+    }
+    SCHD(SCHD* _schd){
+        this->slot = _schd->slot;
+        this->src_host_id = _schd->src_host_id;
+        this->src_tor_id = _schd->src_tor_id;
+        this->src_agg_id = _schd->src_agg_id;
+        this->core_id = _schd->core_id;
+        this->dst_agg_id = _schd->dst_agg_id;
+        this->dst_tor_id = _schd->dst_tor_id;
+        this->dst_host_id = _schd->dst_host_id;
+    }
     // Host *host;
 };
 
@@ -62,34 +86,117 @@ struct rts
     uint32_t dst_id;
 };
 
-struct ipr // inter-pod request
+class ipr // inter-pod request
 {
+public:
+    uint32_t slot;
+    uint32_t src_host_id;
+    uint32_t src_agg_id;
+    uint32_t dst_host_id;
+    ipr(){}
+    ipr(uint32_t slot, uint32_t src_host_id, uint32_t src_agg_id, uint32_t dst_host_id)
+    {
+        this->slot = slot;
+        this->src_host_id = src_host_id;
+        this->src_agg_id = src_agg_id;
+        this->dst_host_id = dst_host_id;
+    }
+};
+
+class ips // inter-pod schedule
+{
+public:
+    uint32_t slot;
     uint32_t src_host_id;
     uint32_t src_agg_id;
     uint32_t dst_agg_id;
     uint32_t dst_host_id;
+    ips(){}
+    ips(uint32_t slot, uint32_t src_host_id, uint32_t src_agg_id, uint32_t dst_host_id, uint32_t dst_agg_id)
+    {
+        this->slot = slot;
+        this->src_host_id = src_host_id;
+        this->src_agg_id = src_agg_id;
+        this->dst_host_id = dst_host_id;
+        this->dst_agg_id = dst_agg_id;
+    }
 };
 
-struct ips // inter-pod schedule
+class ipd // inter-pod deny
 {
+public:
+    uint32_t slot;
     uint32_t src_host_id;
     uint32_t src_agg_id;
-    uint32_t dst_agg_id;
     uint32_t dst_host_id;
+    ipd(){}
+    ipd(uint32_t slot, uint32_t src_host_id, uint32_t src_agg_id, uint32_t dst_host_id)
+    {
+        this->slot = slot;
+        this->src_host_id = src_host_id;
+        this->src_agg_id = src_agg_id;
+        this->dst_host_id = dst_host_id;
+    }
 };
 
-struct core_rts // agg-agg request
+class core_rts // agg-agg request
 {
+public:
+    uint32_t Slot;
+    uint32_t src_id;
+    uint32_t dst_id;
     uint32_t src_agg_id;
     uint32_t dst_agg_id;
+    core_rts(){}
+    core_rts(uint32_t Slot, uint32_t src_id, uint32_t src_agg_id, uint32_t dst_id, uint32_t dst_agg_id)
+    {
+        this->Slot = Slot;
+        this->src_id = src_id;
+        this->src_agg_id = src_agg_id;
+        this->dst_id = dst_id;
+        this->dst_agg_id = dst_agg_id;
+    }
+    
 };
 
-struct core_schd // agg-agg schedule
+class core_schd // agg-agg schedule
 {
+public:
+    uint32_t Slot;
+    uint32_t src_id;
+    uint32_t dst_id;
     uint32_t src_agg_id;
-    u_int32_t core_id;
+    uint32_t core_id;
     uint32_t dst_agg_id;
+    core_schd(){}
+    core_schd(uint32_t Slot, uint32_t src_id, uint32_t src_agg_id, uint32_t core_id, uint32_t dst_id, uint32_t dst_agg_id)
+    {
+        this->Slot = Slot;
+        this->src_id = src_id;
+        this->src_agg_id = src_agg_id;
+        this->core_id = core_id;
+        this->dst_id = dst_id;
+        this->dst_agg_id = dst_agg_id;
+    }
+};
 
+class core_deny // agg-agg deny
+{
+public:
+    uint32_t Slot;
+    uint32_t src_id;
+    uint32_t dst_id;
+    uint32_t src_agg_id;
+    uint32_t dst_agg_id;
+    core_deny(){}
+    core_deny(uint32_t Slot, uint32_t src_id, uint32_t src_agg_id, uint32_t dst_id, uint32_t dst_agg_id)
+    {
+        this->Slot = Slot;
+        this->src_id = src_id;
+        this->src_agg_id = src_agg_id;
+        this->dst_id = dst_id;
+        this->dst_agg_id = dst_agg_id;
+    }
 };
 
 class Packet {
@@ -325,10 +432,10 @@ public:
 class HeirScheduleIPRPkt : public Packet // IPR: Inter-pod Request 用于LA之间交换Inter-pod需求
 {
 public:
-    HeirScheduleIPRPkt(double sending_time, Host *src, Host *dst, struct ipr ipr);
+    HeirScheduleIPRPkt(double sending_time, Host *src, Host *dst, struct ipr* ipr);
     ~HeirScheduleIPRPkt();
 
-    struct ipr ipr;
+    ipr* ipr_info;
     static int new_num;
     static int delete_num;
 
@@ -337,10 +444,21 @@ public:
 class HeirScheduleIPSPkt : public Packet // IPS: Inter-pod Schedule 用于LA之间传递中间结果
 {
 public:
-    HeirScheduleIPSPkt(double sending_time, Host *src, Host *dst, struct ips ips);
+    HeirScheduleIPSPkt(double sending_time, Host *src, Host *dst, ips* ips_info);
     ~HeirScheduleIPSPkt();
 
-    struct ips ips;
+    ips* ips_info;
+    static int new_num;
+    static int delete_num;
+};
+
+class HeirScheduleIPDPkt : public Packet // IPD: Inter-pod Deny 用于LA之间传递拒绝信息
+{
+public:
+    HeirScheduleIPDPkt(double sending_time, Host *src, Host *dst, ipd* ipd_info);
+    ~HeirScheduleIPDPkt();
+
+    ipd* ipd_info;
     static int new_num;
     static int delete_num;
 };
@@ -348,10 +466,10 @@ public:
 class HeirScheduleCoreRequestPkt : public Packet // AAR: Agg-Agg Request 用于LA向GA发起请求
 {
 public:
-    HeirScheduleCoreRequestPkt(double sending_time, Host *src, Host *dst, struct core_rts core_rts);
+    HeirScheduleCoreRequestPkt(double sending_time, Host *src, Host *dst, core_rts* core_rts_info);
     ~HeirScheduleCoreRequestPkt();
 
-    struct core_rts core_rts;
+    core_rts* core_rts_info;
     static int new_num;
     static int delete_num;
 };
@@ -359,10 +477,21 @@ public:
 class HeirScheduleCoreSCHDPkt : public Packet // AAS: Agg-Agg Schedule 用于GA向LA传递agg-core-agg调度结果
 {
 public:
-    HeirScheduleCoreSCHDPkt(double sending_time, Host *src, Host *dst, struct core_schd core_schd);
+    HeirScheduleCoreSCHDPkt(double sending_time, Host *src, Host *dst, core_schd* core_schd_info);
     ~HeirScheduleCoreSCHDPkt();
 
-    struct core_schd core_schd;
+    core_schd* core_schd_info;
+    static int new_num;
+    static int delete_num;
+};
+
+class HeirScheduleCoreDenyPkt : public Packet // AAD: Agg-Agg Deny 用于GA向LA传递拒绝信息
+{
+public:
+    HeirScheduleCoreDenyPkt(double sending_time, Host *src, Host *dst, core_deny* core_deny_info);
+    ~HeirScheduleCoreDenyPkt();
+
+    core_deny* core_deny_info;
     static int new_num;
     static int delete_num;
 };

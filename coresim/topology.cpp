@@ -422,10 +422,14 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     //     }
     // }
     int conn_agg_core[num_agg_switches][params.k/2] = {
-        {0, 1}, {2, 3},
-        {0, 2}, {1, 3},
-        {0, 3}, {1, 2},
-        {0, 3}, {1, 2}
+        {0, 1}, 
+        {2, 3},
+        {0, 2}, 
+        {1, 3},
+        {0, 3}, 
+        {1, 2},
+        {0, 3}, 
+        {1, 2}
     };
     int conn_core_agg[num_core_switches][params.k] = {
         {0, 2, 4, 6},
@@ -433,6 +437,15 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
         {1, 2, 5, 7},
         {1, 3, 4, 6}
     };
+    for(int i = 0; i < num_core_switches; i++){
+        for(int j = 0; j < params.k; j++){
+            for(int m = 0; m < params.k; m++){
+                uint32_t src_agg = conn_core_agg[i][j];
+                uint32_t dst_agg = conn_core_agg[i][m];
+                src_dst_agg_to_core_map[{src_agg, dst_agg}] = i;
+            }
+        }
+    }
     cout << "🍐 Start linking Core switches" << endl;
     cout << "num_agg_switches: " << num_agg_switches << endl;
     cout << "num_core_switches: " << num_core_switches << endl;

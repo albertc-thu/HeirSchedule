@@ -13,7 +13,7 @@ class DCExpParams {
         uint32_t max_cwnd;
         double retx_timeout_value;
         uint32_t mss;
-        uint32_t slot_num_to_record;
+        uint32_t T;
         uint32_t hdr_size;
         uint32_t queue_size;
         uint32_t queue_type;

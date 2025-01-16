@@ -18,7 +18,7 @@ queue_size: 262144
 queue_size_ctrl: 26214
 slot_length: 32
 mss: 512
-slot_num_to_record: 10
+T: 100
 dctcp_mark_thresh: 0.125
 dir_name: {dir_name}
 queue_type: 1

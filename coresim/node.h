@@ -50,8 +50,18 @@ extern DCExpParams params;
 
 class Packet;
 class HeirScheduleDataPkt;
+class HeirScheduleRTSPkt;
+class HeirScheduleIPRPkt;
+class HeirScheduleIPSPkt;
+class HeirScheduleIPDPkt;
+class HeirScheduleCoreRequestPkt;
+class HeirScheduleCoreSCHDPkt;
+class HeirScheduleCoreDenyPkt;
 class Flow;
 class rts;
+class SCHD;
+class ipr;
+class ips;
 
 struct dst_remaining
 {
@@ -70,6 +80,26 @@ struct host_has_flow
     Flow* flow;
     uint32_t remaining_packets;
 };
+
+#include <unordered_map>
+
+struct src_dst_pair {
+    uint32_t src;
+    uint32_t dst;
+
+    bool operator==(const src_dst_pair &other) const {
+        return src == other.src && dst == other.dst;
+    }
+};
+
+namespace std {
+    template <>
+    struct hash<src_dst_pair> {
+        std::size_t operator()(const src_dst_pair &k) const {
+            return ((std::hash<uint32_t>()(k.src) ^ (std::hash<uint32_t>()(k.dst) << 1)) >> 1);
+        }
+    };
+}
 
 class FlowComparator{
     public:
@@ -159,13 +189,29 @@ public:
     void send_sync_message_to_host();
     void receive_delay_request_message_from_host(Packet *packet);
 
+    // 路由
     void receive_rts(Packet *packet);
-    void send_request_to_la(LocalArbiter *dst);
+    void allocate_uplink();
+    void send_request_to_la(LocalArbiter *dst, HeirScheduleIPRPkt *ipr_packet);
     void receive_ipr(Packet *packet);
-    void send_request_to_ga();
+    void allocate_downlink(HeirScheduleIPRPkt *ipr_packet);
+    void send_ips_to_la(LocalArbiter *src, HeirScheduleIPSPkt *ips_packet);
+    void send_deny_to_la(LocalArbiter *src, HeirScheduleIPDPkt* ipd_packet);
+    void receive_ipd(Packet *packet);
+    void take_back_link(HeirScheduleIPDPkt* ipd_packet);
+    void receive_ips(Packet *packet);
+    void update_routing_table(HeirScheduleIPSPkt *ips_packet);
+    
+    void send_request_to_ga(HeirScheduleCoreRequestPkt *core_rts_packet);
+    void receive_core_schd(Packet *packet);
+    void generate_full_path(HeirScheduleCoreSCHDPkt *core_schd_packet);
+    void receive_core_deny(Packet *packet);
+    void take_back_link(HeirScheduleCoreDenyPkt *core_deny_packet);
     
     // vector<Queue *> queues; 
     uint32_t hosts_per_pod = params.k * params.k / 4;
+    uint32_t tors_per_pod = params.k / 2;
+    uint32_t aggs_per_pod = params.k / 2;
     uint32_t num_gcs;
     vector<Queue *> toLCSQueues; //前往host的队列
     vector<Queue *> toGCSQueues; //前往其他Arbiter(LA and GA)的队列
@@ -189,11 +235,15 @@ public:
 
 
     // 路由相关
+    // unordered_map<uint32_t, unordered_map<uint32_t, uint32_t>> src_dst_data_size_table; // 记录每个源-目的对应的数据总量
+    // unordered_map<uint32_t, unordered_map<uint32_t, uint32_t>> src_dst_slot_table; // 记录每个源-目的对应的时间槽
     vector<vector<bool>> host_is_src; // T * k^2/4, hostIsSrc[t][i]表示第t个时隙，第i个Host是否是源节点 
     vector<vector<bool>> host_is_dst; // T * k^2/4, hostIsDst[t][i]表示第t个时隙，第i个Host是否是目的节点
     vector<vector<vector<bool>>> ToR2Agg; // 一个$T * \frac{k}{2} * \frac{k}{2}$的矩阵, ToR2Agg[t][i][j]表示第t个时隙，ToR i->Agg j的链路是否被分配
     vector<vector<vector<bool>>> Agg2ToR; // 一个$T * \frac{k}{2} * \frac{k}{2}$的矩阵, Agg2ToR[t][i][j]表示第t个时隙，Agg i->ToR j的链路是否被分配
-
+    unordered_map<src_dst_pair, uint32_t> src_dst_data_size_table; // 记录每个源-目的对应的数据总量
+    unordered_map<src_dst_pair, uint32_t> src_dst_slot_table; // 记录每个源-目的对应的时间槽
+    unordered_map<src_dst_pair, SCHD*> routing_table; // 记录每个源-目的对应的调度信息
 };
 
 class GlobalArbiter : public Host {
@@ -204,10 +254,18 @@ class GlobalArbiter : public Host {
         void receive_delay_request_message(Packet *packet);
 
         void receive_core_rts(Packet *packet);
+        void allocate_core_link(HeirScheduleCoreRequestPkt *core_rts_packet);
+        void send_core_schd_to_la(HeirScheduleCoreSCHDPkt *core_schd_packet);
+        void send_core_deny_to_la(HeirScheduleCoreDenyPkt *core_deny_packet);
         Queue *toGCSQueue;
         // void recv_agg_agg_rts(); // 从LA接收agg-agg请求
         // void process_agg_agg_rts(); // 处理agg-agg请求
         // void send_agg_agg_schd(); // 向LA发送agg-agg结果
+
+        //- CoreOccupationIn: 一个$T * \frac{k^2}{4} * {k}$的矩阵，CoreOccupationIn[t][i][p]表示第t个时隙，Core i的入端口p是否被分配
+        vector<vector<vector<bool>>> CoreOccupationIn;
+        //- CoreOccupationOut: 一个$T * \frac{k^2}{4} * {k}$的矩阵，CoreOccupationOut[t][i][p]表示第t个时隙，Core i的出端口p是否被分配
+        vector<vector<vector<bool>>> CoreOccupationOut;
 };
 
 class Switch : public Node {
