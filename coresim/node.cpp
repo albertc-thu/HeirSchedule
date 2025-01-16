@@ -518,6 +518,7 @@ void LocalArbiter::receive_rts(Packet* packet){
 
 void LocalArbiter::allocate_uplink(){
     // for (auto it = rts_packet->rts_vector.begin(); it != rts_packet->rts_vector.end(); it++){
+    
     for(auto it = src_dst_data_size_table.begin(); it != src_dst_data_size_table.end(); it++){
         uint32_t src_id = it->first.src;
         uint32_t dst_id = it->first.dst;
@@ -618,6 +619,10 @@ void LocalArbiter::allocate_uplink(){
         // add_to_event_queue(new PacketQueuingEvent(get_current_time(), schd_packet, toLCSQueues[(packet->src->id % hosts_per_pod) / (params.k/2)]));
         // cout << "🐱 LocalArbiter " << this->id << " send schd to Host " << packet->src->id << " @ " << get_current_time() << endl;
     }
+    if(src_dst_data_size_table.size() > 0){
+        add_to_event_queue(new AllocateUplinkEvent(get_current_time() + params.slot_length_in_s, this));
+    }
+    // add_to_event_queue(new AllocateUplinkEvent(get_current_time() + params.slot_length_in_s, this));
     // cout << "🐱 LocalArbiter " << this->id << " process rts from Host @ " << get_current_time() << endl;
 
 }

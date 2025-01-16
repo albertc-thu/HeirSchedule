@@ -46,6 +46,8 @@
 #define AAS_PACKET_ARRIVAL 25
 #define SCHD_PACKET_ARRIVAL 26
 
+#define ALLOCATE_UPLINK 30
+
 extern void add_to_event_queue(Event *);
 
 class Topology;
@@ -312,5 +314,13 @@ class RetxTimeoutEvent : public Event {
 //     Topology* topology;
 // };
 
-#endif /* defined(EVENT_H) */
+class AllocateUplinkEvent : public Event
+{
+public:
+    AllocateUplinkEvent(double time, LocalArbiter* la);
+    ~AllocateUplinkEvent();
+    void process_event();
+    LocalArbiter* la;
+};
 
+#endif /* defined(EVENT_H) */

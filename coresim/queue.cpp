@@ -79,7 +79,7 @@ void Queue::enque(Packet *packet) {
     //     pkt_drop++;
     //     drop(packet);
     // }
-    if(packets.size() >= 1){
+    if(packets.size() >= 1){ // 零缓存
         assert(false);
     }
     packets.push_back(packet);

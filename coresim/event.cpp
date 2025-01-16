@@ -256,7 +256,7 @@ void QueueProcessingEvent::process_event() {
     
     // cout << (packet == nullptr ? "NULL packet" : "normal packet") << endl;
     if (packet) {
-        cout << "✅ not a null paccket" << endl;
+        // cout << "✅ not a null paccket" << endl;
         if (packet->type == SYNC_MSG ){
             SyncMessage* sync_packet = dynamic_cast<SyncMessage*>(packet);
             sync_packet->Dequeue_time = get_current_time();
@@ -342,7 +342,7 @@ void QueueProcessingEvent::process_event() {
             // queue->busy_events.push_back(queuing_evt);
         }
     }else {
-        cout << "❌ null packet" << endl;
+        // cout << "❌ null packet" << endl;
         queue->busy = false;
         // queue->busy_events.clear();
         queue->packet_transmitting = NULL;
@@ -589,3 +589,14 @@ void RetxTimeoutEvent::process_event() {
 //     src->send_final_results();
 // }
 
+AllocateUplinkEvent::AllocateUplinkEvent(double time, LocalArbiter *arbiter)
+    : Event(ALLOCATE_UPLINK, time) {
+        this->la = arbiter;
+    }
+
+AllocateUplinkEvent::~AllocateUplinkEvent() {
+}
+
+void AllocateUplinkEvent::process_event() {
+    la->allocate_uplink();
+}
