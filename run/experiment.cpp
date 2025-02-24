@@ -245,6 +245,10 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
     }
 
     dynamic_cast<HeirScheduleTopology*>(topology)->global_arbiter->send_sync_message_to_la();
+
+    for(uint32_t i = 0; i < params.k / 2; i++){
+        add_to_event_queue(new AllocateUplinkEvent(params.start_time, dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[i]));
+    }
     // cout << "✅ Done Synchronization!\n\n\n" << endl;
     // 测试Host->LA时延
     // for (uint32_t i = 0; i < params.k * params.k * params.k / 4; i++) {
@@ -330,9 +334,9 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
         
 
         // slowdown
-        double slowdown_per_flow = 1e6 * f->flow_completion_time / topology->get_oracle_fct(f);
+        double slowdown_per_flow = 1e6 * f->flow_completion_time / dynamic_cast<HeirScheduleTopology*>(topology)->get_oracle_fct(f);
         cout << "\nFlow id is " << f->id << ", and Slowdown is " << slowdown_per_flow << endl;
-        cout <<  f->flow_completion_time << " " << topology->get_oracle_fct(f) << endl;
+        cout << "completion time: " << f->flow_completion_time << ", oracle fct: " << dynamic_cast<HeirScheduleTopology*>(topology)->get_oracle_fct(f) << endl;
 
 
         if(f->size > 1e7){

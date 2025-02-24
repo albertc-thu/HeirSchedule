@@ -29,7 +29,7 @@ void DctcpQueue::enque(Packet *packet) {
     b_arrivals += packet->size;
     if (bytes_in_queue + packet->size <= limit_bytes) {
         packets.push_back(packet);
-        cout << "🍔 Packet enque in DCTCP queue at " << queue_type_map[this->location] << " @ " << get_current_time() << endl; 
+        // cout << "🍔 Packet enque in DCTCP queue at " << queue_type_map[this->location] << " @ " << get_current_time() << endl; 
         // cout << "🦉 src type: " << this->src->type << " DCTCP queueing packet size: " << packet->size << endl;
         // if(packet->type == HeirScheduleSCHD){
         //     SCHD* schd = ((HeirScheduleSCHDPkt*)packet)->schd;

@@ -10,8 +10,8 @@ max_cwnd: 6
 k: 4
 retx_timeout: 9.50003e-06
 propagation_delay: 1e-6
-propagation_delay_data: 1e-6
-propagation_delay_ctrl: 1e-8
+propagation_delay_data: 1e-06
+propagation_delay_ctrl: 1e-08
 bandwidth_data: 100000000000.0
 bandwidth_ctrl: 10000000000.0
 queue_size: 262144
@@ -69,6 +69,7 @@ cdf_temp = './CDF_{}.txt'
 
 runs = ['heirschedule']
 workloads = ['aditya', 'dctcp', 'datamining']
+workloads = ["W5_0.1"]
 workloads = ["test"]
 
 def getNumLines(trace):
@@ -103,6 +104,7 @@ for r in runs:
         numLines = 1000000
         
         flow_trace = "../flows/flow_data_test/flows_" + w + ".txt"
+        # flow_trace = "../flows/flow_data_8_28/flows_" + w + ".txt"
 
         #  generate conf file
         if r == 'heirschedule':

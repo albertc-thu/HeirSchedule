@@ -90,7 +90,7 @@ void run_scenario() {
     while (event_queue.size() > 0) {
         Event *ev = event_queue.top();
         event_queue.pop();
-        cout << "Event type: " << ev->type << " time: " << ev->time << endl;
+        // cout << "Event type: " << ev->type << " time: " << ev->time << endl;
         current_time = ev->time;
         if (start_time < 0) {
             start_time = current_time;
@@ -109,7 +109,7 @@ void run_scenario() {
         last_evt_type = ev->type;
         
         if(same_evt_count > 100000){
-            std::cout << "Ended event dead loop. Type:" << last_evt_type << "\n";
+            std::cout << "Ended event dead loop. Type:" << last_evt_type << ", same_evt_cnt: " << same_evt_count << "\n";
             break;
         }
 
@@ -123,8 +123,8 @@ int main (int argc, char ** argv) {
     time_t start_time;
     time(&start_time);
 
-    srand(time(NULL));
-    // srand(0);
+    // srand(time(NULL));
+    srand(0);
     std::cout.precision(15);
 
     uint32_t exp_type = atoi(argv[1]);

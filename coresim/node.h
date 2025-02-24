@@ -146,7 +146,7 @@ class HeirScheduleHost : public Host{
         void receive_delay_response_message(Packet *packet);
         
         
-        void host_send_rts();
+        void host_send_rts(Flow* flow);
         void receive_schd_and_send_data(Packet *packet);
         void receive_data_packet(Packet *packet);
 

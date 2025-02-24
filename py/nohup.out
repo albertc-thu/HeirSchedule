@@ -1,0 +1,20 @@
+conf_heirschedule_test.txt
+
+
+../simulator 1 conf_heirschedule_test.txt > ../DATA/test/result_heirschedule_test.txt
+Traceback (most recent call last):
+  File "/home/HeirSchedule/py/run_experiments.py", line 125, in <module>
+    [t.join() for t in threads]
+  File "/home/HeirSchedule/py/run_experiments.py", line 125, in <listcomp>
+    [t.join() for t in threads]
+  File "/root/anaconda3/lib/python3.9/threading.py", line 1053, in join
+    self._wait_for_tstate_lock()
+  File "/root/anaconda3/lib/python3.9/threading.py", line 1069, in _wait_for_tstate_lock
+    elif lock.acquire(block, timeout):
+KeyboardInterrupt
+Killed
+conf_heirschedule_test.txt
+
+
+../simulator 1 conf_heirschedule_test.txt > ../DATA/test/result_heirschedule_test.txt
+finished 1 experiments

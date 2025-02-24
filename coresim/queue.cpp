@@ -79,12 +79,21 @@ void Queue::enque(Packet *packet) {
     //     pkt_drop++;
     //     drop(packet);
     // }
+    // cout << "Now in " << queue_type_map[this->location] << " " << node_type_map[this->src->type] << " " << this->src->id << " to " << node_type_map[this->dst->type] << " " << this->dst->id << ", queue size: " << packets.size() << " @ " << get_current_time() << endl;
     if(packets.size() >= 1){ // 零缓存
+        cout << "💥 collossion! " << queue_type_map[this->location] << ", now in " << node_type_map[this->src->type] << " " << this->src->id << " to " << node_type_map[this->dst->type] << " " << this->dst->id << ", queue size: " << packets.size() << " @ " << get_current_time() << endl;
+        cout << "Packet to be enqueued: from " << packet->src->id << " to " << packet->dst->id << ", unique_id: " << packet->unique_id << " @ " << get_current_time();
+        cout << ", Slot: " << packet->path->slot << ", src_host: " << packet->path->src_host_id << ", src_tor: " << packet->path->src_tor_id << ", src_agg: " << packet->path->src_agg_id << ", core: " << packet->path->core_id << ", dst_agg: " << packet->path->dst_agg_id << ", dst_tor: " << packet->path->dst_tor_id << ", dst_host: " << packet->path->dst_host_id << endl;
+        for(int i = 0; i < packets.size(); i++){
+            Packet* p = packets[i];
+            cout << "Packet existed: from " << p->src->id << " to " << p->dst->id << ", unique_id: " << p->unique_id << " @ " << get_current_time();
+            cout << ", Slot: " << p->path->slot << ", src_host: " << p->path->src_host_id << ", src_tor: " << p->path->src_tor_id << ", src_agg: " << p->path->src_agg_id << ", core: " << p->path->core_id << ", dst_agg: " << p->path->dst_agg_id << ", dst_tor: " << p->path->dst_tor_id << ", dst_host: " << p->path->dst_host_id << endl;
+        }
         assert(false);
     }
     packets.push_back(packet);
     bytes_in_queue += packet->size;
-    cout << "🍔 Packet " << packet->unique_id << " enque in queue at " << queue_type_map[this->location] << ", bytes in queue: " << bytes_in_queue << " @ " << get_current_time() << endl; 
+    // cout << "🍔 Packet " << packet->unique_id << " enque in queue at " << queue_type_map[this->location] << ", bytes in queue: " << bytes_in_queue << " @ " << get_current_time() << endl; 
 
     // cout << "🍊 enqueue, " << queue_type_map[this->location] << " queue size: " << packets.size() << endl;
 }
@@ -96,7 +105,7 @@ Packet *Queue::deque() {
         //     cout << "🐼 has bytes in queue, packets.size(): " << packets.size() << endl;
         // }
         Packet *p = packets.front();
-        cout << "🍚 Packet " << p->unique_id << " deque in queue at " << queue_type_map[this->location] << " from " << node_type_map[this->src->type] << " " << this->src->id << " to " << node_type_map[this->dst->type] << " " << this->dst->id << ", bytes in queue: " << bytes_in_queue << " @ " << get_current_time() << endl; 
+        // cout << "🍚 Packet " << p->unique_id << " deque in queue at " << queue_type_map[this->location] << " from " << node_type_map[this->src->type] << " " << this->src->id << " to " << node_type_map[this->dst->type] << " " << this->dst->id << ", bytes in queue: " << bytes_in_queue << " @ " << get_current_time() << endl; 
         // if(p->type == HeirScheduleSCHD){
         //     SCHD* schd = ((HeirScheduleSCHDPkt*)p)->schd;
         //     cout << "🥭 schd's address: " << schd << endl;

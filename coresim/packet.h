@@ -188,6 +188,7 @@ public:
     uint32_t dst_id;
     uint32_t src_agg_id;
     uint32_t dst_agg_id;
+    bool is_src_la; // 给src_la还是dst_la
     core_deny(){}
     core_deny(uint32_t Slot, uint32_t src_id, uint32_t src_agg_id, uint32_t dst_id, uint32_t dst_agg_id)
     {

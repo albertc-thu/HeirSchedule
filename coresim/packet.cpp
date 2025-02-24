@@ -168,6 +168,7 @@ HeirScheduleSCHDPkt::HeirScheduleSCHDPkt(double sending_time, Host *src, Host *d
 
 HeirScheduleSCHDPkt::~HeirScheduleSCHDPkt()
 {
+    delete schd;
     delete_num++;
 }
 
@@ -182,6 +183,7 @@ HeirScheduleIPRPkt::HeirScheduleIPRPkt(double sending_time, Host *src, Host *dst
 
 HeirScheduleIPRPkt::~HeirScheduleIPRPkt()
 {
+    delete ipr_info;
     delete_num++;
 }
 
@@ -196,6 +198,7 @@ HeirScheduleIPSPkt::HeirScheduleIPSPkt(double sending_time, Host *src, Host *dst
 
 HeirScheduleIPSPkt::~HeirScheduleIPSPkt()
 {
+    delete ips_info;
     delete_num++;
 }
 
@@ -210,6 +213,7 @@ HeirScheduleIPDPkt::HeirScheduleIPDPkt(double sending_time, Host *src, Host *dst
 
 HeirScheduleIPDPkt::~HeirScheduleIPDPkt()
 {
+    delete ipd_info;
     delete_num++;
 }
 
@@ -225,6 +229,7 @@ HeirScheduleCoreRequestPkt::HeirScheduleCoreRequestPkt(double sending_time, Host
 
 HeirScheduleCoreRequestPkt::~HeirScheduleCoreRequestPkt()
 {
+    delete core_rts_info;
     delete_num++;
 }
 
@@ -239,6 +244,7 @@ HeirScheduleCoreSCHDPkt::HeirScheduleCoreSCHDPkt(double sending_time, Host *src,
 
 HeirScheduleCoreSCHDPkt::~HeirScheduleCoreSCHDPkt()
 {
+    delete core_schd_info;
     delete_num++;
 }
 
@@ -253,5 +259,6 @@ HeirScheduleCoreDenyPkt::HeirScheduleCoreDenyPkt(double sending_time, Host *src,
 
 HeirScheduleCoreDenyPkt::~HeirScheduleCoreDenyPkt()
 {
+    delete core_deny_info;
     delete_num++;
 }

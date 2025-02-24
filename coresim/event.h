@@ -47,10 +47,12 @@
 #define SCHD_PACKET_ARRIVAL 26
 
 #define ALLOCATE_UPLINK 30
+#define RESTORE_LINK 31
 
 extern void add_to_event_queue(Event *);
 
 class Topology;
+class core_schd;
 
 class Event {
     public:
@@ -321,6 +323,15 @@ public:
     ~AllocateUplinkEvent();
     void process_event();
     LocalArbiter* la;
+};
+
+class RestoreLinkEvent : public Event
+{
+public:
+    RestoreLinkEvent(double time, core_schd* schd);
+    ~RestoreLinkEvent();
+    void process_event();
+    core_schd* schd;
 };
 
 #endif /* defined(EVENT_H) */

@@ -18,7 +18,7 @@ queue_type: 1
 hdr_size: 40
 flow_type: 112
 num_flow: 1000000
-flow_trace: ../flows/flow_data_test/flows_test.txt
+flow_trace: ../flows/flow_data_test/flows_W5_test.txt
 cut_through: 1
 mean_flow_size: 0
 load_balancing: 0

@@ -85,7 +85,8 @@ class HeirScheduleTopology : public Topology{
         std::vector<GlobalControlSwitch *> global_control_switches;
 
         unordered_map<src_dst_pair, uint32_t> src_dst_agg_to_core_map;
-
+        unordered_map<uint32_t, unordered_map<uint32_t, uint32_t>> agg_to_core_port;
+        unordered_map<uint32_t, unordered_map<uint32_t, uint32_t>> core_to_agg_port;
         
         uint32_t epoch;
 

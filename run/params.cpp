@@ -178,6 +178,7 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         }
         else if (key == "propagation_delay_data") {
             lineStream >> params.propagation_delay_data;
+            // std::cout << "🐷 propagation_delay_data: " << params.propagation_delay_data << std::endl;
         }
         else if (key == "propagation_delay_ctrl") {
             lineStream >> params.propagation_delay_ctrl;
@@ -217,6 +218,7 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
     }
     params.slot_length_in_s = params.slot_length * (params.mss + params.hdr_size) * 8 / params.bandwidth_data;
     std::cout << "🐷 slot_length_in_s: " << params.slot_length_in_s << std::endl;
+    params.arbiter_lag = 5;
 
     // params.mss = 1460;
 }

@@ -389,7 +389,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     }
     cout << "🍎 Finished linking ToR switches" << endl;
 
-    // agg->tor and agg->core
+    // agg->tor
     for (uint32_t i = 0; i < num_agg_switches; i++)
     {
         // agg to tor
@@ -443,13 +443,30 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
                 uint32_t src_agg = conn_core_agg[i][j];
                 uint32_t dst_agg = conn_core_agg[i][m];
                 src_dst_agg_to_core_map[{src_agg, dst_agg}] = i;
+                printf("🍐 src_dst_agg_to_core_map[{%d, %d}] = %d\n", src_agg, dst_agg, i);
             }
         }
     }
+    for(uint32_t agg_id = 0; agg_id < num_agg_switches; agg_id++){
+        for(uint32_t _port = 0; _port < params.k / 2; _port++){
+            uint32_t core_id = conn_agg_core[agg_id][_port];
+            agg_to_core_port[agg_id][core_id] = _port;
+            printf("🍠 agg_to_core_port[%d][%d] = %d\n", agg_id, core_id, _port);
+        }
+    }
+    for(uint32_t core_id = 0; core_id < num_core_switches; core_id++){
+        for(uint32_t _port = 0; _port < params.k; _port++){
+            uint32_t agg_id = conn_core_agg[core_id][_port];
+            core_to_agg_port[core_id][agg_id] = _port;
+            printf("🍠 core_to_agg_port[%d][%d] = %d\n", core_id, agg_id, _port);
+        }
+    }
+    // 以上均只有前一半拓扑是有效的
     cout << "🍐 Start linking Core switches" << endl;
     cout << "num_agg_switches: " << num_agg_switches << endl;
     cout << "num_core_switches: " << num_core_switches << endl;
 
+    // agg->core
     for (uint32_t i = 0; i < num_agg_switches; i++)
     {
         for (uint32_t j = 0; j < params.k / 2; j++){
@@ -459,6 +476,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
             agg->toCoreQueues[j]->set_src_dst(agg, core);
         }
     }
+    // core->agg
     for (uint32_t i = 0; i < num_core_switches; i++)
     {
         for (uint32_t j = 0; j < params.k; j++){
@@ -596,7 +614,7 @@ double HeirScheduleTopology::get_oracle_fct(Flow* f)
     double propagation_delay;
     if(!params.ddc) {
         if (num_hops == 2) {
-            propagation_delay = 2 * 1000000.0 * 2 * hosts[0]->toToRQueue->propagation_delay; //us
+            propagation_delay = 2 * 2 * hosts[0]->toToRQueue->propagation_delay;
         }
         if (num_hops == 4) {
             propagation_delay =
@@ -614,6 +632,7 @@ double HeirScheduleTopology::get_oracle_fct(Flow* f)
         // 暂时不考虑 ddc 的情况
         assert(false);
     }
+    // cout << "🍒 Propagation delay: " << propagation_delay << endl;
     propagation_delay *= 1000000.0; // 微秒
 
     // 获取数据包的总数，注意是 uint32_t 除法
@@ -653,7 +672,7 @@ double HeirScheduleTopology::get_oracle_fct(Flow* f)
                 params.hdr_size / agg_switches[0]->toToRQueues[0]->rate + \
                 params.hdr_size / tor_switches[0]->toHostQueues[0]->rate) * 8.0;
         }
-        //std::cout << "pd: " << propagation_delay << " td: " << transmission_delay << std::endl;
+        // std::cout << "pd: " << propagation_delay << " td: " << transmission_delay << std::endl;
     }
     else
     {
@@ -661,6 +680,7 @@ double HeirScheduleTopology::get_oracle_fct(Flow* f)
         assert(false);
     }
     transmission_delay *= 1000000.0; // 微秒
+    // cout << "🚀 Propagation delay: " << propagation_delay << " Transmission delay: " << transmission_delay << endl;
 
     return (propagation_delay + transmission_delay); //us
 
@@ -675,10 +695,12 @@ Queue* HeirScheduleTopology::get_next_hop(Packet *p, Queue *q){
             return ((ToRSwitch *) q->dst)->toAggQueues[p->path->src_agg_id % (k / 2)];
         }
         else if(q->location == TOR_TO_AGG){
-            return ((AggSwitch *) q->dst)->toCoreQueues[p->path->core_id % (k / 2)];
+            uint32_t _port = agg_to_core_port[p->path->src_agg_id][p->path->core_id];
+            return ((AggSwitch *) q->dst)->toCoreQueues[_port];
         }
         else if(q->location == AGG_TO_CORE){
-            return ((CoreSwitch *) q->dst)->toAggQueues[p->path->dst_agg_id / (k / 2)]; //要看是哪个pod
+            uint32_t _port = core_to_agg_port[p->path->core_id][p->path->dst_agg_id];
+            return ((CoreSwitch *) q->dst)->toAggQueues[_port]; //要看是哪个pod
         }
         else if(q->location == CORE_TO_AGG){
             return ((AggSwitch *) q->dst)->toToRQueues[p->path->dst_tor_id % (k / 2)]; 

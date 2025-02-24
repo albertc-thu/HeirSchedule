@@ -183,7 +183,7 @@ void FlowArrivalEvent::process_event() {
         src->per_dst_queues[0][dst->id].push_back(new_data_1);
     }
 
-    src->host_send_rts();
+    src->host_send_rts(flow);
 }
 
 PacketQueuingEvent::PacketQueuingEvent(double time, Packet *packet, Queue *queue)
@@ -599,4 +599,35 @@ AllocateUplinkEvent::~AllocateUplinkEvent() {
 
 void AllocateUplinkEvent::process_event() {
     la->allocate_uplink();
+}
+
+RestoreLinkEvent::RestoreLinkEvent(double time, core_schd *schd)
+    : Event(RESTORE_LINK, time) {
+        this->schd = schd;
+    }
+
+RestoreLinkEvent::~RestoreLinkEvent() {
+    delete schd;
+}
+
+void RestoreLinkEvent::process_event() {
+    uint32_t Slot = schd->Slot;
+    cout << "🐳 Restore link @ " << get_current_time() << ", the Slot time is " << Slot * params.slot_length_in_s << endl;
+    uint32_t src_id = schd->src_id;
+    uint32_t src_tor_id = src_id / (params.k / 2);
+    uint32_t src_agg_id = schd->src_agg_id;
+    uint32_t dst_id = schd->dst_id;
+    uint32_t dst_tor_id = dst_id / (params.k / 2);
+    uint32_t dst_agg_id = schd->dst_agg_id;
+    uint32_t core_id = schd->core_id;
+    HeirScheduleTopology* topo = dynamic_cast<HeirScheduleTopology*>(topology);
+    LocalArbiter *src_la = topo->local_arbiters[src_id / (params.k * params.k / 4)];
+    LocalArbiter *dst_la = topo->local_arbiters[dst_id / (params.k * params.k / 4)];
+    GlobalArbiter *ga = topo->global_arbiter;
+    src_la->host_is_src[Slot % params.T][src_id % src_la->hosts_per_pod] = false;
+    dst_la->host_is_dst[Slot % params.T][dst_id % dst_la->hosts_per_pod] = false;
+    src_la->ToR2Agg[Slot % params.T][src_tor_id % src_la->tors_per_pod][src_agg_id % src_la->aggs_per_pod] = false;
+    dst_la->Agg2ToR[Slot % params.T][dst_agg_id % src_la->aggs_per_pod][dst_tor_id % src_la->tors_per_pod] = false;
+    ga->CoreOccupationIn[Slot % params.T][core_id][src_agg_id] = false;
+    ga->CoreOccupationOut[Slot % params.T][core_id][dst_agg_id] = false;
 }

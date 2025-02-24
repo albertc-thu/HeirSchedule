@@ -82,6 +82,7 @@ class DCExpParams {
         double bandwidth_data;
         double bandwidth_ctrl;
         uint32_t queue_size_ctrl;
+        uint32_t arbiter_lag; // in Slots
 
         double get_full_pkt_tran_delay(uint32_t size_in_byte = 1500)
         {
@@ -95,6 +96,7 @@ class DCExpParams {
         int pias;
         uint32_t pias_1;
         uint32_t pias_2;
+        double start_time = 1.0;
 
 };
 
