@@ -250,13 +250,13 @@ double BigSwitchTopology::get_oracle_fct(Flow *f) {
 
 HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double rate_control, uint32_t queue_type): Topology(){
     this->k = k;
-    this->num_hosts = k*k*k/4;
-    this->num_tor_switches = k*k / 2;
-    this->num_agg_switches = k*k / 2;
+    this->num_hosts = k*k*k/8;
+    this->num_tor_switches = k*k / 4;
+    this->num_agg_switches = k*k / 4;
     this->num_core_switches = k*k/4;
-    this->num_local_arbiters = k;
+    this->num_local_arbiters = k/2;
     this->num_global_arbiters = 1;
-    this->num_lcs = k*k / 2;
+    this->num_lcs = k*k / 4;
     this->num_gcs = 1;
 
 
@@ -264,7 +264,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     uint32_t tors_per_agg_switch = k / 2;
     uint32_t aggs_per_tor_switch = k / 2;
     uint32_t hosts_per_tor_switch = k / 2;
-    uint32_t aggs_per_core_switch = k;
+    uint32_t aggs_per_core_switch = k / 2;
     uint32_t tors_per_pod = k / 2;
     uint32_t aggs_per_pod = k / 2;
     
@@ -272,7 +272,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     uint32_t las_per_lcs = 1;
     uint32_t lcs_per_la = k / 2;
     uint32_t gcs_per_la = 1; // 每个local arbiter连接一个gcs
-    uint32_t las_per_gcs = k; // gcs: global control switch
+    uint32_t las_per_gcs = k / 2; // gcs: global control switch
     uint32_t gas_per_gcs = 1;
     uint32_t gcs_per_ga = 1;
     assert(gas_per_gcs == 1);
@@ -421,25 +421,94 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     //         // std::cout << "Linking Core " << i << " to Agg" << i / cores_per_agg_switch * aggs_per_pod + j << " with queue " << q->id << " " << q->unique_id << "\n";
     //     }
     // }
+    // int conn_agg_core[num_agg_switches][params.k/2] = {
+    //     {0, 1}, 
+    //     {2, 3},
+    //     {0, 2}, 
+    //     {1, 3},
+    //     {0, 3}, 
+    //     {1, 2},
+    //     {0, 3}, 
+    //     {1, 2}
+    // };
+    // int conn_core_agg[num_core_switches][params.k] = {
+    //     {0, 2, 4, 6},
+    //     {0, 3, 5, 7},
+    //     {1, 2, 5, 7},
+    //     {1, 3, 4, 6}
+    // };
+    //     n = 5时生成的排列：
+    // 排列1: 0 1 2 3 4|5 6 7 8 9|10 11 12 13 14|15 16 17 18 19|20 21 22 23 24]
+    // 排列2: 0 9 13 17 21|1 5 14 18 22|2 6 10 19 23|3 7 11 15 24|4 8 12 16 20]
+    // 排列3: 0 7 14 16 23|3 5 12 19 21|1 8 10 17 24|4 6 13 15 22|2 9 11 18 20]
+    // 排列4: 0 8 11 19 22|2 5 13 16 24|4 7 10 18 21|1 9 12 15 23|3 6 14 17 20]
+    // 排列5: 0 6 12 18 24|4 5 11 17 23|3 9 10 16 22|2 8 14 15 21|1 7 13 19 20]
+    
+    // agg->core
     int conn_agg_core[num_agg_switches][params.k/2] = {
-        {0, 1}, 
-        {2, 3},
-        {0, 2}, 
-        {1, 3},
-        {0, 3}, 
-        {1, 2},
-        {0, 3}, 
-        {1, 2}
+        {0, 1, 2, 3, 4}, {5, 6, 7, 8, 9}, {10, 11, 12, 13, 14}, {15, 16, 17, 18, 19}, {20, 21, 22, 23, 24},
+        {0, 9, 13, 17, 21}, {1, 5, 14, 18, 22}, {2, 6, 10, 19, 23}, {3, 7, 11, 15, 24}, {4, 8, 12, 16, 20},
+        {0, 7, 14, 16, 23}, {3, 5, 12, 19, 21}, {1, 8, 10, 17, 24}, {4, 6, 13, 15, 22}, {2, 9, 11, 18, 20},
+        {0, 8, 11, 19, 22}, {2, 5, 13, 16, 24}, {4, 7, 10, 18, 21}, {1, 9, 12, 15, 23}, {3, 6, 14, 17, 20},
+        {0, 6, 12, 18, 24}, {4, 5, 11, 17, 23}, {3, 9, 10, 16, 22}, {2, 8, 14, 15, 21}, {1, 7, 13, 19, 20}
     };
-    int conn_core_agg[num_core_switches][params.k] = {
-        {0, 2, 4, 6},
-        {0, 3, 5, 7},
-        {1, 2, 5, 7},
-        {1, 3, 4, 6}
+    // core->agg
+    // 数字0在排列中的位置：[0, 5, 10, 15, 20]
+    // 数字1在排列中的位置：[0, 6, 12, 18, 24]
+    // 数字2在排列中的位置：[0, 7, 14, 16, 23]
+    // 数字3在排列中的位置：[0, 8, 11, 19, 22]
+    // 数字4在排列中的位置：[0, 9, 13, 17, 21]
+    // 数字5在排列中的位置：[1, 6, 11, 16, 21]
+    // 数字6在排列中的位置：[1, 7, 13, 19, 20]
+    // 数字7在排列中的位置：[1, 8, 10, 17, 24]
+    // 数字8在排列中的位置：[1, 9, 12, 15, 23]
+    // 数字9在排列中的位置：[1, 5, 14, 18, 22]
+    // 数字10在排列中的位置：[2, 7, 12, 17, 22]
+    // 数字11在排列中的位置：[2, 8, 14, 15, 21]
+    // 数字12在排列中的位置：[2, 9, 11, 18, 20]
+    // 数字13在排列中的位置：[2, 5, 13, 16, 24]
+    // 数字14在排列中的位置：[2, 6, 10, 19, 23]
+    // 数字15在排列中的位置：[3, 8, 13, 18, 23]
+    // 数字16在排列中的位置：[3, 9, 10, 16, 22]
+    // 数字17在排列中的位置：[3, 5, 12, 19, 21]
+    // 数字18在排列中的位置：[3, 6, 14, 17, 20]
+    // 数字19在排列中的位置：[3, 7, 11, 15, 24]
+    // 数字20在排列中的位置：[4, 9, 14, 19, 24]
+    // 数字21在排列中的位置：[4, 5, 11, 17, 23]
+    // 数字22在排列中的位置：[4, 6, 13, 15, 22]
+    // 数字23在排列中的位置：[4, 7, 10, 18, 21]
+    // 数字24在排列中的位置：[4, 8, 12, 16, 20]
+    int conn_core_agg[num_core_switches][params.k/2] = {
+        {0, 5, 10, 15, 20},
+        {0, 6, 12, 18, 24},
+        {0, 7, 14, 16, 23},
+        {0, 8, 11, 19, 22},
+        {0, 9, 13, 17, 21},
+        {1, 6, 11, 16, 21},
+        {1, 7, 13, 19, 20},
+        {1, 8, 10, 17, 24},
+        {1, 9, 12, 15, 23},
+        {1, 5, 14, 18, 22},
+        {2, 7, 12, 17, 22},
+        {2, 8, 14, 15, 21},
+        {2, 9, 11, 18, 20},
+        {2, 5, 13, 16, 24},
+        {2, 6, 10, 19, 23},
+        {3, 8, 13, 18, 23},
+        {3, 9, 10, 16, 22},
+        {3, 5, 12, 19, 21},
+        {3, 6, 14, 17, 20},
+        {3, 7, 11, 15, 24},
+        {4, 9, 14, 19, 24},
+        {4, 5, 11, 17, 23},
+        {4, 6, 13, 15, 22},
+        {4, 7, 10, 18, 21},
+        {4, 8, 12, 16, 20}
     };
-    for(int i = 0; i < num_core_switches; i++){
-        for(int j = 0; j < params.k; j++){
-            for(int m = 0; m < params.k; m++){
+
+    for(int i = 0; i < num_core_switches; i++){ // core id
+        for(int j = 0; j < params.k/2; j++){ // port in 
+            for(int m = 0; m < params.k/2; m++){ // port out
                 uint32_t src_agg = conn_core_agg[i][j];
                 uint32_t dst_agg = conn_core_agg[i][m];
                 src_dst_agg_to_core_map[{src_agg, dst_agg}] = i;
@@ -455,13 +524,13 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
         }
     }
     for(uint32_t core_id = 0; core_id < num_core_switches; core_id++){
-        for(uint32_t _port = 0; _port < params.k; _port++){
+        for(uint32_t _port = 0; _port < params.k / 2; _port++){
             uint32_t agg_id = conn_core_agg[core_id][_port];
             core_to_agg_port[core_id][agg_id] = _port;
             printf("🍠 core_to_agg_port[%d][%d] = %d\n", core_id, agg_id, _port);
         }
     }
-    // 以上均只有前一半拓扑是有效的
+
     cout << "🍐 Start linking Core switches" << endl;
     cout << "num_agg_switches: " << num_agg_switches << endl;
     cout << "num_core_switches: " << num_core_switches << endl;
@@ -479,7 +548,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     // core->agg
     for (uint32_t i = 0; i < num_core_switches; i++)
     {
-        for (uint32_t j = 0; j < params.k; j++){
+        for (uint32_t j = 0; j < params.k / 2; j++){
             cout << "🍐 Linking Core " << i << " to Agg " << conn_core_agg[i][j] << endl;
             CoreSwitch *core = core_switches[i];
             AggSwitch *agg = agg_switches[conn_core_agg[i][j]];

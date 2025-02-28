@@ -84,9 +84,9 @@ class HeirScheduleTopology : public Topology{
         std::vector<LocalControlSwitch *> local_control_switches;
         std::vector<GlobalControlSwitch *> global_control_switches;
 
-        unordered_map<src_dst_pair, uint32_t> src_dst_agg_to_core_map;
-        unordered_map<uint32_t, unordered_map<uint32_t, uint32_t>> agg_to_core_port;
-        unordered_map<uint32_t, unordered_map<uint32_t, uint32_t>> core_to_agg_port;
+        unordered_map<src_dst_pair, uint32_t> src_dst_agg_to_core_map; // 记录每个源-目的agg对应的core id
+        unordered_map<uint32_t, unordered_map<uint32_t, uint32_t>> agg_to_core_port; // 记录每个agg到core的端口
+        unordered_map<uint32_t, unordered_map<uint32_t, uint32_t>> core_to_agg_port; // 记录每个core到agg的端口
         
         uint32_t epoch;
 

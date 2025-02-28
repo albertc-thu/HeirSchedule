@@ -77,7 +77,7 @@ HeirScheduleHost::HeirScheduleHost(uint32_t id, double rate_data, double rate_co
 
     // 初始化优先级队列
     uint32_t port_num = params.k;
-    uint32_t server_num = port_num * port_num * port_num / 4;
+    uint32_t server_num = port_num * port_num * port_num / 8;
 
     this->per_dst_queues.resize(3); // 一共分为三个优先级
     for(int i = 0; i < 3; i++){
@@ -475,8 +475,8 @@ void LocalArbiter::receive_delay_response_message(Packet *packet){
 }
 
 void LocalArbiter::send_sync_message_to_host(){
-    for (uint32_t i = 0; i < params.k/2 * params.k/2; i++){
-        uint32_t host_id = this->id * params.k/2 * params.k/2 + i;
+    for (uint32_t i = 0; i < hosts_per_pod; i++){
+        uint32_t host_id = this->id * hosts_per_pod + i;
         SyncMessage *sync_packet = new SyncMessage(this, dynamic_cast<HeirScheduleTopology*>(topology)->hosts[host_id], get_current_time() + local_time_bias);
         add_to_event_queue(new PacketQueuingEvent(get_current_time(), sync_packet, toLCSQueues[i / (params.k/2)]));
         cout << "💻 LocalArbiter " << this->id << " send sync message to Host " << i << endl;
@@ -488,7 +488,7 @@ void LocalArbiter::receive_delay_request_message_from_host(Packet *packet){
     DelayRequestMessage *delay_request_packet = (DelayRequestMessage *)packet;
     double T4_time = get_current_time() + local_time_bias - delay_request_packet->innetwork_delay;
     DelayResponseMessage *delay_response_packet = new DelayResponseMessage(this, packet->src, T4_time);
-    add_to_event_queue(new PacketQueuingEvent(get_current_time(), delay_response_packet, toLCSQueues[(packet->src->id % ((params.k/2) * (params.k/2) )) / (params.k/2)]));    
+    add_to_event_queue(new PacketQueuingEvent(get_current_time(), delay_response_packet, toLCSQueues[(packet->src->id % hosts_per_pod) / (params.k/2)]));    
 }
 
 // void LocalArbiter::send_interpod_rts(double time){
@@ -565,7 +565,7 @@ void LocalArbiter::allocate_uplink(){
             random_shuffle(k_2.begin(), k_2.end());
             
             for(int i = 0; i < params.k / 2; i++){
-                agg_id = k_2[i] + params.k / 2cd * this->id; // 需要加上bias
+                agg_id = k_2[i] + params.k / 2 * this->id; // 需要加上bias
                 if(ToR2Agg[Slot % params.T][src_toR % tors_per_pod][agg_id % aggs_per_pod] == false){
                     src_Agg_allocated = true;
                     break;
@@ -922,8 +922,8 @@ GlobalArbiter::GlobalArbiter(uint32_t id, double rate, uint32_t queue_type) : Ho
         vector<vector<bool>> CoreOccupationIn_t;
         vector<vector<bool>> CoreOccupationOut_t;
         for(uint32_t j = 0; j < params.k * params.k / 4; j++){ // core的数量
-            CoreOccupationIn_t.push_back(vector<bool>(params.k, false));
-            CoreOccupationOut_t.push_back(vector<bool>(params.k, false));
+            CoreOccupationIn_t.push_back(vector<bool>(params.k / 2, false));
+            CoreOccupationOut_t.push_back(vector<bool>(params.k / 2, false));
         }
         this->CoreOccupationIn.push_back(CoreOccupationIn_t);
         this->CoreOccupationOut.push_back(CoreOccupationOut_t);
@@ -931,7 +931,7 @@ GlobalArbiter::GlobalArbiter(uint32_t id, double rate, uint32_t queue_type) : Ho
 }
 
 void GlobalArbiter::send_sync_message_to_la(){
-    for (uint32_t i = 0; i < params.k; i++){
+    for (uint32_t i = 0; i < params.k / 2; i++){
     // for (uint32_t i = 0; i < 1; i++){
         SyncMessage *sync_packet = new SyncMessage(this, dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[i], get_current_time() + local_time_bias);
         add_to_event_queue(new PacketQueuingEvent(get_current_time(), sync_packet, toGCSQueue));

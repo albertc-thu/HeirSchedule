@@ -7,7 +7,7 @@ import os
 
 conf_str_heirschedule = '''init_cwnd: 2
 max_cwnd: 6
-k: 4
+k: 10
 retx_timeout: 9.50003e-06
 propagation_delay: 1e-6
 propagation_delay_data: 1e-06

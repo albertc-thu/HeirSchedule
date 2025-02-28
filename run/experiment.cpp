@@ -243,7 +243,8 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
     if (params.flow_type == FASTPASS_FLOW) {
         dynamic_cast<FastpassTopology*>(topology)->arbiter->start_arbiter();
     }
-
+    
+    // 时间同步
     dynamic_cast<HeirScheduleTopology*>(topology)->global_arbiter->send_sync_message_to_la();
 
     for(uint32_t i = 0; i < params.k / 2; i++){

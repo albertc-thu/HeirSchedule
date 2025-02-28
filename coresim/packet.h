@@ -90,6 +90,7 @@ class ipr // inter-pod request
 {
 public:
     uint32_t slot;
+    uint32_t slot_end;
     uint32_t src_host_id;
     uint32_t src_agg_id;
     uint32_t dst_host_id;
