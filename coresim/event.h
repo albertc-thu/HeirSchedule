@@ -48,6 +48,7 @@
 
 #define ALLOCATE_UPLINK 30
 #define RESTORE_LINK 31
+#define CORE_ALLOCATE_LINK 30
 
 extern void add_to_event_queue(Event *);
 
@@ -332,6 +333,15 @@ public:
     ~RestoreLinkEvent();
     void process_event();
     core_schd* schd;
+};
+
+class CoreAllocateLinkEvent : public Event
+{
+public:
+    CoreAllocateLinkEvent(double time, GlobalArbiter* ga);
+    ~CoreAllocateLinkEvent();
+    void process_event();
+    GlobalArbiter* ga;
 };
 
 #endif /* defined(EVENT_H) */

@@ -204,6 +204,9 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         else if (key == "dir_name"){
             lineStream >> params.dir_name;
         }
+        else if (key == "max_slot_to_allocate"){
+            lineStream >> params.max_slot_to_allocate;
+        }
         //else if (key == "dctcp_delayed_ack_freq") {
         //    lineStream >> params.dctcp_delayed_ack_freq;
         //}

@@ -250,6 +250,7 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
     for(uint32_t i = 0; i < params.k / 2; i++){
         add_to_event_queue(new AllocateUplinkEvent(params.start_time, dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[i]));
     }
+    add_to_event_queue(new CoreAllocateLinkEvent(params.start_time, dynamic_cast<HeirScheduleTopology*>(topology)->global_arbiter));
     // cout << "✅ Done Synchronization!\n\n\n" << endl;
     // 测试Host->LA时延
     // for (uint32_t i = 0; i < params.k * params.k * params.k / 4; i++) {

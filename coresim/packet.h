@@ -94,10 +94,12 @@ public:
     uint32_t src_host_id;
     uint32_t src_agg_id;
     uint32_t dst_host_id;
+    static const uint32_t info_size = 16;
     ipr(){}
     ipr(uint32_t slot, uint32_t src_host_id, uint32_t src_agg_id, uint32_t dst_host_id)
     {
         this->slot = slot;
+        this->slot_end = slot_end;
         this->src_host_id = src_host_id;
         this->src_agg_id = src_agg_id;
         this->dst_host_id = dst_host_id;
@@ -148,6 +150,7 @@ public:
     uint32_t dst_id;
     uint32_t src_agg_id;
     uint32_t dst_agg_id;
+    static const uint32_t info_size = 20;
     core_rts(){}
     core_rts(uint32_t Slot, uint32_t src_id, uint32_t src_agg_id, uint32_t dst_id, uint32_t dst_agg_id)
     {
@@ -169,6 +172,7 @@ public:
     uint32_t src_agg_id;
     uint32_t core_id;
     uint32_t dst_agg_id;
+    static const uint32_t info_size = 20;
     core_schd(){}
     core_schd(uint32_t Slot, uint32_t src_id, uint32_t src_agg_id, uint32_t core_id, uint32_t dst_id, uint32_t dst_agg_id)
     {
@@ -190,6 +194,7 @@ public:
     uint32_t src_agg_id;
     uint32_t dst_agg_id;
     bool is_src_la; // 给src_la还是dst_la
+    static const uint32_t info_size = 20;
     core_deny(){}
     core_deny(uint32_t Slot, uint32_t src_id, uint32_t src_agg_id, uint32_t dst_id, uint32_t dst_agg_id)
     {
@@ -434,10 +439,10 @@ public:
 class HeirScheduleIPRPkt : public Packet // IPR: Inter-pod Request 用于LA之间交换Inter-pod需求
 {
 public:
-    HeirScheduleIPRPkt(double sending_time, Host *src, Host *dst, struct ipr* ipr);
+    HeirScheduleIPRPkt(double sending_time, Host *src, Host *dst);
     ~HeirScheduleIPRPkt();
 
-    ipr* ipr_info;
+    vector<ipr*> ipr_info;
     static int new_num;
     static int delete_num;
 
@@ -468,10 +473,10 @@ public:
 class HeirScheduleCoreRequestPkt : public Packet // AAR: Agg-Agg Request 用于LA向GA发起请求
 {
 public:
-    HeirScheduleCoreRequestPkt(double sending_time, Host *src, Host *dst, core_rts* core_rts_info);
+    HeirScheduleCoreRequestPkt(double sending_time, Host *src, Host *dst);
     ~HeirScheduleCoreRequestPkt();
 
-    core_rts* core_rts_info;
+    vector<core_rts*> core_rts_vector;
     static int new_num;
     static int delete_num;
 };
@@ -479,10 +484,10 @@ public:
 class HeirScheduleCoreSCHDPkt : public Packet // AAS: Agg-Agg Schedule 用于GA向LA传递agg-core-agg调度结果
 {
 public:
-    HeirScheduleCoreSCHDPkt(double sending_time, Host *src, Host *dst, core_schd* core_schd_info);
+    HeirScheduleCoreSCHDPkt(double sending_time, Host *src, Host *dst);
     ~HeirScheduleCoreSCHDPkt();
 
-    core_schd* core_schd_info;
+    vector<core_schd*> core_schd_vector;
     static int new_num;
     static int delete_num;
 };
@@ -490,10 +495,10 @@ public:
 class HeirScheduleCoreDenyPkt : public Packet // AAD: Agg-Agg Deny 用于GA向LA传递拒绝信息
 {
 public:
-    HeirScheduleCoreDenyPkt(double sending_time, Host *src, Host *dst, core_deny* core_deny_info);
+    HeirScheduleCoreDenyPkt(double sending_time, Host *src, Host *dst);
     ~HeirScheduleCoreDenyPkt();
 
-    core_deny* core_deny_info;
+    vector<core_deny*> core_deny_vector;
     static int new_num;
     static int delete_num;
 };

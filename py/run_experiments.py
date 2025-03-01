@@ -60,7 +60,7 @@ magic_inflate: 1
 interarrival_cdf: none
 num_host_types: 13
 permutation_tm: 1
-
+max_slot_to_allocate: 10
 '''
 
 template = '../simulator 1 conf_{0}_{1}.txt > {dir}/result_{0}_{1}.txt'
@@ -69,7 +69,7 @@ cdf_temp = './CDF_{}.txt'
 
 runs = ['heirschedule']
 workloads = ['aditya', 'dctcp', 'datamining']
-workloads = ["W5_0.1"]
+workloads = ["W5_0.5"]
 workloads = ["test"]
 
 def getNumLines(trace):
@@ -97,6 +97,7 @@ semaphore = threading.Semaphore(multiprocessing.cpu_count())
 
 
 dir_name = '../DATA/test'
+# dir_name = '../DATA/125_28'
 os.makedirs(dir_name, exist_ok=True)
 for r in runs:
     for w in workloads:
@@ -105,6 +106,7 @@ for r in runs:
         
         flow_trace = "../flows/flow_data_test/flows_" + w + ".txt"
         # flow_trace = "../flows/flow_data_8_28/flows_" + w + ".txt"
+        # flow_trace = "../flows/flow_data_125_28/flows_" + w + ".txt"
 
         #  generate conf file
         if r == 'heirschedule':

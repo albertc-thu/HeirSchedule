@@ -18,3 +18,10 @@ conf_heirschedule_test.txt
 
 ../simulator 1 conf_heirschedule_test.txt > ../DATA/test/result_heirschedule_test.txt
 finished 1 experiments
+simulator: coresim/node.cpp:173: void HeirScheduleHost::receive_schd_and_send_data(Packet*): Assertion `time_to_send >= get_current_time()' failed.
+Aborted (core dumped)
+conf_heirschedule_W5_0.5.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.5.txt > ../DATA/125_28/result_heirschedule_W5_0.5.txt
+finished 1 experiments

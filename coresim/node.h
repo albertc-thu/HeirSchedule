@@ -62,6 +62,8 @@ class rts;
 class SCHD;
 class ipr;
 class ips;
+class core_deny;
+class core_schd;
 
 struct dst_remaining
 {
@@ -194,7 +196,8 @@ public:
     void allocate_uplink();
     void send_request_to_la(LocalArbiter *dst, HeirScheduleIPRPkt *ipr_packet);
     void receive_ipr(Packet *packet);
-    void allocate_downlink(HeirScheduleIPRPkt *ipr_packet);
+    void allocate_downlink_crosspod(ipr *ipr_info, HeirScheduleCoreRequestPkt *core_rts_packet);
+    void allocate_downlink_inpod(ipr *ipr_info, HeirScheduleCoreRequestPkt *core_rts_packet);
     void send_ips_to_la(LocalArbiter *src, HeirScheduleIPSPkt *ips_packet);
     void send_deny_to_la(LocalArbiter *src, HeirScheduleIPDPkt* ipd_packet);
     void receive_ipd(Packet *packet);
@@ -204,9 +207,9 @@ public:
     
     void send_request_to_ga(HeirScheduleCoreRequestPkt *core_rts_packet);
     void receive_core_schd(Packet *packet);
-    void generate_full_path(HeirScheduleCoreSCHDPkt *core_schd_packet);
+    void generate_full_path(core_schd *core_schd_info);
     void receive_core_deny(Packet *packet);
-    void take_back_link(HeirScheduleCoreDenyPkt *core_deny_packet);
+    void take_back_link(core_deny *core_deny_info);
     
     // vector<Queue *> queues; 
     uint32_t hosts_per_pod = params.k * params.k / 4;
@@ -238,6 +241,7 @@ public:
     // unordered_map<uint32_t, unordered_map<uint32_t, uint32_t>> src_dst_data_size_table; // 记录每个源-目的对应的数据总量
     // unordered_map<uint32_t, unordered_map<uint32_t, uint32_t>> src_dst_slot_table; // 记录每个源-目的对应的时间槽
     vector<vector<bool>> host_is_src; // T * k^2/4, hostIsSrc[t][i]表示第t个时隙，第i个Host是否是源节点 
+    vector<uint32_t> host_is_src_last_slot; // 记录host_is_src中最后一个T的位置
     vector<vector<bool>> host_is_dst; // T * k^2/4, hostIsDst[t][i]表示第t个时隙，第i个Host是否是目的节点
     vector<vector<vector<bool>>> ToR2Agg; // 一个$T * \frac{k}{2} * \frac{k}{2}$的矩阵, ToR2Agg[t][i][j]表示第t个时隙，ToR i->Agg j的链路是否被分配
     vector<vector<vector<bool>>> Agg2ToR; // 一个$T * \frac{k}{2} * \frac{k}{2}$的矩阵, Agg2ToR[t][i][j]表示第t个时隙，Agg i->ToR j的链路是否被分配
@@ -247,25 +251,26 @@ public:
 };
 
 class GlobalArbiter : public Host {
-    public:
-        GlobalArbiter(uint32_t id, double rate, uint32_t type);
-        void send_sync_message_to_la();
-        void receive(Packet *packet);
-        void receive_delay_request_message(Packet *packet);
+public:
+    GlobalArbiter(uint32_t id, double rate, uint32_t type);
+    void send_sync_message_to_la();
+    void receive(Packet *packet);
+    void receive_delay_request_message(Packet *packet);
 
-        void receive_core_rts(Packet *packet);
-        void allocate_core_link(HeirScheduleCoreRequestPkt *core_rts_packet);
-        void send_core_schd_to_la(HeirScheduleCoreSCHDPkt *core_schd_packet);
-        void send_core_deny_to_la(HeirScheduleCoreDenyPkt *core_deny_packet);
-        Queue *toGCSQueue;
-        // void recv_agg_agg_rts(); // 从LA接收agg-agg请求
-        // void process_agg_agg_rts(); // 处理agg-agg请求
-        // void send_agg_agg_schd(); // 向LA发送agg-agg结果
+    void receive_core_rts(Packet *packet);
+    void allocate_core_link();
+    void send_core_schd_to_la(HeirScheduleCoreSCHDPkt *core_schd_packet);
+    void send_core_deny_to_la(HeirScheduleCoreDenyPkt *core_deny_packet);
+    Queue *toGCSQueue;
+    // void recv_agg_agg_rts(); // 从LA接收agg-agg请求
+    // void process_agg_agg_rts(); // 处理agg-agg请求
+    // void send_agg_agg_schd(); // 向LA发送agg-agg结果
 
-        //- CoreOccupationIn: 一个$T * \frac{k^2}{4} * {k}$的矩阵，CoreOccupationIn[t][i][p]表示第t个时隙，Core i的入端口p是否被分配
-        vector<vector<vector<bool>>> CoreOccupationIn;
-        //- CoreOccupationOut: 一个$T * \frac{k^2}{4} * {k}$的矩阵，CoreOccupationOut[t][i][p]表示第t个时隙，Core i的出端口p是否被分配
-        vector<vector<vector<bool>>> CoreOccupationOut;
+    //- CoreOccupationIn: 一个$T * \frac{k^2}{4} * {k}$的矩阵，CoreOccupationIn[t][i][p]表示第t个时隙，Core i的入端口p是否被分配
+    vector<vector<vector<bool>>> CoreOccupationIn;
+    //- CoreOccupationOut: 一个$T * \frac{k^2}{4} * {k}$的矩阵，CoreOccupationOut[t][i][p]表示第t个时隙，Core i的出端口p是否被分配
+    vector<vector<vector<bool>>> CoreOccupationOut;
+    vector<HeirScheduleCoreRequestPkt*> received_core_rts_packets;
 };
 
 class Switch : public Node {

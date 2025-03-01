@@ -612,7 +612,7 @@ RestoreLinkEvent::~RestoreLinkEvent() {
 
 void RestoreLinkEvent::process_event() {
     uint32_t Slot = schd->Slot;
-    cout << "🐳 Restore link @ " << get_current_time() << ", the Slot time is " << Slot * params.slot_length_in_s << endl;
+    // cout << "🐳 Restore link @ " << get_current_time() << ", the Slot time is " << Slot * params.slot_length_in_s << endl;
     uint32_t src_id = schd->src_id;
     uint32_t src_tor_id = src_id / (params.k / 2);
     uint32_t src_agg_id = schd->src_agg_id;
@@ -630,4 +630,16 @@ void RestoreLinkEvent::process_event() {
     dst_la->Agg2ToR[Slot % params.T][dst_agg_id % src_la->aggs_per_pod][dst_tor_id % src_la->tors_per_pod] = false;
     ga->CoreOccupationIn[Slot % params.T][core_id][src_agg_id] = false;
     ga->CoreOccupationOut[Slot % params.T][core_id][dst_agg_id] = false;
+}
+
+
+CoreAllocateLinkEvent::CoreAllocateLinkEvent(double time, GlobalArbiter *ga)
+    : Event(CORE_ALLOCATE_LINK, time) {
+        this->ga = ga;
+    }
+
+CoreAllocateLinkEvent::~CoreAllocateLinkEvent() {}
+
+void CoreAllocateLinkEvent::process_event() {
+    ga->allocate_core_link();
 }

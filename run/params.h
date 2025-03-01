@@ -92,6 +92,7 @@ class DCExpParams {
         uint32_t num_of_ports;
         uint32_t slot_length; // in packets
         double slot_length_in_s;
+        uint32_t max_slot_to_allocate;
         std::string dir_name;
         int pias;
         uint32_t pias_1;

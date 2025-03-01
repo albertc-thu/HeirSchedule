@@ -174,7 +174,7 @@ HeirScheduleSCHDPkt::~HeirScheduleSCHDPkt()
 
 int HeirScheduleIPRPkt::new_num = 0;
 int HeirScheduleIPRPkt::delete_num = 0;
-HeirScheduleIPRPkt::HeirScheduleIPRPkt(double sending_time, Host *src, Host *dst, ipr *ipr_info): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
+HeirScheduleIPRPkt::HeirScheduleIPRPkt(double sending_time, Host *src, Host *dst): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
 {
     this->type = HeirScheduleIPR;
     this->ipr_info = ipr_info;
@@ -183,7 +183,10 @@ HeirScheduleIPRPkt::HeirScheduleIPRPkt(double sending_time, Host *src, Host *dst
 
 HeirScheduleIPRPkt::~HeirScheduleIPRPkt()
 {
-    delete ipr_info;
+    // delete ipr_info;
+    for(auto it = ipr_info.begin(); it != ipr_info.end(); it++){
+        delete *it;
+    }
     delete_num++;
 }
 
@@ -220,45 +223,48 @@ HeirScheduleIPDPkt::~HeirScheduleIPDPkt()
 
 int HeirScheduleCoreRequestPkt::new_num = 0;
 int HeirScheduleCoreRequestPkt::delete_num = 0;
-HeirScheduleCoreRequestPkt::HeirScheduleCoreRequestPkt(double sending_time, Host *src, Host *dst, core_rts* core_rts_info): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
+HeirScheduleCoreRequestPkt::HeirScheduleCoreRequestPkt(double sending_time, Host *src, Host *dst): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
 {
     this->type = CORE_RTS;
-    this->core_rts_info = core_rts_info;
     new_num++;
 }
 
 HeirScheduleCoreRequestPkt::~HeirScheduleCoreRequestPkt()
 {
-    delete core_rts_info;
+    for(auto it = core_rts_vector.begin(); it != core_rts_vector.end(); it++){
+        delete *it;
+    }
     delete_num++;
 }
 
 int HeirScheduleCoreSCHDPkt::new_num = 0;
 int HeirScheduleCoreSCHDPkt::delete_num = 0;
-HeirScheduleCoreSCHDPkt::HeirScheduleCoreSCHDPkt(double sending_time, Host *src, Host *dst, core_schd* core_schd_info): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
+HeirScheduleCoreSCHDPkt::HeirScheduleCoreSCHDPkt(double sending_time, Host *src, Host *dst): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
 {
     this->type = CORE_SCHD;
-    this->core_schd_info = core_schd_info;
     new_num++;
 }
 
 HeirScheduleCoreSCHDPkt::~HeirScheduleCoreSCHDPkt()
 {
-    delete core_schd_info;
+    for(auto it = core_schd_vector.begin(); it != core_schd_vector.end(); it++){
+        delete *it;
+    }
     delete_num++;
 }
 
 int HeirScheduleCoreDenyPkt::new_num = 0;
 int HeirScheduleCoreDenyPkt::delete_num = 0;
-HeirScheduleCoreDenyPkt::HeirScheduleCoreDenyPkt(double sending_time, Host *src, Host *dst, core_deny* core_deny_info): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
+HeirScheduleCoreDenyPkt::HeirScheduleCoreDenyPkt(double sending_time, Host *src, Host *dst): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
 {
     this->type = CORE_DENY;
-    this->core_deny_info = core_deny_info;
     new_num++;
 }
 
 HeirScheduleCoreDenyPkt::~HeirScheduleCoreDenyPkt()
 {
-    delete core_deny_info;
+    for(auto it = core_deny_vector.begin(); it != core_deny_vector.end(); it++){
+        delete *it;
+    }
     delete_num++;
 }
