@@ -237,17 +237,24 @@ public:
     double slave_master_diff;
 
 
+    vector<uint32_t> k_2; // 用于随机
+
     // 路由相关
     // unordered_map<uint32_t, unordered_map<uint32_t, uint32_t>> src_dst_data_size_table; // 记录每个源-目的对应的数据总量
     // unordered_map<uint32_t, unordered_map<uint32_t, uint32_t>> src_dst_slot_table; // 记录每个源-目的对应的时间槽
     vector<vector<bool>> host_is_src; // T * k^2/4, hostIsSrc[t][i]表示第t个时隙，第i个Host是否是源节点 
-    vector<uint32_t> host_is_src_last_slot; // 记录host_is_src中最后一个T的位置
     vector<vector<bool>> host_is_dst; // T * k^2/4, hostIsDst[t][i]表示第t个时隙，第i个Host是否是目的节点
     vector<vector<vector<bool>>> ToR2Agg; // 一个$T * \frac{k}{2} * \frac{k}{2}$的矩阵, ToR2Agg[t][i][j]表示第t个时隙，ToR i->Agg j的链路是否被分配
     vector<vector<vector<bool>>> Agg2ToR; // 一个$T * \frac{k}{2} * \frac{k}{2}$的矩阵, Agg2ToR[t][i][j]表示第t个时隙，Agg i->ToR j的链路是否被分配
     unordered_map<src_dst_pair, uint32_t> src_dst_data_size_table; // 记录每个源-目的对应的数据总量
-    unordered_map<src_dst_pair, uint32_t> src_dst_slot_table; // 记录每个源-目的对应的时间槽
-    unordered_map<src_dst_pair, SCHD*> routing_table; // 记录每个源-目的对应的调度信息
+    // unordered_map<src_dst_pair, uint32_t> src_dst_slot_table; // 记录每个源-目的对应的时间槽
+    // unordered_map<src_dst_pair, SCHD*> routing_table; // 记录每个源-目的对应的调度信息
+    unordered_map<src_dst_pair, uint32_t> inflight_slot_table; // 记录每个源-目的对应的正在分配的slot数
+    
+    vector<uint32_t> host_is_src_last_slot; // 记录host_is_src中最后一个T的位置
+    vector<uint32_t> host_is_dst_last_slot; // 记录host_is_dst中最后一个T的位置
+    vector<vector<uint32_t>> ToR2Agg_last_slot; // 记录ToR2Agg中最后一个T的位置
+    vector<vector<uint32_t>> Agg2ToR_last_slot; // 记录Agg2ToR中最后一个T的位置
 };
 
 class GlobalArbiter : public Host {
@@ -271,6 +278,9 @@ public:
     //- CoreOccupationOut: 一个$T * \frac{k^2}{4} * {k}$的矩阵，CoreOccupationOut[t][i][p]表示第t个时隙，Core i的出端口p是否被分配
     vector<vector<vector<bool>>> CoreOccupationOut;
     vector<HeirScheduleCoreRequestPkt*> received_core_rts_packets;
+
+    vector<vector<uint32_t>> CoreOccupationIn_last_slot; // 记录CoreOccupationIn中最后一个T的位置 k*k/4 * k/2
+    vector<vector<uint32_t>> CoreOccupationOut_last_slot; // 记录CoreOccupationOut中最后一个T的位置 k*k/4 * k/2
 };
 
 class Switch : public Node {

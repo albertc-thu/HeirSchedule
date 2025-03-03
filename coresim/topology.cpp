@@ -538,7 +538,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     // agg->core
     for (uint32_t i = 0; i < num_agg_switches; i++)
     {
-        for (uint32_t j = 0; j < params.k / 2; j++){
+        for (uint32_t j = 0; j < params.k/2; j++){
             cout << "🍐 Linking Agg " << i << " to Core " << conn_agg_core[i][j] << endl;
             AggSwitch *agg = agg_switches[i];
             CoreSwitch *core = core_switches[conn_agg_core[i][j]];

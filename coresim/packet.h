@@ -45,6 +45,7 @@ class SCHD
 public:
     //host id
     uint32_t slot;
+    uint32_t slot_end;
     uint32_t src_host_id;
     uint32_t src_tor_id;
     uint32_t src_agg_id;
@@ -53,9 +54,10 @@ public:
     uint32_t dst_tor_id;
     uint32_t dst_host_id;
     SCHD(){}
-    SCHD(uint32_t slot, uint32_t src_host_id, uint32_t src_tor_id, uint32_t src_agg_id, uint32_t core_id, uint32_t dst_agg_id, uint32_t dst_tor_id, uint32_t dst_host_id)
+    SCHD(uint32_t slot, uint32_t slot_end, uint32_t src_host_id, uint32_t src_tor_id, uint32_t src_agg_id, uint32_t core_id, uint32_t dst_agg_id, uint32_t dst_tor_id, uint32_t dst_host_id)
     {
         this->slot = slot;
+        this->slot_end = slot_end;
         this->src_host_id = src_host_id;
         this->src_tor_id = src_tor_id;
         this->src_agg_id = src_agg_id;
@@ -96,7 +98,7 @@ public:
     uint32_t dst_host_id;
     static const uint32_t info_size = 16;
     ipr(){}
-    ipr(uint32_t slot, uint32_t src_host_id, uint32_t src_agg_id, uint32_t dst_host_id)
+    ipr(uint32_t slot, uint32_t slot_end, uint32_t src_host_id, uint32_t src_agg_id, uint32_t dst_host_id)
     {
         this->slot = slot;
         this->slot_end = slot_end;
@@ -129,13 +131,15 @@ class ipd // inter-pod deny
 {
 public:
     uint32_t slot;
+    uint32_t slot_end;
     uint32_t src_host_id;
     uint32_t src_agg_id;
     uint32_t dst_host_id;
     ipd(){}
-    ipd(uint32_t slot, uint32_t src_host_id, uint32_t src_agg_id, uint32_t dst_host_id)
+    ipd(uint32_t slot, uint32_t slot_end, uint32_t src_host_id, uint32_t src_agg_id, uint32_t dst_host_id)
     {
         this->slot = slot;
+        this->slot_end = slot_end;
         this->src_host_id = src_host_id;
         this->src_agg_id = src_agg_id;
         this->dst_host_id = dst_host_id;
@@ -146,15 +150,17 @@ class core_rts // agg-agg request
 {
 public:
     uint32_t Slot;
+    uint32_t slot_end;
     uint32_t src_id;
     uint32_t dst_id;
     uint32_t src_agg_id;
     uint32_t dst_agg_id;
     static const uint32_t info_size = 20;
     core_rts(){}
-    core_rts(uint32_t Slot, uint32_t src_id, uint32_t src_agg_id, uint32_t dst_id, uint32_t dst_agg_id)
+    core_rts(uint32_t Slot, uint32_t slot_end, uint32_t src_id, uint32_t src_agg_id, uint32_t dst_id, uint32_t dst_agg_id)
     {
         this->Slot = Slot;
+        this->slot_end = slot_end;
         this->src_id = src_id;
         this->src_agg_id = src_agg_id;
         this->dst_id = dst_id;
@@ -167,6 +173,7 @@ class core_schd // agg-agg schedule
 {
 public:
     uint32_t Slot;
+    uint32_t slot_end;
     uint32_t src_id;
     uint32_t dst_id;
     uint32_t src_agg_id;
@@ -174,9 +181,10 @@ public:
     uint32_t dst_agg_id;
     static const uint32_t info_size = 20;
     core_schd(){}
-    core_schd(uint32_t Slot, uint32_t src_id, uint32_t src_agg_id, uint32_t core_id, uint32_t dst_id, uint32_t dst_agg_id)
+    core_schd(uint32_t Slot, uint32_t slot_end, uint32_t src_id, uint32_t src_agg_id, uint32_t core_id, uint32_t dst_id, uint32_t dst_agg_id)
     {
         this->Slot = Slot;
+        this->slot_end = slot_end;
         this->src_id = src_id;
         this->src_agg_id = src_agg_id;
         this->core_id = core_id;
@@ -189,6 +197,7 @@ class core_deny // agg-agg deny
 {
 public:
     uint32_t Slot;
+    uint32_t slot_end;
     uint32_t src_id;
     uint32_t dst_id;
     uint32_t src_agg_id;
@@ -196,9 +205,10 @@ public:
     bool is_src_la; // 给src_la还是dst_la
     static const uint32_t info_size = 20;
     core_deny(){}
-    core_deny(uint32_t Slot, uint32_t src_id, uint32_t src_agg_id, uint32_t dst_id, uint32_t dst_agg_id)
+    core_deny(uint32_t Slot, uint32_t slot_end, uint32_t src_id, uint32_t src_agg_id, uint32_t dst_id, uint32_t dst_agg_id)
     {
         this->Slot = Slot;
+        this->slot_end = slot_end;
         this->src_id = src_id;
         this->src_agg_id = src_agg_id;
         this->dst_id = dst_id;
