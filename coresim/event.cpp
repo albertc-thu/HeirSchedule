@@ -133,6 +133,9 @@ void FlowArrivalEvent::process_event() {
         add_to_event_queue(flow_arrivals.front());
         flow_arrivals.pop_front();
     }
+    if(flow->id >= 1000){
+        return;
+    }
 
     cout << "😀 Flow " << flow->id << " arrived at " << get_current_time() << endl;
 
@@ -599,6 +602,18 @@ AllocateUplinkEvent::~AllocateUplinkEvent() {
 
 void AllocateUplinkEvent::process_event() {
     la->allocate_uplink();
+}
+
+AllocateDownlinkEvent::AllocateDownlinkEvent(double time, LocalArbiter *arbiter)
+    : Event(ALLOCATE_DOWNLINK, time) {
+        this->la = arbiter;
+    }
+
+AllocateDownlinkEvent::~AllocateDownlinkEvent() {
+}
+
+void AllocateDownlinkEvent::process_event() {
+    la->allocate_downlink_crosspod();
 }
 
 RestoreLinkEvent::RestoreLinkEvent(double time, core_schd *schd)

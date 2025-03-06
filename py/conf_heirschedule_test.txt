@@ -54,3 +54,6 @@ interarrival_cdf: none
 num_host_types: 13
 permutation_tm: 1
 max_slot_to_allocate: 10
+pias: 1
+pias_1: 10000
+pias_2: 100000

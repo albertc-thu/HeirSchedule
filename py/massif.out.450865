@@ -1,0 +1,1834 @@
+desc: (none)
+cmd: ../simulator 1 conf_heirschedule_test.txt
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=15245811482
+mem_heap_B=55392123
+mem_heap_extra_B=6735949
+mem_stacks_B=0
+heap_tree=detailed
+n7: 55392123 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 23625000 0x11F2A8: allocate (new_allocator.h:114)
+  n1: 23625000 0x11F2A8: allocate (alloc_traits.h:443)
+   n1: 23625000 0x11F2A8: _M_allocate_node (stl_deque.h:620)
+    n1: 23625000 0x11F2A8: _M_create_nodes (stl_deque.h:745)
+     n1: 23625000 0x11F2A8: _M_initialize_map (stl_deque.h:719)
+      n1: 23625000 0x11F2A8: _Deque_base (stl_deque.h:510)
+       n1: 23625000 0x11F2A8: deque (stl_deque.h:915)
+        n1: 23625000 0x11F2A8: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+         n1: 23625000 0x11F2A8: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+          n1: 23625000 0x11F2A8: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+           n1: 23625000 0x11F2A8: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+            n1: 23625000 0x11F2A8: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+             n1: 23625000 0x11A91F: resize (stl_vector.h:937)
+              n1: 23625000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+               n1: 23625000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+                n1: 23625000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                 n0: 23625000 0x1119CE: main (main.cpp:134)
+ n1: 18006272 0x115174: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+  n1: 18006272 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+   n1: 18006272 0x112A1A: run_scenario() (main.cpp:102)
+    n1: 18006272 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+     n0: 18006272 0x1119CE: main (main.cpp:134)
+ n0: 3968291 in 143 places, all below massif's threshold (1.00%)
+ n1: 3750000 0x11F21C: allocate (new_allocator.h:114)
+  n1: 3750000 0x11F21C: allocate (alloc_traits.h:443)
+   n1: 3750000 0x11F21C: _M_allocate (stl_vector.h:343)
+    n1: 3750000 0x11F21C: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 3750000 0x11A91F: resize (stl_vector.h:937)
+      n1: 3750000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+       n1: 3750000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+        n1: 3750000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+         n0: 3750000 0x1119CE: main (main.cpp:134)
+ n1: 3000000 0x11F288: allocate (new_allocator.h:114)
+  n1: 3000000 0x11F288: allocate (alloc_traits.h:443)
+   n1: 3000000 0x11F288: _M_allocate_map (stl_deque.h:634)
+    n1: 3000000 0x11F288: _M_initialize_map (stl_deque.h:707)
+     n1: 3000000 0x11F288: _Deque_base (stl_deque.h:510)
+      n1: 3000000 0x11F288: deque (stl_deque.h:915)
+       n1: 3000000 0x11F288: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+        n1: 3000000 0x11F288: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+         n1: 3000000 0x11F288: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+          n1: 3000000 0x11F288: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+           n1: 3000000 0x11F288: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+            n1: 3000000 0x11A91F: resize (stl_vector.h:937)
+             n1: 3000000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+              n1: 3000000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+               n1: 3000000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                n0: 3000000 0x1119CE: main (main.cpp:134)
+ n1: 2067920 0x11D1D0: allocate (new_allocator.h:114)
+  n1: 2067920 0x11D1D0: allocate (alloc_traits.h:443)
+   n1: 2067920 0x11D1D0: _M_get_node (stl_tree.h:580)
+    n1: 2067920 0x11D1D0: _M_create_node<const std::piecewise_construct_t&, std::tuple<unsigned int const&>, std::tuple<> > (stl_tree.h:630)
+     n1: 2067920 0x11D1D0: std::_Rb_tree_iterator<std::pair<unsigned int const, unsigned int> > std::_Rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, std::_Select1st<std::pair<unsigned int const, unsigned int> >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, unsigned int> > >::_M_emplace_hint_unique<std::piecewise_construct_t const&, std::tuple<unsigned int const&>, std::tuple<> >(std::_Rb_tree_const_iterator<std::pair<unsigned int const, unsigned int> >, std::piecewise_construct_t const&, std::tuple<unsigned int const&>&&, std::tuple<>&&) (stl_tree.h:2460)
+      n1: 2067920 0x11865C: operator[] (stl_map.h:499)
+       n1: 2067920 0x11865C: HeirScheduleHost::receive_data_packet(Packet*) (node.cpp:301)
+        n1: 2067920 0x112A1A: run_scenario() (main.cpp:102)
+         n1: 2067920 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+          n0: 2067920 0x1119CE: main (main.cpp:134)
+ n1: 974640 0x116D5E: LocalArbiter::allocate_uplink() (node.cpp:562)
+  n1: 974640 0x112A1A: run_scenario() (main.cpp:102)
+   n1: 974640 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+    n0: 974640 0x1119CE: main (main.cpp:134)
+#-----------
+snapshot=2
+#-----------
+time=35166610091
+mem_heap_B=67384107
+mem_heap_extra_B=9631109
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=3
+#-----------
+time=46569859113
+mem_heap_B=72199415
+mem_heap_extra_B=10804609
+mem_stacks_B=0
+heap_tree=detailed
+n9: 72199415 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 31536432 0x115174: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+  n1: 31536432 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+   n1: 31536432 0x112A1A: run_scenario() (main.cpp:102)
+    n1: 31536432 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+     n0: 31536432 0x1119CE: main (main.cpp:134)
+ n1: 23625000 0x11F2A8: allocate (new_allocator.h:114)
+  n1: 23625000 0x11F2A8: allocate (alloc_traits.h:443)
+   n1: 23625000 0x11F2A8: _M_allocate_node (stl_deque.h:620)
+    n1: 23625000 0x11F2A8: _M_create_nodes (stl_deque.h:745)
+     n1: 23625000 0x11F2A8: _M_initialize_map (stl_deque.h:719)
+      n1: 23625000 0x11F2A8: _Deque_base (stl_deque.h:510)
+       n1: 23625000 0x11F2A8: deque (stl_deque.h:915)
+        n1: 23625000 0x11F2A8: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+         n1: 23625000 0x11F2A8: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+          n1: 23625000 0x11F2A8: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+           n1: 23625000 0x11F2A8: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+            n1: 23625000 0x11F2A8: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+             n1: 23625000 0x11A91F: resize (stl_vector.h:937)
+              n1: 23625000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+               n1: 23625000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+                n1: 23625000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                 n0: 23625000 0x1119CE: main (main.cpp:134)
+ n1: 3916680 0x11D1D0: allocate (new_allocator.h:114)
+  n1: 3916680 0x11D1D0: allocate (alloc_traits.h:443)
+   n1: 3916680 0x11D1D0: _M_get_node (stl_tree.h:580)
+    n1: 3916680 0x11D1D0: _M_create_node<const std::piecewise_construct_t&, std::tuple<unsigned int const&>, std::tuple<> > (stl_tree.h:630)
+     n1: 3916680 0x11D1D0: std::_Rb_tree_iterator<std::pair<unsigned int const, unsigned int> > std::_Rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, std::_Select1st<std::pair<unsigned int const, unsigned int> >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, unsigned int> > >::_M_emplace_hint_unique<std::piecewise_construct_t const&, std::tuple<unsigned int const&>, std::tuple<> >(std::_Rb_tree_const_iterator<std::pair<unsigned int const, unsigned int> >, std::piecewise_construct_t const&, std::tuple<unsigned int const&>&&, std::tuple<>&&) (stl_tree.h:2460)
+      n1: 3916680 0x11865C: operator[] (stl_map.h:499)
+       n1: 3916680 0x11865C: HeirScheduleHost::receive_data_packet(Packet*) (node.cpp:301)
+        n1: 3916680 0x112A1A: run_scenario() (main.cpp:102)
+         n1: 3916680 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+          n0: 3916680 0x1119CE: main (main.cpp:134)
+ n1: 3750000 0x11F21C: allocate (new_allocator.h:114)
+  n1: 3750000 0x11F21C: allocate (alloc_traits.h:443)
+   n1: 3750000 0x11F21C: _M_allocate (stl_vector.h:343)
+    n1: 3750000 0x11F21C: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 3750000 0x11A91F: resize (stl_vector.h:937)
+      n1: 3750000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+       n1: 3750000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+        n1: 3750000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+         n0: 3750000 0x1119CE: main (main.cpp:134)
+ n0: 3246255 in 141 places, all below massif's threshold (1.00%)
+ n1: 3000000 0x11F288: allocate (new_allocator.h:114)
+  n1: 3000000 0x11F288: allocate (alloc_traits.h:443)
+   n1: 3000000 0x11F288: _M_allocate_map (stl_deque.h:634)
+    n1: 3000000 0x11F288: _M_initialize_map (stl_deque.h:707)
+     n1: 3000000 0x11F288: _Deque_base (stl_deque.h:510)
+      n1: 3000000 0x11F288: deque (stl_deque.h:915)
+       n1: 3000000 0x11F288: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+        n1: 3000000 0x11F288: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+         n1: 3000000 0x11F288: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+          n1: 3000000 0x11F288: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+           n1: 3000000 0x11F288: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+            n1: 3000000 0x11A91F: resize (stl_vector.h:937)
+             n1: 3000000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+              n1: 3000000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+               n1: 3000000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                n0: 3000000 0x1119CE: main (main.cpp:134)
+ n1: 1440632 0x116D5E: LocalArbiter::allocate_uplink() (node.cpp:562)
+  n1: 1440632 0x112A1A: run_scenario() (main.cpp:102)
+   n1: 1440632 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+    n0: 1440632 0x1119CE: main (main.cpp:134)
+ n1: 842208 0x122CC1: allocate (new_allocator.h:114)
+  n1: 842208 0x122CC1: allocate (alloc_traits.h:443)
+   n1: 842208 0x122CC1: _M_allocate (stl_vector.h:343)
+    n1: 842208 0x122CC1: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<unsigned int const*, std::vector<unsigned int> > > (stl_vector.h:1508)
+     n1: 842208 0x122CC1: std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) (vector.tcc:226)
+      n0: 842208 in 2 places, all below massif's threshold (1.00%)
+ n1: 842208 0x122E11: allocate (new_allocator.h:114)
+  n1: 842208 0x122E11: allocate (alloc_traits.h:443)
+   n1: 842208 0x122E11: _M_allocate (stl_vector.h:343)
+    n1: 842208 0x122E11: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<Flow* const*, std::vector<Flow*> > > (stl_vector.h:1508)
+     n1: 842208 0x122E11: std::vector<Flow*, std::allocator<Flow*> >::operator=(std::vector<Flow*, std::allocator<Flow*> > const&) (vector.tcc:226)
+      n1: 842208 0x1228DD: HeirScheduleDataPkt::HeirScheduleDataPkt(Host*, Host*, unsigned int, unsigned int, std::vector<Flow*, std::allocator<Flow*> >, std::vector<unsigned int, std::allocator<unsigned int> >, std::vector<unsigned int, std::allocator<unsigned int> >) (packet.cpp:121)
+       n1: 842208 0x1151A3: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+        n1: 842208 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+         n1: 842208 0x112A1A: run_scenario() (main.cpp:102)
+          n1: 842208 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+           n0: 842208 0x1119CE: main (main.cpp:134)
+#-----------
+snapshot=4
+#-----------
+time=68583420624
+mem_heap_B=79960519
+mem_heap_extra_B=12675913
+mem_stacks_B=0
+heap_tree=detailed
+n9: 79960519 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 37725496 0x115174: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+  n1: 37725496 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+   n1: 37725496 0x112A1A: run_scenario() (main.cpp:102)
+    n1: 37725496 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+     n0: 37725496 0x1119CE: main (main.cpp:134)
+ n1: 23625000 0x11F2A8: allocate (new_allocator.h:114)
+  n1: 23625000 0x11F2A8: allocate (alloc_traits.h:443)
+   n1: 23625000 0x11F2A8: _M_allocate_node (stl_deque.h:620)
+    n1: 23625000 0x11F2A8: _M_create_nodes (stl_deque.h:745)
+     n1: 23625000 0x11F2A8: _M_initialize_map (stl_deque.h:719)
+      n1: 23625000 0x11F2A8: _Deque_base (stl_deque.h:510)
+       n1: 23625000 0x11F2A8: deque (stl_deque.h:915)
+        n1: 23625000 0x11F2A8: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+         n1: 23625000 0x11F2A8: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+          n1: 23625000 0x11F2A8: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+           n1: 23625000 0x11F2A8: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+            n1: 23625000 0x11F2A8: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+             n1: 23625000 0x11A91F: resize (stl_vector.h:937)
+              n1: 23625000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+               n1: 23625000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+                n1: 23625000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                 n0: 23625000 0x1119CE: main (main.cpp:134)
+ n1: 4768000 0x11D1D0: allocate (new_allocator.h:114)
+  n1: 4768000 0x11D1D0: allocate (alloc_traits.h:443)
+   n1: 4768000 0x11D1D0: _M_get_node (stl_tree.h:580)
+    n1: 4768000 0x11D1D0: _M_create_node<const std::piecewise_construct_t&, std::tuple<unsigned int const&>, std::tuple<> > (stl_tree.h:630)
+     n1: 4768000 0x11D1D0: std::_Rb_tree_iterator<std::pair<unsigned int const, unsigned int> > std::_Rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, std::_Select1st<std::pair<unsigned int const, unsigned int> >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, unsigned int> > >::_M_emplace_hint_unique<std::piecewise_construct_t const&, std::tuple<unsigned int const&>, std::tuple<> >(std::_Rb_tree_const_iterator<std::pair<unsigned int const, unsigned int> >, std::piecewise_construct_t const&, std::tuple<unsigned int const&>&&, std::tuple<>&&) (stl_tree.h:2460)
+      n1: 4768000 0x11865C: operator[] (stl_map.h:499)
+       n1: 4768000 0x11865C: HeirScheduleHost::receive_data_packet(Packet*) (node.cpp:301)
+        n1: 4768000 0x112A1A: run_scenario() (main.cpp:102)
+         n1: 4768000 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+          n0: 4768000 0x1119CE: main (main.cpp:134)
+ n1: 3750000 0x11F21C: allocate (new_allocator.h:114)
+  n1: 3750000 0x11F21C: allocate (alloc_traits.h:443)
+   n1: 3750000 0x11F21C: _M_allocate (stl_vector.h:343)
+    n1: 3750000 0x11F21C: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 3750000 0x11A91F: resize (stl_vector.h:937)
+      n1: 3750000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+       n1: 3750000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+        n1: 3750000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+         n0: 3750000 0x1119CE: main (main.cpp:134)
+ n0: 3388423 in 141 places, all below massif's threshold (1.00%)
+ n1: 3000000 0x11F288: allocate (new_allocator.h:114)
+  n1: 3000000 0x11F288: allocate (alloc_traits.h:443)
+   n1: 3000000 0x11F288: _M_allocate_map (stl_deque.h:634)
+    n1: 3000000 0x11F288: _M_initialize_map (stl_deque.h:707)
+     n1: 3000000 0x11F288: _Deque_base (stl_deque.h:510)
+      n1: 3000000 0x11F288: deque (stl_deque.h:915)
+       n1: 3000000 0x11F288: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+        n1: 3000000 0x11F288: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+         n1: 3000000 0x11F288: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+          n1: 3000000 0x11F288: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+           n1: 3000000 0x11F288: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+            n1: 3000000 0x11A91F: resize (stl_vector.h:937)
+             n1: 3000000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+              n1: 3000000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+               n1: 3000000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                n0: 3000000 0x1119CE: main (main.cpp:134)
+ n1: 1685408 0x116D5E: LocalArbiter::allocate_uplink() (node.cpp:562)
+  n1: 1685408 0x112A1A: run_scenario() (main.cpp:102)
+   n1: 1685408 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+    n0: 1685408 0x1119CE: main (main.cpp:134)
+ n1: 1009096 0x122CC1: allocate (new_allocator.h:114)
+  n1: 1009096 0x122CC1: allocate (alloc_traits.h:443)
+   n1: 1009096 0x122CC1: _M_allocate (stl_vector.h:343)
+    n1: 1009096 0x122CC1: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<unsigned int const*, std::vector<unsigned int> > > (stl_vector.h:1508)
+     n1: 1009096 0x122CC1: std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) (vector.tcc:226)
+      n0: 1009096 in 2 places, all below massif's threshold (1.00%)
+ n1: 1009096 0x122E11: allocate (new_allocator.h:114)
+  n1: 1009096 0x122E11: allocate (alloc_traits.h:443)
+   n1: 1009096 0x122E11: _M_allocate (stl_vector.h:343)
+    n1: 1009096 0x122E11: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<Flow* const*, std::vector<Flow*> > > (stl_vector.h:1508)
+     n1: 1009096 0x122E11: std::vector<Flow*, std::allocator<Flow*> >::operator=(std::vector<Flow*, std::allocator<Flow*> > const&) (vector.tcc:226)
+      n1: 1009096 0x1228DD: HeirScheduleDataPkt::HeirScheduleDataPkt(Host*, Host*, unsigned int, unsigned int, std::vector<Flow*, std::allocator<Flow*> >, std::vector<unsigned int, std::allocator<unsigned int> >, std::vector<unsigned int, std::allocator<unsigned int> >) (packet.cpp:121)
+       n1: 1009096 0x1151A3: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+        n1: 1009096 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+         n1: 1009096 0x112A1A: run_scenario() (main.cpp:102)
+          n1: 1009096 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+           n0: 1009096 0x1119CE: main (main.cpp:134)
+#-----------
+snapshot=5
+#-----------
+time=84301777709
+mem_heap_B=84014655
+mem_heap_extra_B=13655185
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=106727706256
+mem_heap_B=89039075
+mem_heap_extra_B=14858765
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=125089182355
+mem_heap_B=92399743
+mem_heap_extra_B=15664801
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=137677899093
+mem_heap_B=94516543
+mem_heap_extra_B=16172321
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=154602024664
+mem_heap_B=97487239
+mem_heap_extra_B=16857153
+mem_stacks_B=0
+heap_tree=detailed
+n9: 97487239 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 51518208 0x115174: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+  n1: 51518208 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+   n1: 51518208 0x112A1A: run_scenario() (main.cpp:102)
+    n1: 51518208 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+     n0: 51518208 0x1119CE: main (main.cpp:134)
+ n1: 23625000 0x11F2A8: allocate (new_allocator.h:114)
+  n1: 23625000 0x11F2A8: allocate (alloc_traits.h:443)
+   n1: 23625000 0x11F2A8: _M_allocate_node (stl_deque.h:620)
+    n1: 23625000 0x11F2A8: _M_create_nodes (stl_deque.h:745)
+     n1: 23625000 0x11F2A8: _M_initialize_map (stl_deque.h:719)
+      n1: 23625000 0x11F2A8: _Deque_base (stl_deque.h:510)
+       n1: 23625000 0x11F2A8: deque (stl_deque.h:915)
+        n1: 23625000 0x11F2A8: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+         n1: 23625000 0x11F2A8: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+          n1: 23625000 0x11F2A8: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+           n1: 23625000 0x11F2A8: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+            n1: 23625000 0x11F2A8: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+             n1: 23625000 0x11A91F: resize (stl_vector.h:937)
+              n1: 23625000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+               n1: 23625000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+                n1: 23625000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                 n0: 23625000 0x1119CE: main (main.cpp:134)
+ n1: 6642960 0x11D1D0: allocate (new_allocator.h:114)
+  n1: 6642960 0x11D1D0: allocate (alloc_traits.h:443)
+   n1: 6642960 0x11D1D0: _M_get_node (stl_tree.h:580)
+    n1: 6642960 0x11D1D0: _M_create_node<const std::piecewise_construct_t&, std::tuple<unsigned int const&>, std::tuple<> > (stl_tree.h:630)
+     n1: 6642960 0x11D1D0: std::_Rb_tree_iterator<std::pair<unsigned int const, unsigned int> > std::_Rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, std::_Select1st<std::pair<unsigned int const, unsigned int> >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, unsigned int> > >::_M_emplace_hint_unique<std::piecewise_construct_t const&, std::tuple<unsigned int const&>, std::tuple<> >(std::_Rb_tree_const_iterator<std::pair<unsigned int const, unsigned int> >, std::piecewise_construct_t const&, std::tuple<unsigned int const&>&&, std::tuple<>&&) (stl_tree.h:2460)
+      n1: 6642960 0x11865C: operator[] (stl_map.h:499)
+       n1: 6642960 0x11865C: HeirScheduleHost::receive_data_packet(Packet*) (node.cpp:301)
+        n1: 6642960 0x112A1A: run_scenario() (main.cpp:102)
+         n1: 6642960 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+          n0: 6642960 0x1119CE: main (main.cpp:134)
+ n0: 3890351 in 141 places, all below massif's threshold (1.00%)
+ n1: 3750000 0x11F21C: allocate (new_allocator.h:114)
+  n1: 3750000 0x11F21C: allocate (alloc_traits.h:443)
+   n1: 3750000 0x11F21C: _M_allocate (stl_vector.h:343)
+    n1: 3750000 0x11F21C: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 3750000 0x11A91F: resize (stl_vector.h:937)
+      n1: 3750000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+       n1: 3750000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+        n1: 3750000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+         n0: 3750000 0x1119CE: main (main.cpp:134)
+ n1: 3000000 0x11F288: allocate (new_allocator.h:114)
+  n1: 3000000 0x11F288: allocate (alloc_traits.h:443)
+   n1: 3000000 0x11F288: _M_allocate_map (stl_deque.h:634)
+    n1: 3000000 0x11F288: _M_initialize_map (stl_deque.h:707)
+     n1: 3000000 0x11F288: _Deque_base (stl_deque.h:510)
+      n1: 3000000 0x11F288: deque (stl_deque.h:915)
+       n1: 3000000 0x11F288: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+        n1: 3000000 0x11F288: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+         n1: 3000000 0x11F288: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+          n1: 3000000 0x11F288: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+           n1: 3000000 0x11F288: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+            n1: 3000000 0x11A91F: resize (stl_vector.h:937)
+             n1: 3000000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+              n1: 3000000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+               n1: 3000000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                n0: 3000000 0x1119CE: main (main.cpp:134)
+ n1: 2297472 0x116D5E: LocalArbiter::allocate_uplink() (node.cpp:562)
+  n1: 2297472 0x112A1A: run_scenario() (main.cpp:102)
+   n1: 2297472 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+    n0: 2297472 0x1119CE: main (main.cpp:134)
+ n1: 1381624 0x122CC1: allocate (new_allocator.h:114)
+  n1: 1381624 0x122CC1: allocate (alloc_traits.h:443)
+   n1: 1381624 0x122CC1: _M_allocate (stl_vector.h:343)
+    n1: 1381624 0x122CC1: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<unsigned int const*, std::vector<unsigned int> > > (stl_vector.h:1508)
+     n1: 1381624 0x122CC1: std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) (vector.tcc:226)
+      n0: 1381624 in 2 places, all below massif's threshold (1.00%)
+ n1: 1381624 0x122E11: allocate (new_allocator.h:114)
+  n1: 1381624 0x122E11: allocate (alloc_traits.h:443)
+   n1: 1381624 0x122E11: _M_allocate (stl_vector.h:343)
+    n1: 1381624 0x122E11: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<Flow* const*, std::vector<Flow*> > > (stl_vector.h:1508)
+     n1: 1381624 0x122E11: std::vector<Flow*, std::allocator<Flow*> >::operator=(std::vector<Flow*, std::allocator<Flow*> > const&) (vector.tcc:226)
+      n1: 1381624 0x1228DD: HeirScheduleDataPkt::HeirScheduleDataPkt(Host*, Host*, unsigned int, unsigned int, std::vector<Flow*, std::allocator<Flow*> >, std::vector<unsigned int, std::allocator<unsigned int> >, std::vector<unsigned int, std::allocator<unsigned int> >) (packet.cpp:121)
+       n1: 1381624 0x1151A3: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+        n1: 1381624 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+         n1: 1381624 0x112A1A: run_scenario() (main.cpp:102)
+          n1: 1381624 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+           n0: 1381624 0x1119CE: main (main.cpp:134)
+#-----------
+snapshot=10
+#-----------
+time=171102166839
+mem_heap_B=99906407
+mem_heap_extra_B=17458625
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=11
+#-----------
+time=181275915644
+mem_heap_B=101272907
+mem_heap_extra_B=17787605
+mem_stacks_B=0
+heap_tree=detailed
+n9: 101272907 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 54593648 0x115174: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+  n1: 54593648 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+   n1: 54593648 0x112A1A: run_scenario() (main.cpp:102)
+    n1: 54593648 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+     n0: 54593648 0x1119CE: main (main.cpp:134)
+ n1: 23625000 0x11F2A8: allocate (new_allocator.h:114)
+  n1: 23625000 0x11F2A8: allocate (alloc_traits.h:443)
+   n1: 23625000 0x11F2A8: _M_allocate_node (stl_deque.h:620)
+    n1: 23625000 0x11F2A8: _M_create_nodes (stl_deque.h:745)
+     n1: 23625000 0x11F2A8: _M_initialize_map (stl_deque.h:719)
+      n1: 23625000 0x11F2A8: _Deque_base (stl_deque.h:510)
+       n1: 23625000 0x11F2A8: deque (stl_deque.h:915)
+        n1: 23625000 0x11F2A8: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+         n1: 23625000 0x11F2A8: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+          n1: 23625000 0x11F2A8: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+           n1: 23625000 0x11F2A8: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+            n1: 23625000 0x11F2A8: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+             n1: 23625000 0x11A91F: resize (stl_vector.h:937)
+              n1: 23625000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+               n1: 23625000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+                n1: 23625000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                 n0: 23625000 0x1119CE: main (main.cpp:134)
+ n1: 7056280 0x11D1D0: allocate (new_allocator.h:114)
+  n1: 7056280 0x11D1D0: allocate (alloc_traits.h:443)
+   n1: 7056280 0x11D1D0: _M_get_node (stl_tree.h:580)
+    n1: 7056280 0x11D1D0: _M_create_node<const std::piecewise_construct_t&, std::tuple<unsigned int const&>, std::tuple<> > (stl_tree.h:630)
+     n1: 7056280 0x11D1D0: std::_Rb_tree_iterator<std::pair<unsigned int const, unsigned int> > std::_Rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, std::_Select1st<std::pair<unsigned int const, unsigned int> >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, unsigned int> > >::_M_emplace_hint_unique<std::piecewise_construct_t const&, std::tuple<unsigned int const&>, std::tuple<> >(std::_Rb_tree_const_iterator<std::pair<unsigned int const, unsigned int> >, std::piecewise_construct_t const&, std::tuple<unsigned int const&>&&, std::tuple<>&&) (stl_tree.h:2460)
+      n1: 7056280 0x11865C: operator[] (stl_map.h:499)
+       n1: 7056280 0x11865C: HeirScheduleHost::receive_data_packet(Packet*) (node.cpp:301)
+        n1: 7056280 0x112A1A: run_scenario() (main.cpp:102)
+         n1: 7056280 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+          n0: 7056280 0x1119CE: main (main.cpp:134)
+ n0: 3888099 in 141 places, all below massif's threshold (1.00%)
+ n1: 3750000 0x11F21C: allocate (new_allocator.h:114)
+  n1: 3750000 0x11F21C: allocate (alloc_traits.h:443)
+   n1: 3750000 0x11F21C: _M_allocate (stl_vector.h:343)
+    n1: 3750000 0x11F21C: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 3750000 0x11A91F: resize (stl_vector.h:937)
+      n1: 3750000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+       n1: 3750000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+        n1: 3750000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+         n0: 3750000 0x1119CE: main (main.cpp:134)
+ n1: 3000000 0x11F288: allocate (new_allocator.h:114)
+  n1: 3000000 0x11F288: allocate (alloc_traits.h:443)
+   n1: 3000000 0x11F288: _M_allocate_map (stl_deque.h:634)
+    n1: 3000000 0x11F288: _M_initialize_map (stl_deque.h:707)
+     n1: 3000000 0x11F288: _Deque_base (stl_deque.h:510)
+      n1: 3000000 0x11F288: deque (stl_deque.h:915)
+       n1: 3000000 0x11F288: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+        n1: 3000000 0x11F288: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+         n1: 3000000 0x11F288: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+          n1: 3000000 0x11F288: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+           n1: 3000000 0x11F288: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+            n1: 3000000 0x11A91F: resize (stl_vector.h:937)
+             n1: 3000000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+              n1: 3000000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+               n1: 3000000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                n0: 3000000 0x1119CE: main (main.cpp:134)
+ n1: 2430648 0x116D5E: LocalArbiter::allocate_uplink() (node.cpp:562)
+  n1: 2430648 0x112A1A: run_scenario() (main.cpp:102)
+   n1: 2430648 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+    n0: 2430648 0x1119CE: main (main.cpp:134)
+ n1: 1464616 0x122CC1: allocate (new_allocator.h:114)
+  n1: 1464616 0x122CC1: allocate (alloc_traits.h:443)
+   n1: 1464616 0x122CC1: _M_allocate (stl_vector.h:343)
+    n1: 1464616 0x122CC1: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<unsigned int const*, std::vector<unsigned int> > > (stl_vector.h:1508)
+     n1: 1464616 0x122CC1: std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) (vector.tcc:226)
+      n0: 1464616 in 2 places, all below massif's threshold (1.00%)
+ n1: 1464616 0x122E11: allocate (new_allocator.h:114)
+  n1: 1464616 0x122E11: allocate (alloc_traits.h:443)
+   n1: 1464616 0x122E11: _M_allocate (stl_vector.h:343)
+    n1: 1464616 0x122E11: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<Flow* const*, std::vector<Flow*> > > (stl_vector.h:1508)
+     n1: 1464616 0x122E11: std::vector<Flow*, std::allocator<Flow*> >::operator=(std::vector<Flow*, std::allocator<Flow*> > const&) (vector.tcc:226)
+      n1: 1464616 0x1228DD: HeirScheduleDataPkt::HeirScheduleDataPkt(Host*, Host*, unsigned int, unsigned int, std::vector<Flow*, std::allocator<Flow*> >, std::vector<unsigned int, std::allocator<unsigned int> >, std::vector<unsigned int, std::allocator<unsigned int> >) (packet.cpp:121)
+       n1: 1464616 0x1151A3: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+        n1: 1464616 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+         n1: 1464616 0x112A1A: run_scenario() (main.cpp:102)
+          n1: 1464616 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+           n0: 1464616 0x1119CE: main (main.cpp:134)
+#-----------
+snapshot=12
+#-----------
+time=199410864481
+mem_heap_B=103563063
+mem_heap_extra_B=18338657
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=13
+#-----------
+time=223283417487
+mem_heap_B=106369875
+mem_heap_extra_B=19014125
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=14
+#-----------
+time=242577669666
+mem_heap_B=108467559
+mem_heap_extra_B=19517601
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=15
+#-----------
+time=254254315476
+mem_heap_B=109800507
+mem_heap_extra_B=19832853
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=270796518039
+mem_heap_B=111733139
+mem_heap_extra_B=20289349
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=281946561082
+mem_heap_B=112812283
+mem_heap_extra_B=20549645
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=18
+#-----------
+time=301498602908
+mem_heap_B=114617115
+mem_heap_extra_B=20958525
+mem_stacks_B=0
+heap_tree=detailed
+n9: 114617115 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 64996864 0x115174: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+  n1: 64996864 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+   n1: 64996864 0x112A1A: run_scenario() (main.cpp:102)
+    n1: 64996864 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+     n0: 64996864 0x1119CE: main (main.cpp:134)
+ n1: 23625000 0x11F2A8: allocate (new_allocator.h:114)
+  n1: 23625000 0x11F2A8: allocate (alloc_traits.h:443)
+   n1: 23625000 0x11F2A8: _M_allocate_node (stl_deque.h:620)
+    n1: 23625000 0x11F2A8: _M_create_nodes (stl_deque.h:745)
+     n1: 23625000 0x11F2A8: _M_initialize_map (stl_deque.h:719)
+      n1: 23625000 0x11F2A8: _Deque_base (stl_deque.h:510)
+       n1: 23625000 0x11F2A8: deque (stl_deque.h:915)
+        n1: 23625000 0x11F2A8: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+         n1: 23625000 0x11F2A8: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+          n1: 23625000 0x11F2A8: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+           n1: 23625000 0x11F2A8: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+            n1: 23625000 0x11F2A8: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+             n1: 23625000 0x11A91F: resize (stl_vector.h:937)
+              n1: 23625000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+               n1: 23625000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+                n1: 23625000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                 n0: 23625000 0x1119CE: main (main.cpp:134)
+ n1: 8526720 0x11D1D0: allocate (new_allocator.h:114)
+  n1: 8526720 0x11D1D0: allocate (alloc_traits.h:443)
+   n1: 8526720 0x11D1D0: _M_get_node (stl_tree.h:580)
+    n1: 8526720 0x11D1D0: _M_create_node<const std::piecewise_construct_t&, std::tuple<unsigned int const&>, std::tuple<> > (stl_tree.h:630)
+     n1: 8526720 0x11D1D0: std::_Rb_tree_iterator<std::pair<unsigned int const, unsigned int> > std::_Rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, std::_Select1st<std::pair<unsigned int const, unsigned int> >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, unsigned int> > >::_M_emplace_hint_unique<std::piecewise_construct_t const&, std::tuple<unsigned int const&>, std::tuple<> >(std::_Rb_tree_const_iterator<std::pair<unsigned int const, unsigned int> >, std::piecewise_construct_t const&, std::tuple<unsigned int const&>&&, std::tuple<>&&) (stl_tree.h:2460)
+      n1: 8526720 0x11865C: operator[] (stl_map.h:499)
+       n1: 8526720 0x11865C: HeirScheduleHost::receive_data_packet(Packet*) (node.cpp:301)
+        n1: 8526720 0x112A1A: run_scenario() (main.cpp:102)
+         n1: 8526720 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+          n0: 8526720 0x1119CE: main (main.cpp:134)
+ n0: 4273603 in 141 places, all below massif's threshold (1.00%)
+ n1: 3750000 0x11F21C: allocate (new_allocator.h:114)
+  n1: 3750000 0x11F21C: allocate (alloc_traits.h:443)
+   n1: 3750000 0x11F21C: _M_allocate (stl_vector.h:343)
+    n1: 3750000 0x11F21C: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 3750000 0x11A91F: resize (stl_vector.h:937)
+      n1: 3750000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+       n1: 3750000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+        n1: 3750000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+         n0: 3750000 0x1119CE: main (main.cpp:134)
+ n1: 3000000 0x11F288: allocate (new_allocator.h:114)
+  n1: 3000000 0x11F288: allocate (alloc_traits.h:443)
+   n1: 3000000 0x11F288: _M_allocate_map (stl_deque.h:634)
+    n1: 3000000 0x11F288: _M_initialize_map (stl_deque.h:707)
+     n1: 3000000 0x11F288: _Deque_base (stl_deque.h:510)
+      n1: 3000000 0x11F288: deque (stl_deque.h:915)
+       n1: 3000000 0x11F288: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+        n1: 3000000 0x11F288: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+         n1: 3000000 0x11F288: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+          n1: 3000000 0x11F288: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+           n1: 3000000 0x11F288: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+            n1: 3000000 0x11A91F: resize (stl_vector.h:937)
+             n1: 3000000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+              n1: 3000000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+               n1: 3000000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                n0: 3000000 0x1119CE: main (main.cpp:134)
+ n1: 2953680 0x116D5E: LocalArbiter::allocate_uplink() (node.cpp:562)
+  n1: 2953680 0x112A1A: run_scenario() (main.cpp:102)
+   n1: 2953680 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+    n0: 2953680 0x1119CE: main (main.cpp:134)
+ n1: 1745624 0x122CC1: allocate (new_allocator.h:114)
+  n1: 1745624 0x122CC1: allocate (alloc_traits.h:443)
+   n1: 1745624 0x122CC1: _M_allocate (stl_vector.h:343)
+    n1: 1745624 0x122CC1: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<unsigned int const*, std::vector<unsigned int> > > (stl_vector.h:1508)
+     n1: 1745624 0x122CC1: std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) (vector.tcc:226)
+      n0: 1745624 in 2 places, all below massif's threshold (1.00%)
+ n1: 1745624 0x122E11: allocate (new_allocator.h:114)
+  n1: 1745624 0x122E11: allocate (alloc_traits.h:443)
+   n1: 1745624 0x122E11: _M_allocate (stl_vector.h:343)
+    n1: 1745624 0x122E11: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<Flow* const*, std::vector<Flow*> > > (stl_vector.h:1508)
+     n1: 1745624 0x122E11: std::vector<Flow*, std::allocator<Flow*> >::operator=(std::vector<Flow*, std::allocator<Flow*> > const&) (vector.tcc:226)
+      n1: 1745624 0x1228DD: HeirScheduleDataPkt::HeirScheduleDataPkt(Host*, Host*, unsigned int, unsigned int, std::vector<Flow*, std::allocator<Flow*> >, std::vector<unsigned int, std::allocator<unsigned int> >, std::vector<unsigned int, std::allocator<unsigned int> >) (packet.cpp:121)
+       n1: 1745624 0x1151A3: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+        n1: 1745624 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+         n1: 1745624 0x112A1A: run_scenario() (main.cpp:102)
+          n1: 1745624 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+           n0: 1745624 0x1119CE: main (main.cpp:134)
+#-----------
+snapshot=19
+#-----------
+time=315043887666
+mem_heap_B=115745623
+mem_heap_extra_B=21248521
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=20
+#-----------
+time=329978643544
+mem_heap_B=117314523
+mem_heap_extra_B=21619261
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=21
+#-----------
+time=352136048840
+mem_heap_B=119119043
+mem_heap_extra_B=22051573
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=362653110323
+mem_heap_B=120213343
+mem_heap_extra_B=22308569
+mem_stacks_B=0
+heap_tree=detailed
+n9: 120213343 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 69436568 0x115174: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+  n1: 69436568 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+   n1: 69436568 0x112A1A: run_scenario() (main.cpp:102)
+    n1: 69436568 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+     n0: 69436568 0x1119CE: main (main.cpp:134)
+ n1: 23625000 0x11F2A8: allocate (new_allocator.h:114)
+  n1: 23625000 0x11F2A8: allocate (alloc_traits.h:443)
+   n1: 23625000 0x11F2A8: _M_allocate_node (stl_deque.h:620)
+    n1: 23625000 0x11F2A8: _M_create_nodes (stl_deque.h:745)
+     n1: 23625000 0x11F2A8: _M_initialize_map (stl_deque.h:719)
+      n1: 23625000 0x11F2A8: _Deque_base (stl_deque.h:510)
+       n1: 23625000 0x11F2A8: deque (stl_deque.h:915)
+        n1: 23625000 0x11F2A8: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+         n1: 23625000 0x11F2A8: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+          n1: 23625000 0x11F2A8: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+           n1: 23625000 0x11F2A8: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+            n1: 23625000 0x11F2A8: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+             n1: 23625000 0x11A91F: resize (stl_vector.h:937)
+              n1: 23625000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+               n1: 23625000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+                n1: 23625000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                 n0: 23625000 0x1119CE: main (main.cpp:134)
+ n1: 9121160 0x11D1D0: allocate (new_allocator.h:114)
+  n1: 9121160 0x11D1D0: allocate (alloc_traits.h:443)
+   n1: 9121160 0x11D1D0: _M_get_node (stl_tree.h:580)
+    n1: 9121160 0x11D1D0: _M_create_node<const std::piecewise_construct_t&, std::tuple<unsigned int const&>, std::tuple<> > (stl_tree.h:630)
+     n1: 9121160 0x11D1D0: std::_Rb_tree_iterator<std::pair<unsigned int const, unsigned int> > std::_Rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, std::_Select1st<std::pair<unsigned int const, unsigned int> >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, unsigned int> > >::_M_emplace_hint_unique<std::piecewise_construct_t const&, std::tuple<unsigned int const&>, std::tuple<> >(std::_Rb_tree_const_iterator<std::pair<unsigned int const, unsigned int> >, std::piecewise_construct_t const&, std::tuple<unsigned int const&>&&, std::tuple<>&&) (stl_tree.h:2460)
+      n1: 9121160 0x11865C: operator[] (stl_map.h:499)
+       n1: 9121160 0x11865C: HeirScheduleHost::receive_data_packet(Packet*) (node.cpp:301)
+        n1: 9121160 0x112A1A: run_scenario() (main.cpp:102)
+         n1: 9121160 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+          n0: 9121160 0x1119CE: main (main.cpp:134)
+ n0: 4353903 in 141 places, all below massif's threshold (1.00%)
+ n1: 3750000 0x11F21C: allocate (new_allocator.h:114)
+  n1: 3750000 0x11F21C: allocate (alloc_traits.h:443)
+   n1: 3750000 0x11F21C: _M_allocate (stl_vector.h:343)
+    n1: 3750000 0x11F21C: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 3750000 0x11A91F: resize (stl_vector.h:937)
+      n1: 3750000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+       n1: 3750000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+        n1: 3750000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+         n0: 3750000 0x1119CE: main (main.cpp:134)
+ n1: 3195480 0x116D5E: LocalArbiter::allocate_uplink() (node.cpp:562)
+  n1: 3195480 0x112A1A: run_scenario() (main.cpp:102)
+   n1: 3195480 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+    n0: 3195480 0x1119CE: main (main.cpp:134)
+ n1: 3000000 0x11F288: allocate (new_allocator.h:114)
+  n1: 3000000 0x11F288: allocate (alloc_traits.h:443)
+   n1: 3000000 0x11F288: _M_allocate_map (stl_deque.h:634)
+    n1: 3000000 0x11F288: _M_initialize_map (stl_deque.h:707)
+     n1: 3000000 0x11F288: _Deque_base (stl_deque.h:510)
+      n1: 3000000 0x11F288: deque (stl_deque.h:915)
+       n1: 3000000 0x11F288: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+        n1: 3000000 0x11F288: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+         n1: 3000000 0x11F288: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+          n1: 3000000 0x11F288: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+           n1: 3000000 0x11F288: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+            n1: 3000000 0x11A91F: resize (stl_vector.h:937)
+             n1: 3000000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+              n1: 3000000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+               n1: 3000000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                n0: 3000000 0x1119CE: main (main.cpp:134)
+ n1: 1865616 0x122CC1: allocate (new_allocator.h:114)
+  n1: 1865616 0x122CC1: allocate (alloc_traits.h:443)
+   n1: 1865616 0x122CC1: _M_allocate (stl_vector.h:343)
+    n1: 1865616 0x122CC1: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<unsigned int const*, std::vector<unsigned int> > > (stl_vector.h:1508)
+     n1: 1865616 0x122CC1: std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) (vector.tcc:226)
+      n0: 1865616 in 2 places, all below massif's threshold (1.00%)
+ n1: 1865616 0x122E11: allocate (new_allocator.h:114)
+  n1: 1865616 0x122E11: allocate (alloc_traits.h:443)
+   n1: 1865616 0x122E11: _M_allocate (stl_vector.h:343)
+    n1: 1865616 0x122E11: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<Flow* const*, std::vector<Flow*> > > (stl_vector.h:1508)
+     n1: 1865616 0x122E11: std::vector<Flow*, std::allocator<Flow*> >::operator=(std::vector<Flow*, std::allocator<Flow*> > const&) (vector.tcc:226)
+      n1: 1865616 0x1228DD: HeirScheduleDataPkt::HeirScheduleDataPkt(Host*, Host*, unsigned int, unsigned int, std::vector<Flow*, std::allocator<Flow*> >, std::vector<unsigned int, std::allocator<unsigned int> >, std::vector<unsigned int, std::allocator<unsigned int> >) (packet.cpp:121)
+       n1: 1865616 0x1151A3: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+        n1: 1865616 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+         n1: 1865616 0x112A1A: run_scenario() (main.cpp:102)
+          n1: 1865616 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+           n0: 1865616 0x1119CE: main (main.cpp:134)
+#-----------
+snapshot=23
+#-----------
+time=386007587488
+mem_heap_B=122592523
+mem_heap_extra_B=22845045
+mem_stacks_B=0
+heap_tree=detailed
+n9: 122592523 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 71229440 0x115174: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+  n1: 71229440 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+   n1: 71229440 0x112A1A: run_scenario() (main.cpp:102)
+    n1: 71229440 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+     n0: 71229440 0x1119CE: main (main.cpp:134)
+ n1: 23625000 0x11F2A8: allocate (new_allocator.h:114)
+  n1: 23625000 0x11F2A8: allocate (alloc_traits.h:443)
+   n1: 23625000 0x11F2A8: _M_allocate_node (stl_deque.h:620)
+    n1: 23625000 0x11F2A8: _M_create_nodes (stl_deque.h:745)
+     n1: 23625000 0x11F2A8: _M_initialize_map (stl_deque.h:719)
+      n1: 23625000 0x11F2A8: _Deque_base (stl_deque.h:510)
+       n1: 23625000 0x11F2A8: deque (stl_deque.h:915)
+        n1: 23625000 0x11F2A8: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+         n1: 23625000 0x11F2A8: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+          n1: 23625000 0x11F2A8: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+           n1: 23625000 0x11F2A8: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+            n1: 23625000 0x11F2A8: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+             n1: 23625000 0x11A91F: resize (stl_vector.h:937)
+              n1: 23625000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+               n1: 23625000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+                n1: 23625000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                 n0: 23625000 0x1119CE: main (main.cpp:134)
+ n1: 9331280 0x11D1D0: allocate (new_allocator.h:114)
+  n1: 9331280 0x11D1D0: allocate (alloc_traits.h:443)
+   n1: 9331280 0x11D1D0: _M_get_node (stl_tree.h:580)
+    n1: 9331280 0x11D1D0: _M_create_node<const std::piecewise_construct_t&, std::tuple<unsigned int const&>, std::tuple<> > (stl_tree.h:630)
+     n1: 9331280 0x11D1D0: std::_Rb_tree_iterator<std::pair<unsigned int const, unsigned int> > std::_Rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, std::_Select1st<std::pair<unsigned int const, unsigned int> >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, unsigned int> > >::_M_emplace_hint_unique<std::piecewise_construct_t const&, std::tuple<unsigned int const&>, std::tuple<> >(std::_Rb_tree_const_iterator<std::pair<unsigned int const, unsigned int> >, std::piecewise_construct_t const&, std::tuple<unsigned int const&>&&, std::tuple<>&&) (stl_tree.h:2460)
+      n1: 9331280 0x11865C: operator[] (stl_map.h:499)
+       n1: 9331280 0x11865C: HeirScheduleHost::receive_data_packet(Packet*) (node.cpp:301)
+        n1: 9331280 0x112A1A: run_scenario() (main.cpp:102)
+         n1: 9331280 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+          n0: 9331280 0x1119CE: main (main.cpp:134)
+ n0: 4549459 in 141 places, all below massif's threshold (1.00%)
+ n1: 3750000 0x11F21C: allocate (new_allocator.h:114)
+  n1: 3750000 0x11F21C: allocate (alloc_traits.h:443)
+   n1: 3750000 0x11F21C: _M_allocate (stl_vector.h:343)
+    n1: 3750000 0x11F21C: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 3750000 0x11A91F: resize (stl_vector.h:937)
+      n1: 3750000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+       n1: 3750000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+        n1: 3750000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+         n0: 3750000 0x1119CE: main (main.cpp:134)
+ n1: 3279552 0x116D5E: LocalArbiter::allocate_uplink() (node.cpp:562)
+  n1: 3279552 0x112A1A: run_scenario() (main.cpp:102)
+   n1: 3279552 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+    n0: 3279552 0x1119CE: main (main.cpp:134)
+ n1: 3000000 0x11F288: allocate (new_allocator.h:114)
+  n1: 3000000 0x11F288: allocate (alloc_traits.h:443)
+   n1: 3000000 0x11F288: _M_allocate_map (stl_deque.h:634)
+    n1: 3000000 0x11F288: _M_initialize_map (stl_deque.h:707)
+     n1: 3000000 0x11F288: _Deque_base (stl_deque.h:510)
+      n1: 3000000 0x11F288: deque (stl_deque.h:915)
+       n1: 3000000 0x11F288: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+        n1: 3000000 0x11F288: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+         n1: 3000000 0x11F288: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+          n1: 3000000 0x11F288: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+           n1: 3000000 0x11F288: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+            n1: 3000000 0x11A91F: resize (stl_vector.h:937)
+             n1: 3000000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+              n1: 3000000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+               n1: 3000000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                n0: 3000000 0x1119CE: main (main.cpp:134)
+ n1: 1913896 0x122CC1: allocate (new_allocator.h:114)
+  n1: 1913896 0x122CC1: allocate (alloc_traits.h:443)
+   n1: 1913896 0x122CC1: _M_allocate (stl_vector.h:343)
+    n1: 1913896 0x122CC1: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<unsigned int const*, std::vector<unsigned int> > > (stl_vector.h:1508)
+     n1: 1913896 0x122CC1: std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) (vector.tcc:226)
+      n0: 1913896 in 2 places, all below massif's threshold (1.00%)
+ n1: 1913896 0x122E11: allocate (new_allocator.h:114)
+  n1: 1913896 0x122E11: allocate (alloc_traits.h:443)
+   n1: 1913896 0x122E11: _M_allocate (stl_vector.h:343)
+    n1: 1913896 0x122E11: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<Flow* const*, std::vector<Flow*> > > (stl_vector.h:1508)
+     n1: 1913896 0x122E11: std::vector<Flow*, std::allocator<Flow*> >::operator=(std::vector<Flow*, std::allocator<Flow*> > const&) (vector.tcc:226)
+      n1: 1913896 0x1228DD: HeirScheduleDataPkt::HeirScheduleDataPkt(Host*, Host*, unsigned int, unsigned int, std::vector<Flow*, std::allocator<Flow*> >, std::vector<unsigned int, std::allocator<unsigned int> >, std::vector<unsigned int, std::allocator<unsigned int> >) (packet.cpp:121)
+       n1: 1913896 0x1151A3: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+        n1: 1913896 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+         n1: 1913896 0x112A1A: run_scenario() (main.cpp:102)
+          n1: 1913896 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+           n0: 1913896 0x1119CE: main (main.cpp:134)
+#-----------
+snapshot=24
+#-----------
+time=403563586391
+mem_heap_B=123717163
+mem_heap_extra_B=23138493
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=25
+#-----------
+time=427972807627
+mem_heap_B=125892375
+mem_heap_extra_B=23652041
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=26
+#-----------
+time=445191882534
+mem_heap_B=127100495
+mem_heap_extra_B=23942721
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=27
+#-----------
+time=455726778299
+mem_heap_B=127906683
+mem_heap_extra_B=24091077
+mem_stacks_B=0
+heap_tree=detailed
+n9: 127906683 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 75302400 0x115174: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+  n1: 75302400 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+   n1: 75302400 0x112A1A: run_scenario() (main.cpp:102)
+    n1: 75302400 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+     n0: 75302400 0x1119CE: main (main.cpp:134)
+ n1: 23625000 0x11F2A8: allocate (new_allocator.h:114)
+  n1: 23625000 0x11F2A8: allocate (alloc_traits.h:443)
+   n1: 23625000 0x11F2A8: _M_allocate_node (stl_deque.h:620)
+    n1: 23625000 0x11F2A8: _M_create_nodes (stl_deque.h:745)
+     n1: 23625000 0x11F2A8: _M_initialize_map (stl_deque.h:719)
+      n1: 23625000 0x11F2A8: _Deque_base (stl_deque.h:510)
+       n1: 23625000 0x11F2A8: deque (stl_deque.h:915)
+        n1: 23625000 0x11F2A8: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+         n1: 23625000 0x11F2A8: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+          n1: 23625000 0x11F2A8: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+           n1: 23625000 0x11F2A8: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+            n1: 23625000 0x11F2A8: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+             n1: 23625000 0x11A91F: resize (stl_vector.h:937)
+              n1: 23625000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+               n1: 23625000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+                n1: 23625000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                 n0: 23625000 0x1119CE: main (main.cpp:134)
+ n1: 9917240 0x11D1D0: allocate (new_allocator.h:114)
+  n1: 9917240 0x11D1D0: allocate (alloc_traits.h:443)
+   n1: 9917240 0x11D1D0: _M_get_node (stl_tree.h:580)
+    n1: 9917240 0x11D1D0: _M_create_node<const std::piecewise_construct_t&, std::tuple<unsigned int const&>, std::tuple<> > (stl_tree.h:630)
+     n1: 9917240 0x11D1D0: std::_Rb_tree_iterator<std::pair<unsigned int const, unsigned int> > std::_Rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, std::_Select1st<std::pair<unsigned int const, unsigned int> >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, unsigned int> > >::_M_emplace_hint_unique<std::piecewise_construct_t const&, std::tuple<unsigned int const&>, std::tuple<> >(std::_Rb_tree_const_iterator<std::pair<unsigned int const, unsigned int> >, std::piecewise_construct_t const&, std::tuple<unsigned int const&>&&, std::tuple<>&&) (stl_tree.h:2460)
+      n1: 9917240 0x11865C: operator[] (stl_map.h:499)
+       n1: 9917240 0x11865C: HeirScheduleHost::receive_data_packet(Packet*) (node.cpp:301)
+        n1: 9917240 0x112A1A: run_scenario() (main.cpp:102)
+         n1: 9917240 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+          n0: 9917240 0x1119CE: main (main.cpp:134)
+ n0: 4762579 in 141 places, all below massif's threshold (1.00%)
+ n1: 3750000 0x11F21C: allocate (new_allocator.h:114)
+  n1: 3750000 0x11F21C: allocate (alloc_traits.h:443)
+   n1: 3750000 0x11F21C: _M_allocate (stl_vector.h:343)
+    n1: 3750000 0x11F21C: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 3750000 0x11A91F: resize (stl_vector.h:937)
+      n1: 3750000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+       n1: 3750000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+        n1: 3750000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+         n0: 3750000 0x1119CE: main (main.cpp:134)
+ n1: 3501512 0x116D5E: LocalArbiter::allocate_uplink() (node.cpp:562)
+  n1: 3501512 0x112A1A: run_scenario() (main.cpp:102)
+   n1: 3501512 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+    n0: 3501512 0x1119CE: main (main.cpp:134)
+ n1: 3000000 0x11F288: allocate (new_allocator.h:114)
+  n1: 3000000 0x11F288: allocate (alloc_traits.h:443)
+   n1: 3000000 0x11F288: _M_allocate_map (stl_deque.h:634)
+    n1: 3000000 0x11F288: _M_initialize_map (stl_deque.h:707)
+     n1: 3000000 0x11F288: _Deque_base (stl_deque.h:510)
+      n1: 3000000 0x11F288: deque (stl_deque.h:915)
+       n1: 3000000 0x11F288: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+        n1: 3000000 0x11F288: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+         n1: 3000000 0x11F288: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+          n1: 3000000 0x11F288: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+           n1: 3000000 0x11F288: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+            n1: 3000000 0x11A91F: resize (stl_vector.h:937)
+             n1: 3000000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+              n1: 3000000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+               n1: 3000000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                n0: 3000000 0x1119CE: main (main.cpp:134)
+ n1: 2023976 0x122CC1: allocate (new_allocator.h:114)
+  n1: 2023976 0x122CC1: allocate (alloc_traits.h:443)
+   n1: 2023976 0x122CC1: _M_allocate (stl_vector.h:343)
+    n1: 2023976 0x122CC1: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<unsigned int const*, std::vector<unsigned int> > > (stl_vector.h:1508)
+     n1: 2023976 0x122CC1: std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) (vector.tcc:226)
+      n0: 2023976 in 2 places, all below massif's threshold (1.00%)
+ n1: 2023976 0x122E11: allocate (new_allocator.h:114)
+  n1: 2023976 0x122E11: allocate (alloc_traits.h:443)
+   n1: 2023976 0x122E11: _M_allocate (stl_vector.h:343)
+    n1: 2023976 0x122E11: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<Flow* const*, std::vector<Flow*> > > (stl_vector.h:1508)
+     n1: 2023976 0x122E11: std::vector<Flow*, std::allocator<Flow*> >::operator=(std::vector<Flow*, std::allocator<Flow*> > const&) (vector.tcc:226)
+      n1: 2023976 0x1228DD: HeirScheduleDataPkt::HeirScheduleDataPkt(Host*, Host*, unsigned int, unsigned int, std::vector<Flow*, std::allocator<Flow*> >, std::vector<unsigned int, std::allocator<unsigned int> >, std::vector<unsigned int, std::allocator<unsigned int> >) (packet.cpp:121)
+       n1: 2023976 0x1151A3: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+        n1: 2023976 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+         n1: 2023976 0x112A1A: run_scenario() (main.cpp:102)
+          n1: 2023976 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+           n0: 2023976 0x1119CE: main (main.cpp:134)
+#-----------
+snapshot=28
+#-----------
+time=473199093918
+mem_heap_B=128812727
+mem_heap_extra_B=24355289
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=29
+#-----------
+time=485685825216
+mem_heap_B=130014015
+mem_heap_extra_B=24635257
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=30
+#-----------
+time=507197617990
+mem_heap_B=131243303
+mem_heap_extra_B=24932057
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=31
+#-----------
+time=518612285648
+mem_heap_B=132510339
+mem_heap_extra_B=25183109
+mem_stacks_B=0
+heap_tree=detailed
+n9: 132510339 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 78901760 0x115174: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+  n1: 78901760 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+   n1: 78901760 0x112A1A: run_scenario() (main.cpp:102)
+    n1: 78901760 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+     n0: 78901760 0x1119CE: main (main.cpp:134)
+ n1: 23625000 0x11F2A8: allocate (new_allocator.h:114)
+  n1: 23625000 0x11F2A8: allocate (alloc_traits.h:443)
+   n1: 23625000 0x11F2A8: _M_allocate_node (stl_deque.h:620)
+    n1: 23625000 0x11F2A8: _M_create_nodes (stl_deque.h:745)
+     n1: 23625000 0x11F2A8: _M_initialize_map (stl_deque.h:719)
+      n1: 23625000 0x11F2A8: _Deque_base (stl_deque.h:510)
+       n1: 23625000 0x11F2A8: deque (stl_deque.h:915)
+        n1: 23625000 0x11F2A8: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+         n1: 23625000 0x11F2A8: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+          n1: 23625000 0x11F2A8: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+           n1: 23625000 0x11F2A8: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+            n1: 23625000 0x11F2A8: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+             n1: 23625000 0x11A91F: resize (stl_vector.h:937)
+              n1: 23625000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+               n1: 23625000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+                n1: 23625000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                 n0: 23625000 0x1119CE: main (main.cpp:134)
+ n1: 10392160 0x11D1D0: allocate (new_allocator.h:114)
+  n1: 10392160 0x11D1D0: allocate (alloc_traits.h:443)
+   n1: 10392160 0x11D1D0: _M_get_node (stl_tree.h:580)
+    n1: 10392160 0x11D1D0: _M_create_node<const std::piecewise_construct_t&, std::tuple<unsigned int const&>, std::tuple<> > (stl_tree.h:630)
+     n1: 10392160 0x11D1D0: std::_Rb_tree_iterator<std::pair<unsigned int const, unsigned int> > std::_Rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, std::_Select1st<std::pair<unsigned int const, unsigned int> >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, unsigned int> > >::_M_emplace_hint_unique<std::piecewise_construct_t const&, std::tuple<unsigned int const&>, std::tuple<> >(std::_Rb_tree_const_iterator<std::pair<unsigned int const, unsigned int> >, std::piecewise_construct_t const&, std::tuple<unsigned int const&>&&, std::tuple<>&&) (stl_tree.h:2460)
+      n1: 10392160 0x11865C: operator[] (stl_map.h:499)
+       n1: 10392160 0x11865C: HeirScheduleHost::receive_data_packet(Packet*) (node.cpp:301)
+        n1: 10392160 0x112A1A: run_scenario() (main.cpp:102)
+         n1: 10392160 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+          n0: 10392160 0x1119CE: main (main.cpp:134)
+ n0: 4909907 in 141 places, all below massif's threshold (1.00%)
+ n1: 3750000 0x11F21C: allocate (new_allocator.h:114)
+  n1: 3750000 0x11F21C: allocate (alloc_traits.h:443)
+   n1: 3750000 0x11F21C: _M_allocate (stl_vector.h:343)
+    n1: 3750000 0x11F21C: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 3750000 0x11A91F: resize (stl_vector.h:937)
+      n1: 3750000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+       n1: 3750000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+        n1: 3750000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+         n0: 3750000 0x1119CE: main (main.cpp:134)
+ n1: 3689000 0x116D5E: LocalArbiter::allocate_uplink() (node.cpp:562)
+  n1: 3689000 0x112A1A: run_scenario() (main.cpp:102)
+   n1: 3689000 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+    n0: 3689000 0x1119CE: main (main.cpp:134)
+ n1: 3000000 0x11F288: allocate (new_allocator.h:114)
+  n1: 3000000 0x11F288: allocate (alloc_traits.h:443)
+   n1: 3000000 0x11F288: _M_allocate_map (stl_deque.h:634)
+    n1: 3000000 0x11F288: _M_initialize_map (stl_deque.h:707)
+     n1: 3000000 0x11F288: _Deque_base (stl_deque.h:510)
+      n1: 3000000 0x11F288: deque (stl_deque.h:915)
+       n1: 3000000 0x11F288: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+        n1: 3000000 0x11F288: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+         n1: 3000000 0x11F288: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+          n1: 3000000 0x11F288: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+           n1: 3000000 0x11F288: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+            n1: 3000000 0x11A91F: resize (stl_vector.h:937)
+             n1: 3000000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+              n1: 3000000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+               n1: 3000000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                n0: 3000000 0x1119CE: main (main.cpp:134)
+ n1: 2121256 0x122CC1: allocate (new_allocator.h:114)
+  n1: 2121256 0x122CC1: allocate (alloc_traits.h:443)
+   n1: 2121256 0x122CC1: _M_allocate (stl_vector.h:343)
+    n1: 2121256 0x122CC1: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<unsigned int const*, std::vector<unsigned int> > > (stl_vector.h:1508)
+     n1: 2121256 0x122CC1: std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) (vector.tcc:226)
+      n0: 2121256 in 2 places, all below massif's threshold (1.00%)
+ n1: 2121256 0x122E11: allocate (new_allocator.h:114)
+  n1: 2121256 0x122E11: allocate (alloc_traits.h:443)
+   n1: 2121256 0x122E11: _M_allocate (stl_vector.h:343)
+    n1: 2121256 0x122E11: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<Flow* const*, std::vector<Flow*> > > (stl_vector.h:1508)
+     n1: 2121256 0x122E11: std::vector<Flow*, std::allocator<Flow*> >::operator=(std::vector<Flow*, std::allocator<Flow*> > const&) (vector.tcc:226)
+      n1: 2121256 0x1228DD: HeirScheduleDataPkt::HeirScheduleDataPkt(Host*, Host*, unsigned int, unsigned int, std::vector<Flow*, std::allocator<Flow*> >, std::vector<unsigned int, std::allocator<unsigned int> >, std::vector<unsigned int, std::allocator<unsigned int> >) (packet.cpp:121)
+       n1: 2121256 0x1151A3: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+        n1: 2121256 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+         n1: 2121256 0x112A1A: run_scenario() (main.cpp:102)
+          n1: 2121256 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+           n0: 2121256 0x1119CE: main (main.cpp:134)
+#-----------
+snapshot=32
+#-----------
+time=535464701824
+mem_heap_B=133534763
+mem_heap_extra_B=25470197
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=33
+#-----------
+time=552372989665
+mem_heap_B=134507147
+mem_heap_extra_B=25705253
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=34
+#-----------
+time=571517335082
+mem_heap_B=135818203
+mem_heap_extra_B=26012381
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=589514964783
+mem_heap_B=136914835
+mem_heap_extra_B=26274093
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=36
+#-----------
+time=600076890884
+mem_heap_B=137402323
+mem_heap_extra_B=26393685
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=37
+#-----------
+time=616943899332
+mem_heap_B=138386359
+mem_heap_extra_B=26626497
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=38
+#-----------
+time=628204150928
+mem_heap_B=139221051
+mem_heap_extra_B=26798565
+mem_stacks_B=0
+heap_tree=detailed
+n9: 139221051 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 84187136 0x115174: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+  n1: 84187136 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+   n1: 84187136 0x112A1A: run_scenario() (main.cpp:102)
+    n1: 84187136 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+     n0: 84187136 0x1119CE: main (main.cpp:134)
+ n1: 23625000 0x11F2A8: allocate (new_allocator.h:114)
+  n1: 23625000 0x11F2A8: allocate (alloc_traits.h:443)
+   n1: 23625000 0x11F2A8: _M_allocate_node (stl_deque.h:620)
+    n1: 23625000 0x11F2A8: _M_create_nodes (stl_deque.h:745)
+     n1: 23625000 0x11F2A8: _M_initialize_map (stl_deque.h:719)
+      n1: 23625000 0x11F2A8: _Deque_base (stl_deque.h:510)
+       n1: 23625000 0x11F2A8: deque (stl_deque.h:915)
+        n1: 23625000 0x11F2A8: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+         n1: 23625000 0x11F2A8: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+          n1: 23625000 0x11F2A8: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+           n1: 23625000 0x11F2A8: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+            n1: 23625000 0x11F2A8: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+             n1: 23625000 0x11A91F: resize (stl_vector.h:937)
+              n1: 23625000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+               n1: 23625000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+                n1: 23625000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                 n0: 23625000 0x1119CE: main (main.cpp:134)
+ n1: 11138480 0x11D1D0: allocate (new_allocator.h:114)
+  n1: 11138480 0x11D1D0: allocate (alloc_traits.h:443)
+   n1: 11138480 0x11D1D0: _M_get_node (stl_tree.h:580)
+    n1: 11138480 0x11D1D0: _M_create_node<const std::piecewise_construct_t&, std::tuple<unsigned int const&>, std::tuple<> > (stl_tree.h:630)
+     n1: 11138480 0x11D1D0: std::_Rb_tree_iterator<std::pair<unsigned int const, unsigned int> > std::_Rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, std::_Select1st<std::pair<unsigned int const, unsigned int> >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, unsigned int> > >::_M_emplace_hint_unique<std::piecewise_construct_t const&, std::tuple<unsigned int const&>, std::tuple<> >(std::_Rb_tree_const_iterator<std::pair<unsigned int const, unsigned int> >, std::piecewise_construct_t const&, std::tuple<unsigned int const&>&&, std::tuple<>&&) (stl_tree.h:2460)
+      n1: 11138480 0x11865C: operator[] (stl_map.h:499)
+       n1: 11138480 0x11865C: HeirScheduleHost::receive_data_packet(Packet*) (node.cpp:301)
+        n1: 11138480 0x112A1A: run_scenario() (main.cpp:102)
+         n1: 11138480 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+          n0: 11138480 0x1119CE: main (main.cpp:134)
+ n0: 4992843 in 141 places, all below massif's threshold (1.00%)
+ n1: 3999992 0x116D5E: LocalArbiter::allocate_uplink() (node.cpp:562)
+  n1: 3999992 0x112A1A: run_scenario() (main.cpp:102)
+   n1: 3999992 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+    n0: 3999992 0x1119CE: main (main.cpp:134)
+ n1: 3750000 0x11F21C: allocate (new_allocator.h:114)
+  n1: 3750000 0x11F21C: allocate (alloc_traits.h:443)
+   n1: 3750000 0x11F21C: _M_allocate (stl_vector.h:343)
+    n1: 3750000 0x11F21C: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 3750000 0x11A91F: resize (stl_vector.h:937)
+      n1: 3750000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+       n1: 3750000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+        n1: 3750000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+         n0: 3750000 0x1119CE: main (main.cpp:134)
+ n1: 3000000 0x11F288: allocate (new_allocator.h:114)
+  n1: 3000000 0x11F288: allocate (alloc_traits.h:443)
+   n1: 3000000 0x11F288: _M_allocate_map (stl_deque.h:634)
+    n1: 3000000 0x11F288: _M_initialize_map (stl_deque.h:707)
+     n1: 3000000 0x11F288: _Deque_base (stl_deque.h:510)
+      n1: 3000000 0x11F288: deque (stl_deque.h:915)
+       n1: 3000000 0x11F288: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+        n1: 3000000 0x11F288: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+         n1: 3000000 0x11F288: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+          n1: 3000000 0x11F288: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+           n1: 3000000 0x11F288: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+            n1: 3000000 0x11A91F: resize (stl_vector.h:937)
+             n1: 3000000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+              n1: 3000000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+               n1: 3000000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                n0: 3000000 0x1119CE: main (main.cpp:134)
+ n1: 2263800 0x122CC1: allocate (new_allocator.h:114)
+  n1: 2263800 0x122CC1: allocate (alloc_traits.h:443)
+   n1: 2263800 0x122CC1: _M_allocate (stl_vector.h:343)
+    n1: 2263800 0x122CC1: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<unsigned int const*, std::vector<unsigned int> > > (stl_vector.h:1508)
+     n1: 2263800 0x122CC1: std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) (vector.tcc:226)
+      n0: 2263800 in 2 places, all below massif's threshold (1.00%)
+ n1: 2263800 0x122E11: allocate (new_allocator.h:114)
+  n1: 2263800 0x122E11: allocate (alloc_traits.h:443)
+   n1: 2263800 0x122E11: _M_allocate (stl_vector.h:343)
+    n1: 2263800 0x122E11: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<Flow* const*, std::vector<Flow*> > > (stl_vector.h:1508)
+     n1: 2263800 0x122E11: std::vector<Flow*, std::allocator<Flow*> >::operator=(std::vector<Flow*, std::allocator<Flow*> > const&) (vector.tcc:226)
+      n1: 2263800 0x1228DD: HeirScheduleDataPkt::HeirScheduleDataPkt(Host*, Host*, unsigned int, unsigned int, std::vector<Flow*, std::allocator<Flow*> >, std::vector<unsigned int, std::allocator<unsigned int> >, std::vector<unsigned int, std::allocator<unsigned int> >) (packet.cpp:121)
+       n1: 2263800 0x1151A3: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+        n1: 2263800 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+         n1: 2263800 0x112A1A: run_scenario() (main.cpp:102)
+          n1: 2263800 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+           n0: 2263800 0x1119CE: main (main.cpp:134)
+#-----------
+snapshot=39
+#-----------
+time=648866928314
+mem_heap_B=140661811
+mem_heap_extra_B=27114077
+mem_stacks_B=0
+heap_tree=detailed
+n9: 140661811 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 85229056 0x115174: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+  n1: 85229056 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+   n1: 85229056 0x112A1A: run_scenario() (main.cpp:102)
+    n1: 85229056 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+     n0: 85229056 0x1119CE: main (main.cpp:134)
+ n1: 23625000 0x11F2A8: allocate (new_allocator.h:114)
+  n1: 23625000 0x11F2A8: allocate (alloc_traits.h:443)
+   n1: 23625000 0x11F2A8: _M_allocate_node (stl_deque.h:620)
+    n1: 23625000 0x11F2A8: _M_create_nodes (stl_deque.h:745)
+     n1: 23625000 0x11F2A8: _M_initialize_map (stl_deque.h:719)
+      n1: 23625000 0x11F2A8: _Deque_base (stl_deque.h:510)
+       n1: 23625000 0x11F2A8: deque (stl_deque.h:915)
+        n1: 23625000 0x11F2A8: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+         n1: 23625000 0x11F2A8: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+          n1: 23625000 0x11F2A8: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+           n1: 23625000 0x11F2A8: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+            n1: 23625000 0x11F2A8: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+             n1: 23625000 0x11A91F: resize (stl_vector.h:937)
+              n1: 23625000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+               n1: 23625000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+                n1: 23625000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                 n0: 23625000 0x1119CE: main (main.cpp:134)
+ n1: 11267920 0x11D1D0: allocate (new_allocator.h:114)
+  n1: 11267920 0x11D1D0: allocate (alloc_traits.h:443)
+   n1: 11267920 0x11D1D0: _M_get_node (stl_tree.h:580)
+    n1: 11267920 0x11D1D0: _M_create_node<const std::piecewise_construct_t&, std::tuple<unsigned int const&>, std::tuple<> > (stl_tree.h:630)
+     n1: 11267920 0x11D1D0: std::_Rb_tree_iterator<std::pair<unsigned int const, unsigned int> > std::_Rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, std::_Select1st<std::pair<unsigned int const, unsigned int> >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, unsigned int> > >::_M_emplace_hint_unique<std::piecewise_construct_t const&, std::tuple<unsigned int const&>, std::tuple<> >(std::_Rb_tree_const_iterator<std::pair<unsigned int const, unsigned int> >, std::piecewise_construct_t const&, std::tuple<unsigned int const&>&&, std::tuple<>&&) (stl_tree.h:2460)
+      n1: 11267920 0x11865C: operator[] (stl_map.h:499)
+       n1: 11267920 0x11865C: HeirScheduleHost::receive_data_packet(Packet*) (node.cpp:301)
+        n1: 11267920 0x112A1A: run_scenario() (main.cpp:102)
+         n1: 11267920 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+          n0: 11267920 0x1119CE: main (main.cpp:134)
+ n0: 5146651 in 141 places, all below massif's threshold (1.00%)
+ n1: 4059264 0x116D5E: LocalArbiter::allocate_uplink() (node.cpp:562)
+  n1: 4059264 0x112A1A: run_scenario() (main.cpp:102)
+   n1: 4059264 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+    n0: 4059264 0x1119CE: main (main.cpp:134)
+ n1: 3750000 0x11F21C: allocate (new_allocator.h:114)
+  n1: 3750000 0x11F21C: allocate (alloc_traits.h:443)
+   n1: 3750000 0x11F21C: _M_allocate (stl_vector.h:343)
+    n1: 3750000 0x11F21C: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 3750000 0x11A91F: resize (stl_vector.h:937)
+      n1: 3750000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+       n1: 3750000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+        n1: 3750000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+         n0: 3750000 0x1119CE: main (main.cpp:134)
+ n1: 3000000 0x11F288: allocate (new_allocator.h:114)
+  n1: 3000000 0x11F288: allocate (alloc_traits.h:443)
+   n1: 3000000 0x11F288: _M_allocate_map (stl_deque.h:634)
+    n1: 3000000 0x11F288: _M_initialize_map (stl_deque.h:707)
+     n1: 3000000 0x11F288: _Deque_base (stl_deque.h:510)
+      n1: 3000000 0x11F288: deque (stl_deque.h:915)
+       n1: 3000000 0x11F288: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+        n1: 3000000 0x11F288: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+         n1: 3000000 0x11F288: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+          n1: 3000000 0x11F288: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+           n1: 3000000 0x11F288: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+            n1: 3000000 0x11A91F: resize (stl_vector.h:937)
+             n1: 3000000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+              n1: 3000000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+               n1: 3000000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                n0: 3000000 0x1119CE: main (main.cpp:134)
+ n1: 2291960 0x122CC1: allocate (new_allocator.h:114)
+  n1: 2291960 0x122CC1: allocate (alloc_traits.h:443)
+   n1: 2291960 0x122CC1: _M_allocate (stl_vector.h:343)
+    n1: 2291960 0x122CC1: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<unsigned int const*, std::vector<unsigned int> > > (stl_vector.h:1508)
+     n1: 2291960 0x122CC1: std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) (vector.tcc:226)
+      n0: 2291960 in 2 places, all below massif's threshold (1.00%)
+ n1: 2291960 0x122E11: allocate (new_allocator.h:114)
+  n1: 2291960 0x122E11: allocate (alloc_traits.h:443)
+   n1: 2291960 0x122E11: _M_allocate (stl_vector.h:343)
+    n1: 2291960 0x122E11: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<Flow* const*, std::vector<Flow*> > > (stl_vector.h:1508)
+     n1: 2291960 0x122E11: std::vector<Flow*, std::allocator<Flow*> >::operator=(std::vector<Flow*, std::allocator<Flow*> > const&) (vector.tcc:226)
+      n1: 2291960 0x1228DD: HeirScheduleDataPkt::HeirScheduleDataPkt(Host*, Host*, unsigned int, unsigned int, std::vector<Flow*, std::allocator<Flow*> >, std::vector<unsigned int, std::allocator<unsigned int> >, std::vector<unsigned int, std::allocator<unsigned int> >) (packet.cpp:121)
+       n1: 2291960 0x1151A3: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+        n1: 2291960 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+         n1: 2291960 0x112A1A: run_scenario() (main.cpp:102)
+          n1: 2291960 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+           n0: 2291960 0x1119CE: main (main.cpp:134)
+#-----------
+snapshot=40
+#-----------
+time=674088256123
+mem_heap_B=141678795
+mem_heap_extra_B=27401597
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=695197650351
+mem_heap_B=142800119
+mem_heap_extra_B=27665273
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=710604157144
+mem_heap_B=143779823
+mem_heap_extra_B=27893977
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=43
+#-----------
+time=728932001138
+mem_heap_B=144871587
+mem_heap_extra_B=28127029
+mem_stacks_B=0
+heap_tree=detailed
+n9: 144871587 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 88515840 0x115174: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+  n1: 88515840 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+   n1: 88515840 0x112A1A: run_scenario() (main.cpp:102)
+    n1: 88515840 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+     n0: 88515840 0x1119CE: main (main.cpp:134)
+ n1: 23625000 0x11F2A8: allocate (new_allocator.h:114)
+  n1: 23625000 0x11F2A8: allocate (alloc_traits.h:443)
+   n1: 23625000 0x11F2A8: _M_allocate_node (stl_deque.h:620)
+    n1: 23625000 0x11F2A8: _M_create_nodes (stl_deque.h:745)
+     n1: 23625000 0x11F2A8: _M_initialize_map (stl_deque.h:719)
+      n1: 23625000 0x11F2A8: _Deque_base (stl_deque.h:510)
+       n1: 23625000 0x11F2A8: deque (stl_deque.h:915)
+        n1: 23625000 0x11F2A8: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+         n1: 23625000 0x11F2A8: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+          n1: 23625000 0x11F2A8: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+           n1: 23625000 0x11F2A8: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+            n1: 23625000 0x11F2A8: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+             n1: 23625000 0x11A91F: resize (stl_vector.h:937)
+              n1: 23625000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+               n1: 23625000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+                n1: 23625000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                 n0: 23625000 0x1119CE: main (main.cpp:134)
+ n1: 11746800 0x11D1D0: allocate (new_allocator.h:114)
+  n1: 11746800 0x11D1D0: allocate (alloc_traits.h:443)
+   n1: 11746800 0x11D1D0: _M_get_node (stl_tree.h:580)
+    n1: 11746800 0x11D1D0: _M_create_node<const std::piecewise_construct_t&, std::tuple<unsigned int const&>, std::tuple<> > (stl_tree.h:630)
+     n1: 11746800 0x11D1D0: std::_Rb_tree_iterator<std::pair<unsigned int const, unsigned int> > std::_Rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, std::_Select1st<std::pair<unsigned int const, unsigned int> >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, unsigned int> > >::_M_emplace_hint_unique<std::piecewise_construct_t const&, std::tuple<unsigned int const&>, std::tuple<> >(std::_Rb_tree_const_iterator<std::pair<unsigned int const, unsigned int> >, std::piecewise_construct_t const&, std::tuple<unsigned int const&>&&, std::tuple<>&&) (stl_tree.h:2460)
+      n1: 11746800 0x11865C: operator[] (stl_map.h:499)
+       n1: 11746800 0x11865C: HeirScheduleHost::receive_data_packet(Packet*) (node.cpp:301)
+        n1: 11746800 0x112A1A: run_scenario() (main.cpp:102)
+         n1: 11746800 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+          n0: 11746800 0x1119CE: main (main.cpp:134)
+ n0: 5176419 in 141 places, all below massif's threshold (1.00%)
+ n1: 4296104 0x116D5E: LocalArbiter::allocate_uplink() (node.cpp:562)
+  n1: 4296104 0x112A1A: run_scenario() (main.cpp:102)
+   n1: 4296104 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+    n0: 4296104 0x1119CE: main (main.cpp:134)
+ n1: 3750000 0x11F21C: allocate (new_allocator.h:114)
+  n1: 3750000 0x11F21C: allocate (alloc_traits.h:443)
+   n1: 3750000 0x11F21C: _M_allocate (stl_vector.h:343)
+    n1: 3750000 0x11F21C: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 3750000 0x11A91F: resize (stl_vector.h:937)
+      n1: 3750000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+       n1: 3750000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+        n1: 3750000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+         n0: 3750000 0x1119CE: main (main.cpp:134)
+ n1: 3000000 0x11F288: allocate (new_allocator.h:114)
+  n1: 3000000 0x11F288: allocate (alloc_traits.h:443)
+   n1: 3000000 0x11F288: _M_allocate_map (stl_deque.h:634)
+    n1: 3000000 0x11F288: _M_initialize_map (stl_deque.h:707)
+     n1: 3000000 0x11F288: _Deque_base (stl_deque.h:510)
+      n1: 3000000 0x11F288: deque (stl_deque.h:915)
+       n1: 3000000 0x11F288: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+        n1: 3000000 0x11F288: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+         n1: 3000000 0x11F288: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+          n1: 3000000 0x11F288: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+           n1: 3000000 0x11F288: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+            n1: 3000000 0x11A91F: resize (stl_vector.h:937)
+             n1: 3000000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+              n1: 3000000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+               n1: 3000000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                n0: 3000000 0x1119CE: main (main.cpp:134)
+ n1: 2380712 0x122CC1: allocate (new_allocator.h:114)
+  n1: 2380712 0x122CC1: allocate (alloc_traits.h:443)
+   n1: 2380712 0x122CC1: _M_allocate (stl_vector.h:343)
+    n1: 2380712 0x122CC1: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<unsigned int const*, std::vector<unsigned int> > > (stl_vector.h:1508)
+     n1: 2380712 0x122CC1: std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) (vector.tcc:226)
+      n0: 2380712 in 2 places, all below massif's threshold (1.00%)
+ n1: 2380712 0x122E11: allocate (new_allocator.h:114)
+  n1: 2380712 0x122E11: allocate (alloc_traits.h:443)
+   n1: 2380712 0x122E11: _M_allocate (stl_vector.h:343)
+    n1: 2380712 0x122E11: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<Flow* const*, std::vector<Flow*> > > (stl_vector.h:1508)
+     n1: 2380712 0x122E11: std::vector<Flow*, std::allocator<Flow*> >::operator=(std::vector<Flow*, std::allocator<Flow*> > const&) (vector.tcc:226)
+      n1: 2380712 0x1228DD: HeirScheduleDataPkt::HeirScheduleDataPkt(Host*, Host*, unsigned int, unsigned int, std::vector<Flow*, std::allocator<Flow*> >, std::vector<unsigned int, std::allocator<unsigned int> >, std::vector<unsigned int, std::allocator<unsigned int> >) (packet.cpp:121)
+       n1: 2380712 0x1151A3: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+        n1: 2380712 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+         n1: 2380712 0x112A1A: run_scenario() (main.cpp:102)
+          n1: 2380712 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+           n0: 2380712 0x1119CE: main (main.cpp:134)
+#-----------
+snapshot=44
+#-----------
+time=750932519783
+mem_heap_B=146019315
+mem_heap_extra_B=28416773
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=45
+#-----------
+time=762922996536
+mem_heap_B=146632439
+mem_heap_extra_B=28562049
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=46
+#-----------
+time=788579029090
+mem_heap_B=148113891
+mem_heap_extra_B=28907029
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=47
+#-----------
+time=806583739103
+mem_heap_B=149297627
+mem_heap_extra_B=29137757
+mem_stacks_B=0
+heap_tree=detailed
+n9: 149297627 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 91831040 0x115174: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+  n1: 91831040 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+   n1: 91831040 0x112A1A: run_scenario() (main.cpp:102)
+    n1: 91831040 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+     n0: 91831040 0x1119CE: main (main.cpp:134)
+ n1: 23625000 0x11F2A8: allocate (new_allocator.h:114)
+  n1: 23625000 0x11F2A8: allocate (alloc_traits.h:443)
+   n1: 23625000 0x11F2A8: _M_allocate_node (stl_deque.h:620)
+    n1: 23625000 0x11F2A8: _M_create_nodes (stl_deque.h:745)
+     n1: 23625000 0x11F2A8: _M_initialize_map (stl_deque.h:719)
+      n1: 23625000 0x11F2A8: _Deque_base (stl_deque.h:510)
+       n1: 23625000 0x11F2A8: deque (stl_deque.h:915)
+        n1: 23625000 0x11F2A8: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+         n1: 23625000 0x11F2A8: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+          n1: 23625000 0x11F2A8: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+           n1: 23625000 0x11F2A8: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+            n1: 23625000 0x11F2A8: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+             n1: 23625000 0x11A91F: resize (stl_vector.h:937)
+              n1: 23625000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+               n1: 23625000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+                n1: 23625000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                 n0: 23625000 0x1119CE: main (main.cpp:134)
+ n1: 12178720 0x11D1D0: allocate (new_allocator.h:114)
+  n1: 12178720 0x11D1D0: allocate (alloc_traits.h:443)
+   n1: 12178720 0x11D1D0: _M_get_node (stl_tree.h:580)
+    n1: 12178720 0x11D1D0: _M_create_node<const std::piecewise_construct_t&, std::tuple<unsigned int const&>, std::tuple<> > (stl_tree.h:630)
+     n1: 12178720 0x11D1D0: std::_Rb_tree_iterator<std::pair<unsigned int const, unsigned int> > std::_Rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, std::_Select1st<std::pair<unsigned int const, unsigned int> >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, unsigned int> > >::_M_emplace_hint_unique<std::piecewise_construct_t const&, std::tuple<unsigned int const&>, std::tuple<> >(std::_Rb_tree_const_iterator<std::pair<unsigned int const, unsigned int> >, std::piecewise_construct_t const&, std::tuple<unsigned int const&>&&, std::tuple<>&&) (stl_tree.h:2460)
+      n1: 12178720 0x11865C: operator[] (stl_map.h:499)
+       n1: 12178720 0x11865C: HeirScheduleHost::receive_data_packet(Packet*) (node.cpp:301)
+        n1: 12178720 0x112A1A: run_scenario() (main.cpp:102)
+         n1: 12178720 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+          n0: 12178720 0x1119CE: main (main.cpp:134)
+ n0: 5453931 in 141 places, all below massif's threshold (1.00%)
+ n1: 4518312 0x116D5E: LocalArbiter::allocate_uplink() (node.cpp:562)
+  n1: 4518312 0x112A1A: run_scenario() (main.cpp:102)
+   n1: 4518312 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+    n0: 4518312 0x1119CE: main (main.cpp:134)
+ n1: 3750000 0x11F21C: allocate (new_allocator.h:114)
+  n1: 3750000 0x11F21C: allocate (alloc_traits.h:443)
+   n1: 3750000 0x11F21C: _M_allocate (stl_vector.h:343)
+    n1: 3750000 0x11F21C: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 3750000 0x11A91F: resize (stl_vector.h:937)
+      n1: 3750000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+       n1: 3750000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+        n1: 3750000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+         n0: 3750000 0x1119CE: main (main.cpp:134)
+ n1: 3000000 0x11F288: allocate (new_allocator.h:114)
+  n1: 3000000 0x11F288: allocate (alloc_traits.h:443)
+   n1: 3000000 0x11F288: _M_allocate_map (stl_deque.h:634)
+    n1: 3000000 0x11F288: _M_initialize_map (stl_deque.h:707)
+     n1: 3000000 0x11F288: _Deque_base (stl_deque.h:510)
+      n1: 3000000 0x11F288: deque (stl_deque.h:915)
+       n1: 3000000 0x11F288: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+        n1: 3000000 0x11F288: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+         n1: 3000000 0x11F288: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+          n1: 3000000 0x11F288: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+           n1: 3000000 0x11F288: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+            n1: 3000000 0x11A91F: resize (stl_vector.h:937)
+             n1: 3000000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+              n1: 3000000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+               n1: 3000000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                n0: 3000000 0x1119CE: main (main.cpp:134)
+ n1: 2470312 0x122CC1: allocate (new_allocator.h:114)
+  n1: 2470312 0x122CC1: allocate (alloc_traits.h:443)
+   n1: 2470312 0x122CC1: _M_allocate (stl_vector.h:343)
+    n1: 2470312 0x122CC1: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<unsigned int const*, std::vector<unsigned int> > > (stl_vector.h:1508)
+     n1: 2470312 0x122CC1: std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) (vector.tcc:226)
+      n0: 2470312 in 2 places, all below massif's threshold (1.00%)
+ n1: 2470312 0x122E11: allocate (new_allocator.h:114)
+  n1: 2470312 0x122E11: allocate (alloc_traits.h:443)
+   n1: 2470312 0x122E11: _M_allocate (stl_vector.h:343)
+    n1: 2470312 0x122E11: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<Flow* const*, std::vector<Flow*> > > (stl_vector.h:1508)
+     n1: 2470312 0x122E11: std::vector<Flow*, std::allocator<Flow*> >::operator=(std::vector<Flow*, std::allocator<Flow*> > const&) (vector.tcc:226)
+      n1: 2470312 0x1228DD: HeirScheduleDataPkt::HeirScheduleDataPkt(Host*, Host*, unsigned int, unsigned int, std::vector<Flow*, std::allocator<Flow*> >, std::vector<unsigned int, std::allocator<unsigned int> >, std::vector<unsigned int, std::allocator<unsigned int> >) (packet.cpp:121)
+       n1: 2470312 0x1151A3: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+        n1: 2470312 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+         n1: 2470312 0x112A1A: run_scenario() (main.cpp:102)
+          n1: 2470312 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+           n0: 2470312 0x1119CE: main (main.cpp:134)
+#-----------
+snapshot=48
+#-----------
+time=817579935801
+mem_heap_B=149724907
+mem_heap_extra_B=29281669
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=49
+#-----------
+time=832241524116
+mem_heap_B=150549703
+mem_heap_extra_B=29430553
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=50
+#-----------
+time=833829283615
+mem_heap_B=150351071
+mem_heap_extra_B=29432153
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=51
+#-----------
+time=835417197324
+mem_heap_B=150358147
+mem_heap_extra_B=29434405
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=52
+#-----------
+time=835721852896
+mem_heap_B=150784691
+mem_heap_extra_B=29486165
+mem_stacks_B=0
+heap_tree=peak
+n9: 150784691 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 92967680 0x115174: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+  n1: 92967680 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+   n1: 92967680 0x112A1A: run_scenario() (main.cpp:102)
+    n1: 92967680 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+     n0: 92967680 0x1119CE: main (main.cpp:134)
+ n1: 23625000 0x11F2A8: allocate (new_allocator.h:114)
+  n1: 23625000 0x11F2A8: allocate (alloc_traits.h:443)
+   n1: 23625000 0x11F2A8: _M_allocate_node (stl_deque.h:620)
+    n1: 23625000 0x11F2A8: _M_create_nodes (stl_deque.h:745)
+     n1: 23625000 0x11F2A8: _M_initialize_map (stl_deque.h:719)
+      n1: 23625000 0x11F2A8: _Deque_base (stl_deque.h:510)
+       n1: 23625000 0x11F2A8: deque (stl_deque.h:915)
+        n1: 23625000 0x11F2A8: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+         n1: 23625000 0x11F2A8: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+          n1: 23625000 0x11F2A8: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+           n1: 23625000 0x11F2A8: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+            n1: 23625000 0x11F2A8: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+             n1: 23625000 0x11A91F: resize (stl_vector.h:937)
+              n1: 23625000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+               n1: 23625000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+                n1: 23625000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                 n0: 23625000 0x1119CE: main (main.cpp:134)
+ n1: 12333360 0x11D1D0: allocate (new_allocator.h:114)
+  n1: 12333360 0x11D1D0: allocate (alloc_traits.h:443)
+   n1: 12333360 0x11D1D0: _M_get_node (stl_tree.h:580)
+    n1: 12333360 0x11D1D0: _M_create_node<const std::piecewise_construct_t&, std::tuple<unsigned int const&>, std::tuple<> > (stl_tree.h:630)
+     n1: 12333360 0x11D1D0: std::_Rb_tree_iterator<std::pair<unsigned int const, unsigned int> > std::_Rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, std::_Select1st<std::pair<unsigned int const, unsigned int> >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, unsigned int> > >::_M_emplace_hint_unique<std::piecewise_construct_t const&, std::tuple<unsigned int const&>, std::tuple<> >(std::_Rb_tree_const_iterator<std::pair<unsigned int const, unsigned int> >, std::piecewise_construct_t const&, std::tuple<unsigned int const&>&&, std::tuple<>&&) (stl_tree.h:2460)
+      n1: 12333360 0x11865C: operator[] (stl_map.h:499)
+       n1: 12333360 0x11865C: HeirScheduleHost::receive_data_packet(Packet*) (node.cpp:301)
+        n1: 12333360 0x112A1A: run_scenario() (main.cpp:102)
+         n1: 12333360 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+          n0: 12333360 0x1119CE: main (main.cpp:134)
+ n0: 5509411 in 141 places, all below massif's threshold (1.00%)
+ n1: 4597176 0x116D5E: LocalArbiter::allocate_uplink() (node.cpp:562)
+  n1: 4597176 0x112A1A: run_scenario() (main.cpp:102)
+   n1: 4597176 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+    n0: 4597176 0x1119CE: main (main.cpp:134)
+ n1: 3750000 0x11F21C: allocate (new_allocator.h:114)
+  n1: 3750000 0x11F21C: allocate (alloc_traits.h:443)
+   n1: 3750000 0x11F21C: _M_allocate (stl_vector.h:343)
+    n1: 3750000 0x11F21C: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 3750000 0x11A91F: resize (stl_vector.h:937)
+      n1: 3750000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+       n1: 3750000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+        n1: 3750000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+         n0: 3750000 0x1119CE: main (main.cpp:134)
+ n1: 3000000 0x11F288: allocate (new_allocator.h:114)
+  n1: 3000000 0x11F288: allocate (alloc_traits.h:443)
+   n1: 3000000 0x11F288: _M_allocate_map (stl_deque.h:634)
+    n1: 3000000 0x11F288: _M_initialize_map (stl_deque.h:707)
+     n1: 3000000 0x11F288: _Deque_base (stl_deque.h:510)
+      n1: 3000000 0x11F288: deque (stl_deque.h:915)
+       n1: 3000000 0x11F288: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+        n1: 3000000 0x11F288: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+         n1: 3000000 0x11F288: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+          n1: 3000000 0x11F288: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+           n1: 3000000 0x11F288: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+            n1: 3000000 0x11A91F: resize (stl_vector.h:937)
+             n1: 3000000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+              n1: 3000000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+               n1: 3000000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                n0: 3000000 0x1119CE: main (main.cpp:134)
+ n1: 2501032 0x122CC1: allocate (new_allocator.h:114)
+  n1: 2501032 0x122CC1: allocate (alloc_traits.h:443)
+   n1: 2501032 0x122CC1: _M_allocate (stl_vector.h:343)
+    n1: 2501032 0x122CC1: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<unsigned int const*, std::vector<unsigned int> > > (stl_vector.h:1508)
+     n1: 2501032 0x122CC1: std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) (vector.tcc:226)
+      n0: 2501032 in 2 places, all below massif's threshold (1.00%)
+ n1: 2501032 0x122E11: allocate (new_allocator.h:114)
+  n1: 2501032 0x122E11: allocate (alloc_traits.h:443)
+   n1: 2501032 0x122E11: _M_allocate (stl_vector.h:343)
+    n1: 2501032 0x122E11: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<Flow* const*, std::vector<Flow*> > > (stl_vector.h:1508)
+     n1: 2501032 0x122E11: std::vector<Flow*, std::allocator<Flow*> >::operator=(std::vector<Flow*, std::allocator<Flow*> > const&) (vector.tcc:226)
+      n1: 2501032 0x1228DD: HeirScheduleDataPkt::HeirScheduleDataPkt(Host*, Host*, unsigned int, unsigned int, std::vector<Flow*, std::allocator<Flow*> >, std::vector<unsigned int, std::allocator<unsigned int> >, std::vector<unsigned int, std::allocator<unsigned int> >) (packet.cpp:121)
+       n1: 2501032 0x1151A3: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+        n1: 2501032 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+         n1: 2501032 0x112A1A: run_scenario() (main.cpp:102)
+          n1: 2501032 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+           n0: 2501032 0x1119CE: main (main.cpp:134)
+#-----------
+snapshot=53
+#-----------
+time=837305926073
+mem_heap_B=150791439
+mem_heap_extra_B=29488369
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=54
+#-----------
+time=838893125414
+mem_heap_B=150716891
+mem_heap_extra_B=29516333
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=55
+#-----------
+time=840480173581
+mem_heap_B=150723915
+mem_heap_extra_B=29518557
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=56
+#-----------
+time=842065016708
+mem_heap_B=150845775
+mem_heap_extra_B=29546449
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=57
+#-----------
+time=843650363487
+mem_heap_B=150959271
+mem_heap_extra_B=29573761
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=58
+#-----------
+time=845236409406
+mem_heap_B=150965851
+mem_heap_extra_B=29575885
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=59
+#-----------
+time=846825608269
+mem_heap_B=150972727
+mem_heap_extra_B=29578137
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=60
+#-----------
+time=848415811460
+mem_heap_B=151094831
+mem_heap_extra_B=29606017
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=61
+#-----------
+time=850006783976
+mem_heap_B=151216843
+mem_heap_extra_B=29633877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=62
+#-----------
+time=851595072332
+mem_heap_B=151215179
+mem_heap_extra_B=29635557
+mem_stacks_B=0
+heap_tree=detailed
+n9: 151215179 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 93441280 0x115174: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+  n1: 93441280 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+   n1: 93441280 0x112A1A: run_scenario() (main.cpp:102)
+    n1: 93441280 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+     n0: 93441280 0x1119CE: main (main.cpp:134)
+ n1: 23625000 0x11F2A8: allocate (new_allocator.h:114)
+  n1: 23625000 0x11F2A8: allocate (alloc_traits.h:443)
+   n1: 23625000 0x11F2A8: _M_allocate_node (stl_deque.h:620)
+    n1: 23625000 0x11F2A8: _M_create_nodes (stl_deque.h:745)
+     n1: 23625000 0x11F2A8: _M_initialize_map (stl_deque.h:719)
+      n1: 23625000 0x11F2A8: _Deque_base (stl_deque.h:510)
+       n1: 23625000 0x11F2A8: deque (stl_deque.h:915)
+        n1: 23625000 0x11F2A8: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+         n1: 23625000 0x11F2A8: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+          n1: 23625000 0x11F2A8: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+           n1: 23625000 0x11F2A8: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+            n1: 23625000 0x11F2A8: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+             n1: 23625000 0x11A91F: resize (stl_vector.h:937)
+              n1: 23625000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+               n1: 23625000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+                n1: 23625000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                 n0: 23625000 0x1119CE: main (main.cpp:134)
+ n1: 12416600 0x11D1D0: allocate (new_allocator.h:114)
+  n1: 12416600 0x11D1D0: allocate (alloc_traits.h:443)
+   n1: 12416600 0x11D1D0: _M_get_node (stl_tree.h:580)
+    n1: 12416600 0x11D1D0: _M_create_node<const std::piecewise_construct_t&, std::tuple<unsigned int const&>, std::tuple<> > (stl_tree.h:630)
+     n1: 12416600 0x11D1D0: std::_Rb_tree_iterator<std::pair<unsigned int const, unsigned int> > std::_Rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, std::_Select1st<std::pair<unsigned int const, unsigned int> >, std::less<unsigned int>, std::allocator<std::pair<unsigned int const, unsigned int> > >::_M_emplace_hint_unique<std::piecewise_construct_t const&, std::tuple<unsigned int const&>, std::tuple<> >(std::_Rb_tree_const_iterator<std::pair<unsigned int const, unsigned int> >, std::piecewise_construct_t const&, std::tuple<unsigned int const&>&&, std::tuple<>&&) (stl_tree.h:2460)
+      n1: 12416600 0x11865C: operator[] (stl_map.h:499)
+       n1: 12416600 0x11865C: HeirScheduleHost::receive_data_packet(Packet*) (node.cpp:301)
+        n1: 12416600 0x112A1A: run_scenario() (main.cpp:102)
+         n1: 12416600 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+          n0: 12416600 0x1119CE: main (main.cpp:134)
+ n0: 5318027 in 141 places, all below massif's threshold (1.00%)
+ n1: 4636608 0x116D5E: LocalArbiter::allocate_uplink() (node.cpp:562)
+  n1: 4636608 0x112A1A: run_scenario() (main.cpp:102)
+   n1: 4636608 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+    n0: 4636608 0x1119CE: main (main.cpp:134)
+ n1: 3750000 0x11F21C: allocate (new_allocator.h:114)
+  n1: 3750000 0x11F21C: allocate (alloc_traits.h:443)
+   n1: 3750000 0x11F21C: _M_allocate (stl_vector.h:343)
+    n1: 3750000 0x11F21C: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 3750000 0x11A91F: resize (stl_vector.h:937)
+      n1: 3750000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+       n1: 3750000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+        n1: 3750000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+         n0: 3750000 0x1119CE: main (main.cpp:134)
+ n1: 3000000 0x11F288: allocate (new_allocator.h:114)
+  n1: 3000000 0x11F288: allocate (alloc_traits.h:443)
+   n1: 3000000 0x11F288: _M_allocate_map (stl_deque.h:634)
+    n1: 3000000 0x11F288: _M_initialize_map (stl_deque.h:707)
+     n1: 3000000 0x11F288: _Deque_base (stl_deque.h:510)
+      n1: 3000000 0x11F288: deque (stl_deque.h:915)
+       n1: 3000000 0x11F288: _Construct<std::deque<flow_data_at_src> > (stl_deque.h:915)
+        n1: 3000000 0x11F288: __uninit_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:545)
+         n1: 3000000 0x11F288: __uninitialized_default_n<std::deque<flow_data_at_src>*, long unsigned int> (stl_uninitialized.h:601)
+          n1: 3000000 0x11F288: __uninitialized_default_n_a<std::deque<flow_data_at_src>*, long unsigned int, std::deque<flow_data_at_src> > (stl_uninitialized.h:663)
+           n1: 3000000 0x11F288: std::vector<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> >, std::allocator<std::deque<flow_data_at_src, std::allocator<flow_data_at_src> > > >::_M_default_append(unsigned long) (vector.tcc:640)
+            n1: 3000000 0x11A91F: resize (stl_vector.h:937)
+             n1: 3000000 0x11A91F: HeirScheduleHost::HeirScheduleHost(unsigned int, double, double, unsigned int) (node.cpp:86)
+              n1: 3000000 0x126CC8: HeirScheduleTopology::HeirScheduleTopology(unsigned int, double, double, unsigned int) (topology.cpp:297)
+               n1: 3000000 0x143887: run_experiment(int, char**, unsigned int) (experiment.cpp:175)
+                n0: 3000000 0x1119CE: main (main.cpp:134)
+ n1: 2513832 0x122CC1: allocate (new_allocator.h:114)
+  n1: 2513832 0x122CC1: allocate (alloc_traits.h:443)
+   n1: 2513832 0x122CC1: _M_allocate (stl_vector.h:343)
+    n1: 2513832 0x122CC1: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<unsigned int const*, std::vector<unsigned int> > > (stl_vector.h:1508)
+     n1: 2513832 0x122CC1: std::vector<unsigned int, std::allocator<unsigned int> >::operator=(std::vector<unsigned int, std::allocator<unsigned int> > const&) (vector.tcc:226)
+      n0: 2513832 in 2 places, all below massif's threshold (1.00%)
+ n1: 2513832 0x122E11: allocate (new_allocator.h:114)
+  n1: 2513832 0x122E11: allocate (alloc_traits.h:443)
+   n1: 2513832 0x122E11: _M_allocate (stl_vector.h:343)
+    n1: 2513832 0x122E11: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<Flow* const*, std::vector<Flow*> > > (stl_vector.h:1508)
+     n1: 2513832 0x122E11: std::vector<Flow*, std::allocator<Flow*> >::operator=(std::vector<Flow*, std::allocator<Flow*> > const&) (vector.tcc:226)
+      n1: 2513832 0x1228DD: HeirScheduleDataPkt::HeirScheduleDataPkt(Host*, Host*, unsigned int, unsigned int, std::vector<Flow*, std::allocator<Flow*> >, std::vector<unsigned int, std::allocator<unsigned int> >, std::vector<unsigned int, std::allocator<unsigned int> >) (packet.cpp:121)
+       n1: 2513832 0x1151A3: HeirScheduleHost::get_data_packet(unsigned int) (node.cpp:238)
+        n1: 2513832 0x1156A3: HeirScheduleHost::receive_schd_and_send_data(Packet*) (node.cpp:186)
+         n1: 2513832 0x112A1A: run_scenario() (main.cpp:102)
+          n1: 2513832 0x14442A: run_experiment(int, char**, unsigned int) (experiment.cpp:271)
+           n0: 2513832 0x1119CE: main (main.cpp:134)
+#-----------
+snapshot=63
+#-----------
+time=853183951987
+mem_heap_B=151222135
+mem_heap_extra_B=29637897
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=64
+#-----------
+time=854775552688
+mem_heap_B=151344435
+mem_heap_extra_B=29665893
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=65
+#-----------
+time=856360011110
+mem_heap_B=151581503
+mem_heap_extra_B=29719249
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=66
+#-----------
+time=857948572603
+mem_heap_B=151703731
+mem_heap_extra_B=29746997
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=67
+#-----------
+time=859538614633
+mem_heap_B=151710795
+mem_heap_extra_B=29749245
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=68
+#-----------
+time=861125390621
+mem_heap_B=151832815
+mem_heap_extra_B=29777129
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=69
+#-----------
+time=862714865909
+mem_heap_B=151946287
+mem_heap_extra_B=29804361
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=70
+#-----------
+time=864304698341
+mem_heap_B=151952907
+mem_heap_extra_B=29806445
+mem_stacks_B=0
+heap_tree=empty

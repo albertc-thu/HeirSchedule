@@ -5,6 +5,7 @@
 #include <queue>
 #include <map>
 #include <set>
+// #include <priority_queue>
 #include "queue.h"
 #include "packet.h"
 #include "../run/params.h"
@@ -88,9 +89,26 @@ struct host_has_flow
 struct src_dst_pair {
     uint32_t src;
     uint32_t dst;
+    uint32_t size;
 
     bool operator==(const src_dst_pair &other) const {
         return src == other.src && dst == other.dst;
+    }
+    bool operator<(const src_dst_pair &other) const {
+        return size < other.size;
+    }
+};
+
+struct src_dst_size_tuple {
+    uint32_t src;
+    uint32_t dst;
+    uint32_t size;
+
+    bool operator==(const src_dst_size_tuple &other) const {
+        return src == other.src && dst == other.dst;
+    }
+    bool operator<(const src_dst_size_tuple &other) const {
+        return size < other.size;
     }
 };
 
@@ -196,7 +214,7 @@ public:
     void allocate_uplink();
     void send_request_to_la(LocalArbiter *dst, HeirScheduleIPRPkt *ipr_packet);
     void receive_ipr(Packet *packet);
-    void allocate_downlink_crosspod(ipr *ipr_info, HeirScheduleCoreRequestPkt *core_rts_packet);
+    void allocate_downlink_crosspod();
     void allocate_downlink_inpod(ipr *ipr_info, HeirScheduleCoreRequestPkt *core_rts_packet);
     void send_ips_to_la(LocalArbiter *src, HeirScheduleIPSPkt *ips_packet);
     void send_deny_to_la(LocalArbiter *src, HeirScheduleIPDPkt* ipd_packet);
@@ -247,6 +265,8 @@ public:
     vector<vector<vector<bool>>> ToR2Agg; // 一个$T * \frac{k}{2} * \frac{k}{2}$的矩阵, ToR2Agg[t][i][j]表示第t个时隙，ToR i->Agg j的链路是否被分配
     vector<vector<vector<bool>>> Agg2ToR; // 一个$T * \frac{k}{2} * \frac{k}{2}$的矩阵, Agg2ToR[t][i][j]表示第t个时隙，Agg i->ToR j的链路是否被分配
     unordered_map<src_dst_pair, uint32_t> src_dst_data_size_table; // 记录每个源-目的对应的数据总量
+    vector<HeirScheduleIPRPkt*> received_ipr_packets;
+
     // unordered_map<src_dst_pair, uint32_t> src_dst_slot_table; // 记录每个源-目的对应的时间槽
     // unordered_map<src_dst_pair, SCHD*> routing_table; // 记录每个源-目的对应的调度信息
     unordered_map<src_dst_pair, uint32_t> inflight_slot_table; // 记录每个源-目的对应的正在分配的slot数
@@ -259,7 +279,7 @@ public:
 
 class GlobalArbiter : public Host {
 public:
-    GlobalArbiter(uint32_t id, double rate, uint32_t type);
+    GlobalArbiter(uint32_t id, double rate, uint32_t num_gcs, uint32_t type);
     void send_sync_message_to_la();
     void receive(Packet *packet);
     void receive_delay_request_message(Packet *packet);
@@ -268,7 +288,8 @@ public:
     void allocate_core_link();
     void send_core_schd_to_la(HeirScheduleCoreSCHDPkt *core_schd_packet);
     void send_core_deny_to_la(HeirScheduleCoreDenyPkt *core_deny_packet);
-    Queue *toGCSQueue;
+    uint32_t num_gcs;
+    vector<Queue*> toGCSQueues;
     // void recv_agg_agg_rts(); // 从LA接收agg-agg请求
     // void process_agg_agg_rts(); // 处理agg-agg请求
     // void send_agg_agg_schd(); // 向LA发送agg-agg结果

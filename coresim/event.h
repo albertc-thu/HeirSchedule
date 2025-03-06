@@ -49,6 +49,7 @@
 #define ALLOCATE_UPLINK 30
 #define RESTORE_LINK 31
 #define CORE_ALLOCATE_LINK 30
+#define ALLOCATE_DOWNLINK 30
 
 extern void add_to_event_queue(Event *);
 
@@ -322,6 +323,15 @@ class AllocateUplinkEvent : public Event
 public:
     AllocateUplinkEvent(double time, LocalArbiter* la);
     ~AllocateUplinkEvent();
+    void process_event();
+    LocalArbiter* la;
+};
+
+class AllocateDownlinkEvent : public Event
+{
+public:
+    AllocateDownlinkEvent(double time, LocalArbiter* la);
+    ~AllocateDownlinkEvent();
     void process_event();
     LocalArbiter* la;
 };

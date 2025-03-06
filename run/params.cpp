@@ -207,6 +207,15 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         else if (key == "max_slot_to_allocate"){
             lineStream >> params.max_slot_to_allocate;
         }
+        else if (key == "pias"){
+            lineStream >> params.pias;
+        }
+        else if (key == "pias_1"){
+            lineStream >> params.pias_1;
+        }
+        else if (key == "pias_2"){
+            lineStream >> params.pias_2;
+        }
         //else if (key == "dctcp_delayed_ack_freq") {
         //    lineStream >> params.dctcp_delayed_ack_freq;
         //}
@@ -221,7 +230,7 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
     }
     params.slot_length_in_s = params.slot_length * (params.mss + params.hdr_size) * 8 / params.bandwidth_data;
     std::cout << "🐷 slot_length_in_s: " << params.slot_length_in_s << std::endl;
-    params.arbiter_lag = 5;
+    params.arbiter_lag = 5e-6;
 
     // params.mss = 1460;
 }

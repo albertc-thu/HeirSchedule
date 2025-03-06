@@ -61,6 +61,9 @@ interarrival_cdf: none
 num_host_types: 13
 permutation_tm: 1
 max_slot_to_allocate: 10
+pias: 1
+pias_1: 10000
+pias_2: 100000
 '''
 
 template = '../simulator 1 conf_{0}_{1}.txt > {dir}/result_{0}_{1}.txt'

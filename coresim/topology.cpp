@@ -257,7 +257,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     this->num_local_arbiters = k/2;
     this->num_global_arbiters = 1;
     this->num_lcs = k*k / 4;
-    this->num_gcs = 1;
+    this->num_gcs = k/2;
 
 
     uint32_t cores_per_agg_switch = k / 2;
@@ -271,10 +271,10 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     uint32_t hosts_per_lcs = k / 2; // lcs: local control switch
     uint32_t las_per_lcs = 1;
     uint32_t lcs_per_la = k / 2;
-    uint32_t gcs_per_la = 1; // 每个local arbiter连接一个gcs
+    uint32_t gcs_per_la = k / 2; // 每个local arbiter连接一个gcs
     uint32_t las_per_gcs = k / 2; // gcs: global control switch
     uint32_t gas_per_gcs = 1;
-    uint32_t gcs_per_ga = 1;
+    uint32_t gcs_per_ga = k / 2;
     assert(gas_per_gcs == 1);
 
 
@@ -334,7 +334,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
 
     //Create Global Arbiter
     cout << "🔑 Start: create Global Arbiters." << endl;
-    global_arbiter = new GlobalArbiter(0, rate_control, queue_type);
+    global_arbiter = new GlobalArbiter(0, rate_control, num_gcs, queue_type);
     cout << "🔑 Finished: create Global Arbiters." << endl;
 
     //Create Local Control Switches
@@ -622,7 +622,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     {
         for(uint32_t j = 0; j < gcs_per_ga; j++)
         {
-            Queue *q = global_arbiter->toGCSQueue;
+            Queue *q = global_arbiter->toGCSQueues[j];
             q->set_src_dst(global_arbiter, global_control_switches[j]);
             // std::cout << "Linking GA " << i << " to GCS" << j << " with queue " << q->id << " " << q->unique_id << "\n";
         }
