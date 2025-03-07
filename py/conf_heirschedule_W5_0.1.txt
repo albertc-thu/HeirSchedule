@@ -1,6 +1,6 @@
 init_cwnd: 2
 max_cwnd: 6
-k: 4
+k: 10
 retx_timeout: 9.50003e-06
 propagation_delay: 1e-6
 propagation_delay_data: 1e-06
@@ -13,12 +13,12 @@ slot_length: 32
 mss: 512
 T: 100
 dctcp_mark_thresh: 0.125
-dir_name: ../DATA/test
+dir_name: ../DATA/125_28/DATA_W5_0.1
 queue_type: 1
 hdr_size: 40
 flow_type: 112
 num_flow: 1000000
-flow_trace: ../flows/flow_data_8_28/flows_W5_0.1.txt
+flow_trace: ../flows/flow_data_125_28/flows_W5_0.1.txt
 cut_through: 1
 mean_flow_size: 0
 load_balancing: 0
@@ -53,4 +53,7 @@ magic_inflate: 1
 interarrival_cdf: none
 num_host_types: 13
 permutation_tm: 1
-
+max_slot_to_allocate: 10
+pias: 1
+pias_1: 10000
+pias_2: 100000

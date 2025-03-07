@@ -251,6 +251,7 @@ double BigSwitchTopology::get_oracle_fct(Flow *f) {
 HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double rate_control, uint32_t queue_type): Topology(){
     this->k = k;
     this->num_hosts = k*k*k/8;
+    this->hosts_per_pod = k*k/4;
     this->num_tor_switches = k*k / 4;
     this->num_agg_switches = k*k / 4;
     this->num_core_switches = k*k/4;
@@ -764,8 +765,13 @@ Queue* HeirScheduleTopology::get_next_hop(Packet *p, Queue *q){
             return ((ToRSwitch *) q->dst)->toAggQueues[p->path->src_agg_id % (k / 2)];
         }
         else if(q->location == TOR_TO_AGG){
-            uint32_t _port = agg_to_core_port[p->path->src_agg_id][p->path->core_id];
-            return ((AggSwitch *) q->dst)->toCoreQueues[_port];
+            if(p->path->core_id >= num_core_switches){
+                return ((AggSwitch *) q->dst)->toToRQueues[p->path->dst_tor_id % (k / 2)];
+            }
+            else{
+                uint32_t _port = agg_to_core_port[p->path->src_agg_id][p->path->core_id];
+                return ((AggSwitch *) q->dst)->toCoreQueues[_port];
+            }
         }
         else if(q->location == AGG_TO_CORE){
             uint32_t _port = core_to_agg_port[p->path->core_id][p->path->dst_agg_id];

@@ -72,8 +72,8 @@ cdf_temp = './CDF_{}.txt'
 
 runs = ['heirschedule']
 workloads = ['aditya', 'dctcp', 'datamining']
-workloads = ["W5_0.5"]
-workloads = ["test"]
+workloads = ["W5_0.1", "W5_0.25", "W5_0.5", "W5_0.75", "W5_1"]
+# workloads = ["test"]
 
 def getNumLines(trace):
     out = subprocess.check_output('wc -l {}'.format(trace), shell=True)
@@ -96,20 +96,22 @@ def run_command(cmd, semaphore):
     # process.wait()
 
 threads = []
-semaphore = threading.Semaphore(multiprocessing.cpu_count())
+semaphore = threading.Semaphore(5)
 
 
-dir_name = '../DATA/test'
-# dir_name = '../DATA/125_28'
-os.makedirs(dir_name, exist_ok=True)
+
 for r in runs:
     for w in workloads:
         cdf = cdf_temp.format(w)
         numLines = 1000000
         
+        dir_name = '../DATA/125_28/DATA_' + w
+        # dir_name = '../DATA/125_28'
+        os.makedirs(dir_name, exist_ok=True)
+        
         flow_trace = "../flows/flow_data_test/flows_" + w + ".txt"
         # flow_trace = "../flows/flow_data_8_28/flows_" + w + ".txt"
-        # flow_trace = "../flows/flow_data_125_28/flows_" + w + ".txt"
+        flow_trace = "../flows/flow_data_125_28/flows_" + w + ".txt"
 
         #  generate conf file
         if r == 'heirschedule':

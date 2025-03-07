@@ -133,9 +133,9 @@ void FlowArrivalEvent::process_event() {
         add_to_event_queue(flow_arrivals.front());
         flow_arrivals.pop_front();
     }
-    if(flow->id >= 1000){
-        return;
-    }
+    // if(flow->id >= 10000){
+    //     return;
+    // }
 
     cout << "😀 Flow " << flow->id << " arrived at " << get_current_time() << endl;
 

@@ -13,12 +13,12 @@ slot_length: 32
 mss: 512
 T: 100
 dctcp_mark_thresh: 0.125
-dir_name: ../DATA/125_28/DATA_W5_0.5
+dir_name: ../DATA/125_28/DATA_W5_1
 queue_type: 1
 hdr_size: 40
 flow_type: 112
 num_flow: 1000000
-flow_trace: ../flows/flow_data_125_28/flows_W5_0.5.txt
+flow_trace: ../flows/flow_data_125_28/flows_W5_1.txt
 cut_through: 1
 mean_flow_size: 0
 load_balancing: 0

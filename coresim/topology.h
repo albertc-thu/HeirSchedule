@@ -67,6 +67,7 @@ class HeirScheduleTopology : public Topology{
         virtual double get_oracle_fct(Flow* f);
         uint32_t k;
         uint32_t num_hosts;
+        uint32_t hosts_per_pod;
         uint32_t num_tor_switches;
         uint32_t num_agg_switches;
         uint32_t num_core_switches;
