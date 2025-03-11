@@ -248,8 +248,9 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
     dynamic_cast<HeirScheduleTopology*>(topology)->global_arbiter->send_sync_message_to_la();
 
     for(uint32_t i = 0; i < params.k / 2; i++){
-        add_to_event_queue(new AllocateUplinkEvent(params.start_time, dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[i]));
-        add_to_event_queue(new AllocateDownlinkEvent(params.start_time, dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[i]));
+        // add_to_event_queue(new AllocateUplinkEvent(params.start_time, dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[i]));
+        // add_to_event_queue(new AllocateDownlinkEvent(params.start_time, dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[i]));
+        add_to_event_queue(new LocalArbiterScheduleEvent(params.start_time, dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[i]));
     }
     add_to_event_queue(new CoreAllocateLinkEvent(params.start_time, dynamic_cast<HeirScheduleTopology*>(topology)->global_arbiter));
     // cout << "✅ Done Synchronization!\n\n\n" << endl;
@@ -338,8 +339,8 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
 
         // slowdown
         double slowdown_per_flow = 1e6 * f->flow_completion_time / dynamic_cast<HeirScheduleTopology*>(topology)->get_oracle_fct(f);
-        cout << "\nFlow id is " << f->id << ", and Slowdown is " << slowdown_per_flow << endl;
-        cout << "completion time: " << f->flow_completion_time << ", oracle fct: " << dynamic_cast<HeirScheduleTopology*>(topology)->get_oracle_fct(f) << endl;
+        // cout << "\nFlow id is " << f->id << ", and Slowdown is " << slowdown_per_flow << endl;
+        // cout << "completion time: " << f->flow_completion_time << ", oracle fct: " << dynamic_cast<HeirScheduleTopology*>(topology)->get_oracle_fct(f) << endl;
 
 
         if(f->size > 1e7){
@@ -373,7 +374,7 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
         fct += (1000000.0 * f->flow_completion_time); // us
         oracle_fct += topology->get_oracle_fct(f);
 
-        cout << "⛔️ Out-of-order cache size is less than " << f->max_out_of_order_buffer << " Bytes." << endl;
+        // cout << "⛔️ Out-of-order cache size is less than " << f->max_out_of_order_buffer << " Bytes." << endl;
         uint32_t current_buffer = f->max_out_of_order_buffer;
         out_of_order_buffer += int(current_buffer);
         if(max_outoforder_buffer < current_buffer) max_outoforder_buffer = f->max_out_of_order_buffer;

@@ -50,6 +50,7 @@
 #define RESTORE_LINK 31
 #define CORE_ALLOCATE_LINK 30
 #define ALLOCATE_DOWNLINK 30
+#define LA_SCHEDULE 30
 
 extern void add_to_event_queue(Event *);
 
@@ -353,5 +354,16 @@ public:
     void process_event();
     GlobalArbiter* ga;
 };
+
+
+class LocalArbiterScheduleEvent : public Event
+{
+public:
+    LocalArbiterScheduleEvent(double time, LocalArbiter* la);
+    ~LocalArbiterScheduleEvent();
+    void process_event();
+    LocalArbiter* la;
+};
+
 
 #endif /* defined(EVENT_H) */

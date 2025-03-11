@@ -16,7 +16,7 @@ bandwidth_data: 100000000000.0
 bandwidth_ctrl: 10000000000.0
 queue_size: 262144
 queue_size_ctrl: 26214
-slot_length: 32
+slot_length: {slot_length}
 mss: 512
 T: 100
 dctcp_mark_thresh: 0.125
@@ -60,7 +60,7 @@ magic_inflate: 1
 interarrival_cdf: none
 num_host_types: 13
 permutation_tm: 1
-max_slot_to_allocate: 10
+max_slot_to_allocate: {msta}
 pias: 1
 pias_1: 10000
 pias_2: 100000
@@ -70,10 +70,6 @@ template = '../simulator 1 conf_{0}_{1}.txt > {dir}/result_{0}_{1}.txt'
 cdf_temp = './CDF_{}.txt'
 
 
-runs = ['heirschedule']
-workloads = ['aditya', 'dctcp', 'datamining']
-workloads = ["W5_0.1", "W5_0.25", "W5_0.5", "W5_0.75", "W5_1"]
-# workloads = ["test"]
 
 def getNumLines(trace):
     out = subprocess.check_output('wc -l {}'.format(trace), shell=True)
@@ -96,36 +92,48 @@ def run_command(cmd, semaphore):
     # process.wait()
 
 threads = []
-semaphore = threading.Semaphore(5)
+semaphore = threading.Semaphore(35)
 
-
+runs = ['heirschedule']
+workloads = ['aditya', 'dctcp', 'datamining']
+workloads = ["W5_0.1", "W5_0.25", "W5_0.5", "W5_0.75", "W5_1"]
+# workloads = ["W5_0.5"]
+workloads = ["test"]
+# slot_lengths = [4, 8, 16, 32, 64]
+slot_lengths = [32]
+# max_slot_to_allocate = [1, 4, 10, 15, 20]
+max_slot_to_allocate = [10]
 
 for r in runs:
-    for w in workloads:
-        cdf = cdf_temp.format(w)
-        numLines = 1000000
-        
-        dir_name = '../DATA/125_28/DATA_' + w
-        # dir_name = '../DATA/125_28'
-        os.makedirs(dir_name, exist_ok=True)
-        
-        flow_trace = "../flows/flow_data_test/flows_" + w + ".txt"
-        # flow_trace = "../flows/flow_data_8_28/flows_" + w + ".txt"
-        flow_trace = "../flows/flow_data_125_28/flows_" + w + ".txt"
+    for msta in max_slot_to_allocate:
+        for slot_length in slot_lengths:
+            for w in workloads:
+                cdf = cdf_temp.format(w)
+                numLines = 1000000
+                
+                dir_name = '../DATA/PS3/length_{slot_length}_msta_{msta}/125_intra/DATA_{w}'.format(slot_length=slot_length, w=w, msta=msta)
+                dir_name = '../DATA/125_intra/DATA_{w}'.format(slot_length=slot_length, w=w, msta=msta)
+                dir_name = '../DATA/Test'
+                os.makedirs(dir_name, exist_ok=True)
+                
+                flow_trace = "../flows/flow_data_test/flows_" + w + ".txt"
+                # flow_trace = "../flows/flow_data_8_28/flows_" + w + ".txt"
+                # flow_trace = "../flows/flow_data_125_28/flows_" + w + ".txt"
+                # flow_trace = "../flows/flow_data_125_intra/flows_" + w + ".txt"
 
-        #  generate conf file
-        if r == 'heirschedule':
-            conf_str = conf_str_heirschedule.format(numLines, flow_trace=flow_trace, dir_name=dir_name)
-        else:
-            assert False, r
+                #  generate conf file
+                if r == 'heirschedule':
+                    conf_str = conf_str_heirschedule.format(numLines, flow_trace=flow_trace, dir_name=dir_name, slot_length=slot_length, msta=msta)
+                else:
+                    assert False, r
 
-        confFile = "conf_{0}_{1}.txt".format(r, w)
-        with open(confFile, 'w') as f:
-            print(confFile)
-            f.write(conf_str)
-        
-        command = '../simulator 1 conf_{r}_{w}.txt > {dir}/result_{r}_{w}.txt'.format(r=r, w=w, dir=dir_name)
-        threads.append(threading.Thread(target=run_command, args=(command, semaphore)))
+                confFile = "conf_{r}_{w}_{slot_length}_{msta}.txt".format(r=r, w=w, slot_length=slot_length, msta=msta)
+                with open(confFile, 'w') as f:
+                    print(confFile)
+                    f.write(conf_str)
+                
+                command = '../simulator 1 {confFile} > {dir}/result_{r}_{w}.txt'.format(r=r, w=w, dir=dir_name, slot_length=slot_length, confFile=confFile)
+                threads.append(threading.Thread(target=run_command, args=(command, semaphore)))
 
 print('\n')
 [t.start() for t in threads]

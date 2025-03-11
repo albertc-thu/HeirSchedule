@@ -25,3 +25,485 @@ conf_heirschedule_W5_0.5.txt
 
 ../simulator 1 conf_heirschedule_W5_0.5.txt > ../DATA/125_28/result_heirschedule_W5_0.5.txt
 finished 1 experiments
+simulator: coresim/node.cpp:180: void HeirScheduleHost::receive_schd_and_send_data(Packet*): Assertion `false' failed.
+simulator: coresim/node.cpp:180: void HeirScheduleHost::receive_schd_and_send_data(Packet*): Assertion `false' failed.
+simulator: coresim/node.cpp:180: void HeirScheduleHost::receive_schd_and_send_data(Packet*): Assertion `false' failed.
+simulator: coresim/node.cpp:180: void HeirScheduleHost::receive_schd_and_send_data(Packet*): Assertion `false' failed.
+simulator: coresim/node.cpp:180: void HeirScheduleHost::receive_schd_and_send_data(Packet*): Assertion `false' failed.
+Aborted (core dumped)
+Aborted (core dumped)
+Aborted (core dumped)
+Aborted (core dumped)
+Aborted (core dumped)
+conf_heirschedule_W5_0.1_32_1.txt
+conf_heirschedule_W5_0.25_32_1.txt
+conf_heirschedule_W5_0.5_32_1.txt
+conf_heirschedule_W5_0.75_32_1.txt
+conf_heirschedule_W5_1_32_1.txt
+conf_heirschedule_W5_0.1_32_2.txt
+conf_heirschedule_W5_0.25_32_2.txt
+conf_heirschedule_W5_0.5_32_2.txt
+conf_heirschedule_W5_0.75_32_2.txt
+conf_heirschedule_W5_1_32_2.txt
+conf_heirschedule_W5_0.1_32_4.txt
+conf_heirschedule_W5_0.25_32_4.txt
+conf_heirschedule_W5_0.5_32_4.txt
+conf_heirschedule_W5_0.75_32_4.txt
+conf_heirschedule_W5_1_32_4.txt
+conf_heirschedule_W5_0.1_32_6.txt
+conf_heirschedule_W5_0.25_32_6.txt
+conf_heirschedule_W5_0.5_32_6.txt
+conf_heirschedule_W5_0.75_32_6.txt
+conf_heirschedule_W5_1_32_6.txt
+conf_heirschedule_W5_0.1_32_8.txt
+conf_heirschedule_W5_0.25_32_8.txt
+conf_heirschedule_W5_0.5_32_8.txt
+conf_heirschedule_W5_0.75_32_8.txt
+conf_heirschedule_W5_1_32_8.txt
+conf_heirschedule_W5_0.1_32_15.txt
+conf_heirschedule_W5_0.25_32_15.txt
+conf_heirschedule_W5_0.5_32_15.txt
+conf_heirschedule_W5_0.75_32_15.txt
+conf_heirschedule_W5_1_32_15.txt
+conf_heirschedule_W5_0.1_32_20.txt
+conf_heirschedule_W5_0.25_32_20.txt
+conf_heirschedule_W5_0.5_32_20.txt
+conf_heirschedule_W5_0.75_32_20.txt
+conf_heirschedule_W5_1_32_20.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_32_1.txt > ../DATA/125_28/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_1.txt > ../DATA/125_28/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_1.txt > ../DATA/125_28/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_1.txt > ../DATA/125_28/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_1.txt > ../DATA/125_28/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_2.txt > ../DATA/125_28/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_2.txt > ../DATA/125_28/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_2.txt > ../DATA/125_28/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_2.txt > ../DATA/125_28/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_2.txt > ../DATA/125_28/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_4.txt > ../DATA/125_28/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_4.txt > ../DATA/125_28/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_4.txt > ../DATA/125_28/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_4.txt > ../DATA/125_28/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_4.txt > ../DATA/125_28/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_6.txt > ../DATA/125_28/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_6.txt > ../DATA/125_28/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_6.txt > ../DATA/125_28/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_6.txt > ../DATA/125_28/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_6.txt > ../DATA/125_28/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_8.txt > ../DATA/125_28/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_8.txt > ../DATA/125_28/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_8.txt > ../DATA/125_28/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_8.txt > ../DATA/125_28/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_8.txt > ../DATA/125_28/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_15.txt > ../DATA/125_28/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_15.txt > ../DATA/125_28/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_15.txt > ../DATA/125_28/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_15.txt > ../DATA/125_28/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_15.txt > ../DATA/125_28/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_20.txt > ../DATA/125_28/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_20.txt > ../DATA/125_28/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_20.txt > ../DATA/125_28/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_20.txt > ../DATA/125_28/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_20.txt > ../DATA/125_28/result_heirschedule_W5_1.txt
+finished 35 experiments
+conf_heirschedule_W5_0.1_32_1.txt
+conf_heirschedule_W5_0.25_32_1.txt
+conf_heirschedule_W5_0.5_32_1.txt
+conf_heirschedule_W5_0.75_32_1.txt
+conf_heirschedule_W5_1_32_1.txt
+conf_heirschedule_W5_0.1_32_2.txt
+conf_heirschedule_W5_0.25_32_2.txt
+conf_heirschedule_W5_0.5_32_2.txt
+conf_heirschedule_W5_0.75_32_2.txt
+conf_heirschedule_W5_1_32_2.txt
+conf_heirschedule_W5_0.1_32_4.txt
+conf_heirschedule_W5_0.25_32_4.txt
+conf_heirschedule_W5_0.5_32_4.txt
+conf_heirschedule_W5_0.75_32_4.txt
+conf_heirschedule_W5_1_32_4.txt
+conf_heirschedule_W5_0.1_32_6.txt
+conf_heirschedule_W5_0.25_32_6.txt
+conf_heirschedule_W5_0.5_32_6.txt
+conf_heirschedule_W5_0.75_32_6.txt
+conf_heirschedule_W5_1_32_6.txt
+conf_heirschedule_W5_0.1_32_8.txt
+conf_heirschedule_W5_0.25_32_8.txt
+conf_heirschedule_W5_0.5_32_8.txt
+conf_heirschedule_W5_0.75_32_8.txt
+conf_heirschedule_W5_1_32_8.txt
+conf_heirschedule_W5_0.1_32_15.txt
+conf_heirschedule_W5_0.25_32_15.txt
+conf_heirschedule_W5_0.5_32_15.txt
+conf_heirschedule_W5_0.75_32_15.txt
+conf_heirschedule_W5_1_32_15.txt
+conf_heirschedule_W5_0.1_32_20.txt
+conf_heirschedule_W5_0.25_32_20.txt
+conf_heirschedule_W5_0.5_32_20.txt
+conf_heirschedule_W5_0.75_32_20.txt
+conf_heirschedule_W5_1_32_20.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_32_1.txt > ../DATA/PS2/msta_1/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_1.txt > ../DATA/PS2/msta_1/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_1.txt > ../DATA/PS2/msta_1/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_1.txt > ../DATA/PS2/msta_1/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_1.txt > ../DATA/PS2/msta_1/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_2.txt > ../DATA/PS2/msta_2/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_2.txt > ../DATA/PS2/msta_2/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_2.txt > ../DATA/PS2/msta_2/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_2.txt > ../DATA/PS2/msta_2/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_2.txt > ../DATA/PS2/msta_2/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_4.txt > ../DATA/PS2/msta_4/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_4.txt > ../DATA/PS2/msta_4/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_4.txt > ../DATA/PS2/msta_4/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_4.txt > ../DATA/PS2/msta_4/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_4.txt > ../DATA/PS2/msta_4/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_6.txt > ../DATA/PS2/msta_6/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_6.txt > ../DATA/PS2/msta_6/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_6.txt > ../DATA/PS2/msta_6/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_6.txt > ../DATA/PS2/msta_6/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_6.txt > ../DATA/PS2/msta_6/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_8.txt > ../DATA/PS2/msta_8/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_8.txt > ../DATA/PS2/msta_8/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_8.txt > ../DATA/PS2/msta_8/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_8.txt > ../DATA/PS2/msta_8/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_8.txt > ../DATA/PS2/msta_8/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_15.txt > ../DATA/PS2/msta_15/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_15.txt > ../DATA/PS2/msta_15/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_15.txt > ../DATA/PS2/msta_15/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_1_32_15.txt > ../DATA/PS2/msta_15/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_15.txt > ../DATA/PS2/msta_15/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_20.txt > ../DATA/PS2/msta_20/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_20.txt > ../DATA/PS2/msta_20/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_20.txt > ../DATA/PS2/msta_20/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_20.txt > ../DATA/PS2/msta_20/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_20.txt > ../DATA/PS2/msta_20/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 35 experiments
+conf_heirschedule_W5_0.1_4.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_4.txt > ../DATA/PS/slot_length_4/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+finished 1 experiments
+conf_heirschedule_W5_0.1_128.txt
+conf_heirschedule_W5_0.25_128.txt
+conf_heirschedule_W5_0.5_128.txt
+conf_heirschedule_W5_0.75_128.txt
+conf_heirschedule_W5_1_128.txt
+conf_heirschedule_W5_0.1_256.txt
+conf_heirschedule_W5_0.25_256.txt
+conf_heirschedule_W5_0.5_256.txt
+conf_heirschedule_W5_0.75_256.txt
+conf_heirschedule_W5_1_256.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_128.txt > ../DATA/PS/slot_length_128/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_128.txt > ../DATA/PS/slot_length_128/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_128.txt > ../DATA/PS/slot_length_128/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_128.txt > ../DATA/PS/slot_length_128/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_128.txt > ../DATA/PS/slot_length_128/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_256.txt > ../DATA/PS/slot_length_256/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_256.txt > ../DATA/PS/slot_length_256/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_256.txt > ../DATA/PS/slot_length_256/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_256.txt > ../DATA/PS/slot_length_256/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_256.txt > ../DATA/PS/slot_length_256/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 10 experiments
+conf_heirschedule_W5_0.1_32_1.txt
+conf_heirschedule_W5_0.25_32_1.txt
+conf_heirschedule_W5_0.5_32_1.txt
+conf_heirschedule_W5_0.75_32_1.txt
+conf_heirschedule_W5_1_32_1.txt
+conf_heirschedule_W5_0.1_32_2.txt
+conf_heirschedule_W5_0.25_32_2.txt
+conf_heirschedule_W5_0.5_32_2.txt
+conf_heirschedule_W5_0.75_32_2.txt
+conf_heirschedule_W5_1_32_2.txt
+conf_heirschedule_W5_0.1_32_4.txt
+conf_heirschedule_W5_0.25_32_4.txt
+conf_heirschedule_W5_0.5_32_4.txt
+conf_heirschedule_W5_0.75_32_4.txt
+conf_heirschedule_W5_1_32_4.txt
+conf_heirschedule_W5_0.1_32_6.txt
+conf_heirschedule_W5_0.25_32_6.txt
+conf_heirschedule_W5_0.5_32_6.txt
+conf_heirschedule_W5_0.75_32_6.txt
+conf_heirschedule_W5_1_32_6.txt
+conf_heirschedule_W5_0.1_32_8.txt
+conf_heirschedule_W5_0.25_32_8.txt
+conf_heirschedule_W5_0.5_32_8.txt
+conf_heirschedule_W5_0.75_32_8.txt
+conf_heirschedule_W5_1_32_8.txt
+conf_heirschedule_W5_0.1_32_15.txt
+conf_heirschedule_W5_0.25_32_15.txt
+conf_heirschedule_W5_0.5_32_15.txt
+conf_heirschedule_W5_0.75_32_15.txt
+conf_heirschedule_W5_1_32_15.txt
+conf_heirschedule_W5_0.1_32_20.txt
+conf_heirschedule_W5_0.25_32_20.txt
+conf_heirschedule_W5_0.5_32_20.txt
+conf_heirschedule_W5_0.75_32_20.txt
+conf_heirschedule_W5_1_32_20.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_32_1.txt > ../DATA/PS2/msta_1/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_1.txt > ../DATA/PS2/msta_1/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_1.txt > ../DATA/PS2/msta_1/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_1.txt > ../DATA/PS2/msta_1/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_1.txt > ../DATA/PS2/msta_1/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_2.txt > ../DATA/PS2/msta_2/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_2.txt > ../DATA/PS2/msta_2/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_2.txt > ../DATA/PS2/msta_2/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_2.txt > ../DATA/PS2/msta_2/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_2.txt > ../DATA/PS2/msta_2/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_4.txt > ../DATA/PS2/msta_4/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_4.txt > ../DATA/PS2/msta_4/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_4.txt > ../DATA/PS2/msta_4/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_4.txt > ../DATA/PS2/msta_4/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_4.txt > ../DATA/PS2/msta_4/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_6.txt > ../DATA/PS2/msta_6/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_6.txt > ../DATA/PS2/msta_6/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_6.txt > ../DATA/PS2/msta_6/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_6.txt > ../DATA/PS2/msta_6/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_6.txt > ../DATA/PS2/msta_6/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_8.txt > ../DATA/PS2/msta_8/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_8.txt > ../DATA/PS2/msta_8/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_8.txt > ../DATA/PS2/msta_8/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_8.txt > ../DATA/PS2/msta_8/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_8.txt > ../DATA/PS2/msta_8/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_15.txt > ../DATA/PS2/msta_15/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_15.txt > ../DATA/PS2/msta_15/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_15.txt > ../DATA/PS2/msta_15/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_15.txt > ../DATA/PS2/msta_15/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_15.txt > ../DATA/PS2/msta_15/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_20.txt > ../DATA/PS2/msta_20/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_20.txt > ../DATA/PS2/msta_20/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_20.txt > ../DATA/PS2/msta_20/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_20.txt > ../DATA/PS2/msta_20/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_20.txt > ../DATA/PS2/msta_20/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 35 experiments
+conf_heirschedule_W5_0.1_32_10.txt
+conf_heirschedule_W5_0.25_32_10.txt
+conf_heirschedule_W5_0.5_32_10.txt
+conf_heirschedule_W5_0.75_32_10.txt
+conf_heirschedule_W5_1_32_10.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_32_10.txt > ../DATA/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_10.txt > ../DATA/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_10.txt > ../DATA/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_10.txt > ../DATA/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_10.txt > ../DATA/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+Traceback (most recent call last):
+  File "/root/HeirSchedule/py/run_experiments.py", line 137, in <module>
+    [t.join() for t in threads]
+  File "/root/HeirSchedule/py/run_experiments.py", line 137, in <listcomp>
+    [t.join() for t in threads]
+     ^^^^^^^^
+  File "/root/anaconda3/lib/python3.11/threading.py", line 1112, in join
+    self._wait_for_tstate_lock()
+  File "/root/anaconda3/lib/python3.11/threading.py", line 1132, in _wait_for_tstate_lock
+    if lock.acquire(block, timeout):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+conf_heirschedule_W5_0.1_32_10.txt
+conf_heirschedule_W5_0.25_32_10.txt
+conf_heirschedule_W5_0.5_32_10.txt
+conf_heirschedule_W5_0.75_32_10.txt
+conf_heirschedule_W5_1_32_10.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_32_10.txt > ../DATA/125_28/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_10.txt > ../DATA/125_28/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_10.txt > ../DATA/125_28/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_10.txt > ../DATA/125_28/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_10.txt > ../DATA/125_28/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 5 experiments
+conf_heirschedule_W5_0.1_32_10.txt
+conf_heirschedule_W5_0.25_32_10.txt
+conf_heirschedule_W5_0.5_32_10.txt
+conf_heirschedule_W5_0.75_32_10.txt
+conf_heirschedule_W5_1_32_10.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_32_10.txt > ../DATA/125_intra/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_10.txt > ../DATA/125_intra/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_10.txt > ../DATA/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_10.txt > ../DATA/125_intra/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_10.txt > ../DATA/125_intra/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 5 experiments
+conf_heirschedule_W5_0.1_32_10.txt
+conf_heirschedule_W5_0.25_32_10.txt
+conf_heirschedule_W5_0.5_32_10.txt
+conf_heirschedule_W5_0.75_32_10.txt
+conf_heirschedule_W5_1_32_10.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_32_10.txt > ../DATA/125_intra/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_10.txt > ../DATA/125_intra/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_10.txt > ../DATA/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_10.txt > ../DATA/125_intra/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_10.txt > ../DATA/125_intra/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 5 experiments
+conf_heirschedule_W5_0.1_32_10.txt
+conf_heirschedule_W5_0.25_32_10.txt
+conf_heirschedule_W5_0.5_32_10.txt
+conf_heirschedule_W5_0.75_32_10.txt
+conf_heirschedule_W5_1_32_10.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_32_10.txt > ../DATA/125_intra/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_10.txt > ../DATA/125_intra/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_10.txt > ../DATA/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_10.txt > ../DATA/125_intra/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_10.txt > ../DATA/125_intra/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 5 experiments
+conf_heirschedule_W5_0.1_32_10.txt
+conf_heirschedule_W5_0.25_32_10.txt
+conf_heirschedule_W5_0.5_32_10.txt
+conf_heirschedule_W5_0.75_32_10.txt
+conf_heirschedule_W5_1_32_10.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_32_10.txt > ../DATA/125_intra/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_10.txt > ../DATA/125_intra/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_10.txt > ../DATA/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_10.txt > ../DATA/125_intra/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_10.txt > ../DATA/125_intra/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 5 experiments
+conf_heirschedule_W5_0.1_32_1.txt
+conf_heirschedule_W5_0.25_32_1.txt
+conf_heirschedule_W5_0.5_32_1.txt
+conf_heirschedule_W5_0.75_32_1.txt
+conf_heirschedule_W5_1_32_1.txt
+conf_heirschedule_W5_0.1_32_2.txt
+conf_heirschedule_W5_0.25_32_2.txt
+conf_heirschedule_W5_0.5_32_2.txt
+conf_heirschedule_W5_0.75_32_2.txt
+conf_heirschedule_W5_1_32_2.txt
+conf_heirschedule_W5_0.1_32_4.txt
+conf_heirschedule_W5_0.25_32_4.txt
+conf_heirschedule_W5_0.5_32_4.txt
+conf_heirschedule_W5_0.75_32_4.txt
+conf_heirschedule_W5_1_32_4.txt
+conf_heirschedule_W5_0.1_32_6.txt
+conf_heirschedule_W5_0.25_32_6.txt
+conf_heirschedule_W5_0.5_32_6.txt
+conf_heirschedule_W5_0.75_32_6.txt
+conf_heirschedule_W5_1_32_6.txt
+conf_heirschedule_W5_0.1_32_8.txt
+conf_heirschedule_W5_0.25_32_8.txt
+conf_heirschedule_W5_0.5_32_8.txt
+conf_heirschedule_W5_0.75_32_8.txt
+conf_heirschedule_W5_1_32_8.txt
+conf_heirschedule_W5_0.1_32_15.txt
+conf_heirschedule_W5_0.25_32_15.txt
+conf_heirschedule_W5_0.5_32_15.txt
+conf_heirschedule_W5_0.75_32_15.txt
+conf_heirschedule_W5_1_32_15.txt
+conf_heirschedule_W5_0.1_32_20.txt
+conf_heirschedule_W5_0.25_32_20.txt
+conf_heirschedule_W5_0.5_32_20.txt
+conf_heirschedule_W5_0.75_32_20.txt
+conf_heirschedule_W5_1_32_20.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_32_1.txt > ../DATA/PS2/msta_1/125_intra/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_1.txt > ../DATA/PS2/msta_1/125_intra/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_1.txt > ../DATA/PS2/msta_1/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_1.txt > ../DATA/PS2/msta_1/125_intra/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_1.txt > ../DATA/PS2/msta_1/125_intra/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_2.txt > ../DATA/PS2/msta_2/125_intra/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_2.txt > ../DATA/PS2/msta_2/125_intra/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_2.txt > ../DATA/PS2/msta_2/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_2.txt > ../DATA/PS2/msta_2/125_intra/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_2.txt > ../DATA/PS2/msta_2/125_intra/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_4.txt > ../DATA/PS2/msta_4/125_intra/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_4.txt > ../DATA/PS2/msta_4/125_intra/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_4.txt > ../DATA/PS2/msta_4/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_4.txt > ../DATA/PS2/msta_4/125_intra/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_4.txt > ../DATA/PS2/msta_4/125_intra/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_6.txt > ../DATA/PS2/msta_6/125_intra/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_6.txt > ../DATA/PS2/msta_6/125_intra/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_6.txt > ../DATA/PS2/msta_6/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_6.txt > ../DATA/PS2/msta_6/125_intra/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_6.txt > ../DATA/PS2/msta_6/125_intra/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_8.txt > ../DATA/PS2/msta_8/125_intra/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_8.txt > ../DATA/PS2/msta_8/125_intra/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_8.txt > ../DATA/PS2/msta_8/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_8.txt > ../DATA/PS2/msta_8/125_intra/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_8.txt > ../DATA/PS2/msta_8/125_intra/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_15.txt > ../DATA/PS2/msta_15/125_intra/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_15.txt > ../DATA/PS2/msta_15/125_intra/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_15.txt > ../DATA/PS2/msta_15/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_15.txt > ../DATA/PS2/msta_15/125_intra/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_15.txt > ../DATA/PS2/msta_15/125_intra/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_32_20.txt > ../DATA/PS2/msta_20/125_intra/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_32_20.txt > ../DATA/PS2/msta_20/125_intra/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_20.txt > ../DATA/PS2/msta_20/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_32_20.txt > ../DATA/PS2/msta_20/125_intra/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_32_20.txt > ../DATA/PS2/msta_20/125_intra/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 35 experiments
+conf_heirschedule_test_32_10.txt
+
+
+../simulator 1 conf_heirschedule_test_32_10.txt > ../DATA/Test/result_heirschedule_test.txt
+finished 1 experiments
+Terminated
+Terminated
+Terminated
+Terminated
+Terminated
+conf_heirschedule_W5_0.5_4_1.txt
+conf_heirschedule_W5_0.5_8_1.txt
+conf_heirschedule_W5_0.5_16_1.txt
+conf_heirschedule_W5_0.5_32_1.txt
+conf_heirschedule_W5_0.5_64_1.txt
+conf_heirschedule_W5_0.5_4_4.txt
+conf_heirschedule_W5_0.5_8_4.txt
+conf_heirschedule_W5_0.5_16_4.txt
+conf_heirschedule_W5_0.5_32_4.txt
+conf_heirschedule_W5_0.5_64_4.txt
+conf_heirschedule_W5_0.5_4_10.txt
+conf_heirschedule_W5_0.5_8_10.txt
+conf_heirschedule_W5_0.5_16_10.txt
+conf_heirschedule_W5_0.5_32_10.txt
+conf_heirschedule_W5_0.5_64_10.txt
+conf_heirschedule_W5_0.5_4_15.txt
+conf_heirschedule_W5_0.5_8_15.txt
+conf_heirschedule_W5_0.5_16_15.txt
+conf_heirschedule_W5_0.5_32_15.txt
+conf_heirschedule_W5_0.5_64_15.txt
+conf_heirschedule_W5_0.5_4_20.txt
+conf_heirschedule_W5_0.5_8_20.txt
+conf_heirschedule_W5_0.5_16_20.txt
+conf_heirschedule_W5_0.5_32_20.txt
+conf_heirschedule_W5_0.5_64_20.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.5_4_1.txt > ../DATA/PS3/length_4_msta_1/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_8_1.txt > ../DATA/PS3/length_8_msta_1/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_16_1.txt > ../DATA/PS3/length_16_msta_1/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_1.txt > ../DATA/PS3/length_32_msta_1/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_64_1.txt > ../DATA/PS3/length_64_msta_1/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_4_4.txt > ../DATA/PS3/length_4_msta_4/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_8_4.txt > ../DATA/PS3/length_8_msta_4/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_16_4.txt > ../DATA/PS3/length_16_msta_4/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_4.txt > ../DATA/PS3/length_32_msta_4/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_64_4.txt > ../DATA/PS3/length_64_msta_4/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_4_10.txt > ../DATA/PS3/length_4_msta_10/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_8_10.txt > ../DATA/PS3/length_8_msta_10/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_16_10.txt > ../DATA/PS3/length_16_msta_10/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_10.txt > ../DATA/PS3/length_32_msta_10/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_64_10.txt > ../DATA/PS3/length_64_msta_10/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_4_15.txt > ../DATA/PS3/length_4_msta_15/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_8_15.txt > ../DATA/PS3/length_8_msta_15/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_16_15.txt > ../DATA/PS3/length_16_msta_15/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_15.txt > ../DATA/PS3/length_32_msta_15/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_64_15.txt > ../DATA/PS3/length_64_msta_15/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_4_20.txt > ../DATA/PS3/length_4_msta_20/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_8_20.txt > ../DATA/PS3/length_8_msta_20/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_16_20.txt > ../DATA/PS3/length_16_msta_20/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_32_20.txt > ../DATA/PS3/length_32_msta_20/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.5_64_20.txt > ../DATA/PS3/length_64_msta_20/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+finished 25 experiments

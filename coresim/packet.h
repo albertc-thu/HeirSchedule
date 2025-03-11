@@ -44,7 +44,7 @@ class SCHD
 {
 public:
     //host id
-    uint32_t slot;
+    uint32_t Slot;
     uint32_t slot_end;
     uint32_t src_host_id;
     uint32_t src_tor_id;
@@ -56,7 +56,7 @@ public:
     SCHD(){}
     SCHD(uint32_t slot, uint32_t slot_end, uint32_t src_host_id, uint32_t src_tor_id, uint32_t src_agg_id, uint32_t core_id, uint32_t dst_agg_id, uint32_t dst_tor_id, uint32_t dst_host_id)
     {
-        this->slot = slot;
+        this->Slot = slot;
         this->slot_end = slot_end;
         this->src_host_id = src_host_id;
         this->src_tor_id = src_tor_id;
@@ -67,7 +67,7 @@ public:
         this->dst_host_id = dst_host_id;
     }
     SCHD(SCHD* _schd){
-        this->slot = _schd->slot;
+        this->Slot = _schd->Slot;
         this->src_host_id = _schd->src_host_id;
         this->src_tor_id = _schd->src_tor_id;
         this->src_agg_id = _schd->src_agg_id;
@@ -93,15 +93,17 @@ class ipr // inter-pod request
 public:
     uint32_t slot;
     uint32_t slot_end;
+    uint32_t size;
     uint32_t src_host_id;
     uint32_t src_agg_id;
     uint32_t dst_host_id;
     static const uint32_t info_size = 16;
     ipr(){}
-    ipr(uint32_t slot, uint32_t slot_end, uint32_t src_host_id, uint32_t src_agg_id, uint32_t dst_host_id)
+    ipr(uint32_t slot, uint32_t slot_end, uint32_t size, uint32_t src_host_id, uint32_t src_agg_id, uint32_t dst_host_id)
     {
         this->slot = slot;
         this->slot_end = slot_end;
+        this->size = size;
         this->src_host_id = src_host_id;
         this->src_agg_id = src_agg_id;
         this->dst_host_id = dst_host_id;
@@ -151,16 +153,18 @@ class core_rts // agg-agg request
 public:
     uint32_t Slot;
     uint32_t slot_end;
+    uint32_t size;
     uint32_t src_id;
     uint32_t dst_id;
     uint32_t src_agg_id;
     uint32_t dst_agg_id;
     static const uint32_t info_size = 20;
     core_rts(){}
-    core_rts(uint32_t Slot, uint32_t slot_end, uint32_t src_id, uint32_t src_agg_id, uint32_t dst_id, uint32_t dst_agg_id)
+    core_rts(uint32_t Slot, uint32_t slot_end, uint32_t size, uint32_t src_id, uint32_t src_agg_id, uint32_t dst_id, uint32_t dst_agg_id)
     {
         this->Slot = Slot;
         this->slot_end = slot_end;
+        this->size = size;
         this->src_id = src_id;
         this->src_agg_id = src_agg_id;
         this->dst_id = dst_id;

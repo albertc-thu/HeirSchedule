@@ -212,6 +212,7 @@ public:
     // 路由
     void receive_rts(Packet *packet);
     void allocate_uplink();
+    void schedule();
     void send_request_to_la(LocalArbiter *dst, HeirScheduleIPRPkt *ipr_packet);
     void receive_ipr(Packet *packet);
     void allocate_downlink_crosspod();
@@ -230,6 +231,7 @@ public:
     void take_back_link(core_deny *core_deny_info);
     
     // vector<Queue *> queues; 
+    uint32_t k = params.k;
     uint32_t hosts_per_pod = params.k * params.k / 4;
     uint32_t tors_per_pod = params.k / 2;
     uint32_t aggs_per_pod = params.k / 2;
@@ -269,7 +271,7 @@ public:
 
     // unordered_map<src_dst_pair, uint32_t> src_dst_slot_table; // 记录每个源-目的对应的时间槽
     // unordered_map<src_dst_pair, SCHD*> routing_table; // 记录每个源-目的对应的调度信息
-    unordered_map<src_dst_pair, uint32_t> inflight_slot_table; // 记录每个源-目的对应的正在分配的slot数
+    unordered_map<src_dst_pair, uint32_t> inschedule_slot_table; // 记录每个源-目的对应的正在分配的slot数
     
     vector<uint32_t> host_is_src_last_slot; // 记录host_is_src中最后一个T的位置
     vector<uint32_t> host_is_dst_last_slot; // 记录host_is_dst中最后一个T的位置

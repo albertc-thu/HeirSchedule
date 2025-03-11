@@ -133,7 +133,7 @@ void FlowArrivalEvent::process_event() {
         add_to_event_queue(flow_arrivals.front());
         flow_arrivals.pop_front();
     }
-    // if(flow->id >= 10000){
+    // if(flow->id >= 1000){
     //     return;
     // }
 
@@ -657,4 +657,15 @@ CoreAllocateLinkEvent::~CoreAllocateLinkEvent() {}
 
 void CoreAllocateLinkEvent::process_event() {
     ga->allocate_core_link();
+}
+
+LocalArbiterScheduleEvent::LocalArbiterScheduleEvent(double time, LocalArbiter *la)
+    : Event(LA_SCHEDULE, time) {
+        this->la = la;
+    }
+
+LocalArbiterScheduleEvent::~LocalArbiterScheduleEvent() {}
+
+void LocalArbiterScheduleEvent::process_event() {
+    la->schedule();
 }

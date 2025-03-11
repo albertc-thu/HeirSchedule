@@ -83,11 +83,11 @@ void Queue::enque(Packet *packet) {
     if(packets.size() >= 1){ // 零缓存
         cout << "💥 collossion! " << queue_type_map[this->location] << ", now in " << node_type_map[this->src->type] << " " << this->src->id << " to " << node_type_map[this->dst->type] << " " << this->dst->id << ", queue size: " << packets.size() << " @ " << get_current_time() << endl;
         cout << "Packet to be enqueued: from " << packet->src->id << " -> " << packet->dst->id << ", unique_id: " << packet->unique_id << " @ " << get_current_time();
-        cout << ", Slot: " << packet->path->slot << ", src_host: " << packet->path->src_host_id << ", src_tor: " << packet->path->src_tor_id << ", src_agg: " << packet->path->src_agg_id << ", core: " << packet->path->core_id << ", dst_agg: " << packet->path->dst_agg_id << ", dst_tor: " << packet->path->dst_tor_id << ", dst_host: " << packet->path->dst_host_id << endl;
+        cout << ", Slot: " << packet->path->Slot << ", src_host: " << packet->path->src_host_id << ", src_tor: " << packet->path->src_tor_id << ", src_agg: " << packet->path->src_agg_id << ", core: " << packet->path->core_id << ", dst_agg: " << packet->path->dst_agg_id << ", dst_tor: " << packet->path->dst_tor_id << ", dst_host: " << packet->path->dst_host_id << endl;
         for(int i = 0; i < packets.size(); i++){
             Packet* p = packets[i];
             cout << "Packet existed: from " << p->src->id << " -> " << p->dst->id << ", unique_id: " << p->unique_id << " @ " << get_current_time();
-            cout << ", Slot: " << p->path->slot << ", src_host: " << p->path->src_host_id << ", src_tor: " << p->path->src_tor_id << ", src_agg: " << p->path->src_agg_id << ", core: " << p->path->core_id << ", dst_agg: " << p->path->dst_agg_id << ", dst_tor: " << p->path->dst_tor_id << ", dst_host: " << p->path->dst_host_id << endl;
+            cout << ", Slot: " << p->path->Slot << ", src_host: " << p->path->src_host_id << ", src_tor: " << p->path->src_tor_id << ", src_agg: " << p->path->src_agg_id << ", core: " << p->path->core_id << ", dst_agg: " << p->path->dst_agg_id << ", dst_tor: " << p->path->dst_tor_id << ", dst_host: " << p->path->dst_host_id << endl;
         }
         assert(false);
     }
