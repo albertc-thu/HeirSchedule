@@ -507,3 +507,409 @@ conf_heirschedule_W5_0.5_64_20.txt
 ../simulator 1 conf_heirschedule_W5_0.5_32_20.txt > ../DATA/PS3/length_32_msta_20/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
 ../simulator 1 conf_heirschedule_W5_0.5_64_20.txt > ../DATA/PS3/length_64_msta_20/125_intra/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
 finished 25 experiments
+conf_heirschedule_W5_0.1_22_10.txt
+conf_heirschedule_W5_0.25_22_10.txt
+conf_heirschedule_W5_0.5_22_10.txt
+conf_heirschedule_W5_0.75_22_10.txt
+conf_heirschedule_W5_1_22_10.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_22_10.txt > ../DATA/125_28_LRU_slide_for_all_no_over_sche/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10.txt > ../DATA/125_28_LRU_slide_for_all_no_over_sche/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10.txt > ../DATA/125_28_LRU_slide_for_all_no_over_sche/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10.txt > ../DATA/125_28_LRU_slide_for_all_no_over_sche/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10.txt > ../DATA/125_28_LRU_slide_for_all_no_over_sche/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 5 experiments
+conf_heirschedule_W5_0.1_22_10.txt
+conf_heirschedule_W5_0.25_22_10.txt
+conf_heirschedule_W5_0.5_22_10.txt
+conf_heirschedule_W5_0.75_22_10.txt
+conf_heirschedule_W5_1_22_10.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_22_10.txt > ../DATA/125_28_LRU_slide_for_all_partially_over_sche/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10.txt > ../DATA/125_28_LRU_slide_for_all_partially_over_sche/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10.txt > ../DATA/125_28_LRU_slide_for_all_partially_over_sche/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10.txt > ../DATA/125_28_LRU_slide_for_all_partially_over_sche/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10.txt > ../DATA/125_28_LRU_slide_for_all_partially_over_sche/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 5 experiments
+conf_heirschedule_W5_0.1_22_10.txt
+conf_heirschedule_W5_0.25_22_10.txt
+conf_heirschedule_W5_0.5_22_10.txt
+conf_heirschedule_W5_0.75_22_10.txt
+conf_heirschedule_W5_1_22_10.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_22_10.txt > ../DATA/125_28_LRU_slide_for_all_TEST/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10.txt > ../DATA/125_28_LRU_slide_for_all_TEST/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10.txt > ../DATA/125_28_LRU_slide_for_all_TEST/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10.txt > ../DATA/125_28_LRU_slide_for_all_TEST/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10.txt > ../DATA/125_28_LRU_slide_for_all_TEST/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 5 experiments
+conf_heirschedule_W5_0.1_22_10_50.txt
+conf_heirschedule_W5_0.25_22_10_50.txt
+conf_heirschedule_W5_0.5_22_10_50.txt
+conf_heirschedule_W5_0.75_22_10_50.txt
+conf_heirschedule_W5_1_22_10_50.txt
+conf_heirschedule_W5_0.1_22_10_100.txt
+conf_heirschedule_W5_0.25_22_10_100.txt
+conf_heirschedule_W5_0.5_22_10_100.txt
+conf_heirschedule_W5_0.75_22_10_100.txt
+conf_heirschedule_W5_1_22_10_100.txt
+conf_heirschedule_W5_0.1_22_10_500.txt
+conf_heirschedule_W5_0.25_22_10_500.txt
+conf_heirschedule_W5_0.5_22_10_500.txt
+conf_heirschedule_W5_0.75_22_10_500.txt
+conf_heirschedule_W5_1_22_10_500.txt
+conf_heirschedule_W5_0.1_22_10_1000.txt
+conf_heirschedule_W5_0.25_22_10_1000.txt
+conf_heirschedule_W5_0.5_22_10_1000.txt
+conf_heirschedule_W5_0.75_22_10_1000.txt
+conf_heirschedule_W5_1_22_10_1000.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_22_10_50.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=50/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_50.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=50/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_50.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=50/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_50.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=50/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_50.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=50/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_22_10_100.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=100/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_100.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=100/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_100.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=100/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_100.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=100/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_100.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=100/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_22_10_500.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=500/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_500.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=500/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_500.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=500/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_500.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=500/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_500.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=500/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_22_10_1000.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=1000/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_1000.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=1000/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_1000.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=1000/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_1000.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=1000/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_1000.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=1000/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 20 experiments
+conf_heirschedule_W5_0.1_22_10_50.txt
+conf_heirschedule_W5_0.25_22_10_50.txt
+conf_heirschedule_W5_0.5_22_10_50.txt
+conf_heirschedule_W5_0.75_22_10_50.txt
+conf_heirschedule_W5_1_22_10_50.txt
+conf_heirschedule_W5_0.1_22_10_100.txt
+conf_heirschedule_W5_0.25_22_10_100.txt
+conf_heirschedule_W5_0.5_22_10_100.txt
+conf_heirschedule_W5_0.75_22_10_100.txt
+conf_heirschedule_W5_1_22_10_100.txt
+conf_heirschedule_W5_0.1_22_10_500.txt
+conf_heirschedule_W5_0.25_22_10_500.txt
+conf_heirschedule_W5_0.5_22_10_500.txt
+conf_heirschedule_W5_0.75_22_10_500.txt
+conf_heirschedule_W5_1_22_10_500.txt
+conf_heirschedule_W5_0.1_22_10_1000.txt
+conf_heirschedule_W5_0.25_22_10_1000.txt
+conf_heirschedule_W5_0.5_22_10_1000.txt
+conf_heirschedule_W5_0.75_22_10_1000.txt
+conf_heirschedule_W5_1_22_10_1000.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_22_10_50.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=50/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_50.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=50/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_50.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=50/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_50.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=50/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_50.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=50/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_22_10_100.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=100/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_100.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=100/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_100.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=100/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_100.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=100/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_100.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=100/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_22_10_500.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=500/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_500.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=500/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_500.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=500/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_500.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=500/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_500.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=500/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_22_10_1000.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=1000/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_1000.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=1000/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_1000.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=1000/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_1000.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=1000/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_1000.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=1000/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 20 experiments
+simulator: coresim/node.cpp:220: void HeirScheduleHost::receive_schd_and_send_data(Packet*): Assertion `false' failed.
+Aborted (core dumped)
+simulator: coresim/node.cpp:220: void HeirScheduleHost::receive_schd_and_send_data(Packet*): Assertion `false' failed.
+Aborted (core dumped)
+simulator: coresim/node.cpp:220: void HeirScheduleHost::receive_schd_and_send_data(Packet*): Assertion `false' failed.
+Aborted (core dumped)
+simulator: coresim/node.cpp:220: void HeirScheduleHost::receive_schd_and_send_data(Packet*): Assertion `false' failed.
+Aborted (core dumped)
+simulator: coresim/node.cpp:220: void HeirScheduleHost::receive_schd_and_send_data(Packet*): Assertion `false' failed.
+Aborted (core dumped)
+conf_heirschedule_W5_0.1_22_10_50.txt
+conf_heirschedule_W5_0.25_22_10_50.txt
+conf_heirschedule_W5_0.5_22_10_50.txt
+conf_heirschedule_W5_0.75_22_10_50.txt
+conf_heirschedule_W5_1_22_10_50.txt
+conf_heirschedule_W5_0.1_22_10_100.txt
+conf_heirschedule_W5_0.25_22_10_100.txt
+conf_heirschedule_W5_0.5_22_10_100.txt
+conf_heirschedule_W5_0.75_22_10_100.txt
+conf_heirschedule_W5_1_22_10_100.txt
+conf_heirschedule_W5_0.1_22_10_500.txt
+conf_heirschedule_W5_0.25_22_10_500.txt
+conf_heirschedule_W5_0.5_22_10_500.txt
+conf_heirschedule_W5_0.75_22_10_500.txt
+conf_heirschedule_W5_1_22_10_500.txt
+conf_heirschedule_W5_0.1_22_10_1000.txt
+conf_heirschedule_W5_0.25_22_10_1000.txt
+conf_heirschedule_W5_0.5_22_10_1000.txt
+conf_heirschedule_W5_0.75_22_10_1000.txt
+conf_heirschedule_W5_1_22_10_1000.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_22_10_50.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=50/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_50.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=50/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_50.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=50/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_50.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=50/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_50.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=50/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_22_10_100.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=100/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_100.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=100/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_100.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=100/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_100.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=100/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_100.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=100/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_22_10_500.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=500/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_500.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=500/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_500.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=500/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_500.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=500/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_500.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=500/DATA_W5_1/result_heirschedule_W5_1.txt
+Traceback (most recent call last):
+  File "/root/HeirSchedule/py/run_experiments.py", line 144, in <module>
+    [t.join() for t in threads]
+  File "/root/HeirSchedule/py/run_experiments.py", line 144, in <listcomp>
+    [t.join() for t in threads]
+     ^^^^^^^^
+  File "/root/anaconda3/lib/python3.11/threading.py", line 1112, in join
+    self._wait_for_tstate_lock()
+  File "/root/anaconda3/lib/python3.11/threading.py", line 1132, in _wait_for_tstate_lock
+    if lock.acquire(block, timeout):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Exception ignored in: <module 'threading' from '/root/anaconda3/lib/python3.11/threading.py'>
+Traceback (most recent call last):
+  File "/root/anaconda3/lib/python3.11/threading.py", line 1583, in _shutdown
+    lock.acquire()
+KeyboardInterrupt: 
+../simulator 1 conf_heirschedule_W5_0.1_22_10_1000.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=1000/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_1000.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=1000/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_1000.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=1000/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_1000.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=1000/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_1000.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=1000/DATA_W5_1/result_heirschedule_W5_1.txt
+conf_heirschedule_W5_0.1_22_10_50.txt
+conf_heirschedule_W5_0.25_22_10_50.txt
+conf_heirschedule_W5_0.5_22_10_50.txt
+conf_heirschedule_W5_0.75_22_10_50.txt
+conf_heirschedule_W5_1_22_10_50.txt
+conf_heirschedule_W5_0.1_22_10_100.txt
+conf_heirschedule_W5_0.25_22_10_100.txt
+conf_heirschedule_W5_0.5_22_10_100.txt
+conf_heirschedule_W5_0.75_22_10_100.txt
+conf_heirschedule_W5_1_22_10_100.txt
+conf_heirschedule_W5_0.1_22_10_500.txt
+conf_heirschedule_W5_0.25_22_10_500.txt
+conf_heirschedule_W5_0.5_22_10_500.txt
+conf_heirschedule_W5_0.75_22_10_500.txt
+conf_heirschedule_W5_1_22_10_500.txt
+conf_heirschedule_W5_0.1_22_10_1000.txt
+conf_heirschedule_W5_0.25_22_10_1000.txt
+conf_heirschedule_W5_0.5_22_10_1000.txt
+conf_heirschedule_W5_0.75_22_10_1000.txt
+conf_heirschedule_W5_1_22_10_1000.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_22_10_50.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=50/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_50.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=50/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_50.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=50/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_50.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=50/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_50.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=50/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_22_10_100.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=100/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_100.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=100/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_100.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=100/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_100.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=100/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_100.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=100/DATA_W5_1/result_heirschedule_W5_1.txt
+Traceback (most recent call last):
+  File "/root/HeirSchedule/py/run_experiments.py", line 143, in <module>
+    [t.start() for t in threads]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/HeirSchedule/py/run_experiments.py", line 143, in <listcomp>
+    [t.start() for t in threads]
+     ^^^^^^^^
+  File "/root/anaconda3/lib/python3.11/threading.py", line 1112, in join
+    self._wait_for_tstate_lock()
+  File "/root/anaconda3/lib/python3.11/threading.py", line 1132, in _wait_for_tstate_lock
+    if lock.acquire(block, timeout):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Exception ignored in: <module 'threading' from '/root/anaconda3/lib/python3.11/threading.py'>
+Traceback (most recent call last):
+  File "/root/anaconda3/lib/python3.11/threading.py", line 1583, in _shutdown
+    lock.acquire()
+KeyboardInterrupt: 
+../simulator 1 conf_heirschedule_W5_0.1_22_10_500.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=500/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+simulator: coresim/node.cpp:220: void HeirScheduleHost::receive_schd_and_send_data(Packet*): Assertion `false' failed.
+Aborted (core dumped)
+simulator: coresim/node.cpp:220: void HeirScheduleHost::receive_schd_and_send_data(Packet*): Assertion `false' failed.
+Aborted (core dumped)
+conf_heirschedule_W5_0.1_22_10_1000.txt
+conf_heirschedule_W5_0.25_22_10_1000.txt
+conf_heirschedule_W5_0.5_22_10_1000.txt
+conf_heirschedule_W5_0.75_22_10_1000.txt
+conf_heirschedule_W5_1_22_10_1000.txt
+conf_heirschedule_W5_0.1_22_10_500.txt
+conf_heirschedule_W5_0.25_22_10_500.txt
+conf_heirschedule_W5_0.5_22_10_500.txt
+conf_heirschedule_W5_0.75_22_10_500.txt
+conf_heirschedule_W5_1_22_10_500.txt
+conf_heirschedule_W5_0.1_22_10_100.txt
+conf_heirschedule_W5_0.25_22_10_100.txt
+conf_heirschedule_W5_0.5_22_10_100.txt
+conf_heirschedule_W5_0.75_22_10_100.txt
+conf_heirschedule_W5_1_22_10_100.txt
+conf_heirschedule_W5_0.1_22_10_50.txt
+conf_heirschedule_W5_0.25_22_10_50.txt
+conf_heirschedule_W5_0.5_22_10_50.txt
+conf_heirschedule_W5_0.75_22_10_50.txt
+conf_heirschedule_W5_1_22_10_50.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_22_10_1000.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=1000/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_1000.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=1000/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_1000.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=1000/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_1000.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=1000/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_1000.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=1000/DATA_W5_1/result_heirschedule_W5_1.txt
+Traceback (most recent call last):
+  File "/root/HeirSchedule/py/run_experiments.py", line 144, in <module>
+    [t.join() for t in threads]
+  File "/root/HeirSchedule/py/run_experiments.py", line 144, in <listcomp>
+    [t.join() for t in threads]
+     ^^^^^^^^
+  File "/root/anaconda3/lib/python3.11/threading.py", line 1112, in join
+    self._wait_for_tstate_lock()
+  File "/root/anaconda3/lib/python3.11/threading.py", line 1132, in _wait_for_tstate_lock
+    if lock.acquire(block, timeout):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Exception ignored in: <module 'threading' from '/root/anaconda3/lib/python3.11/threading.py'>
+Traceback (most recent call last):
+  File "/root/anaconda3/lib/python3.11/threading.py", line 1583, in _shutdown
+    lock.acquire()
+KeyboardInterrupt: 
+../simulator 1 conf_heirschedule_W5_0.1_22_10_500.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=500/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_500.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=500/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_500.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=500/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_500.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=500/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_500.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=500/DATA_W5_1/result_heirschedule_W5_1.txt
+conf_heirschedule_W5_0.1_22_10_50.txt
+conf_heirschedule_W5_0.25_22_10_50.txt
+conf_heirschedule_W5_0.5_22_10_50.txt
+conf_heirschedule_W5_0.75_22_10_50.txt
+conf_heirschedule_W5_1_22_10_50.txt
+conf_heirschedule_W5_0.1_22_10_100.txt
+conf_heirschedule_W5_0.25_22_10_100.txt
+conf_heirschedule_W5_0.5_22_10_100.txt
+conf_heirschedule_W5_0.75_22_10_100.txt
+conf_heirschedule_W5_1_22_10_100.txt
+conf_heirschedule_W5_0.1_22_10_500.txt
+conf_heirschedule_W5_0.25_22_10_500.txt
+conf_heirschedule_W5_0.5_22_10_500.txt
+conf_heirschedule_W5_0.75_22_10_500.txt
+conf_heirschedule_W5_1_22_10_500.txt
+conf_heirschedule_W5_0.1_22_10_1000.txt
+conf_heirschedule_W5_0.25_22_10_1000.txt
+conf_heirschedule_W5_0.5_22_10_1000.txt
+conf_heirschedule_W5_0.75_22_10_1000.txt
+conf_heirschedule_W5_1_22_10_1000.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_22_10_50.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=50/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_50.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=50/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_50.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=50/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_50.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=50/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_50.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=50/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_22_10_100.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=100/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_100.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=100/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_100.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=100/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_100.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=100/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_100.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=100/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_22_10_500.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=500/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_500.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=500/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_500.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=500/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_500.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=500/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_500.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=500/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_22_10_1000.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=1000/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_1000.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=1000/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_1000.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=1000/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_1000.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=1000/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_1000.txt > ../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T=1000/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 20 experiments
+conf_heirschedule_W5_0.1_11_10_100.txt
+conf_heirschedule_W5_0.25_11_10_100.txt
+conf_heirschedule_W5_0.5_11_10_100.txt
+conf_heirschedule_W5_0.75_11_10_100.txt
+conf_heirschedule_W5_1_11_10_100.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_11_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=0.5us/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_11_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=0.5us/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_11_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=0.5us/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_11_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=0.5us/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_11_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=0.5us/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 5 experiments
+conf_heirschedule_W5_0.1_44_10_100.txt
+conf_heirschedule_W5_0.25_44_10_100.txt
+conf_heirschedule_W5_0.5_44_10_100.txt
+conf_heirschedule_W5_0.75_44_10_100.txt
+conf_heirschedule_W5_1_44_10_100.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_44_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=2us/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_44_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=2us/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_44_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=2us/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_44_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=2us/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_44_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=2us/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 5 experiments
+conf_heirschedule_W5_0.1_22_10_100.txt
+conf_heirschedule_W5_0.25_22_10_100.txt
+conf_heirschedule_W5_0.5_22_10_100.txt
+conf_heirschedule_W5_0.75_22_10_100.txt
+conf_heirschedule_W5_1_22_10_100.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_22_10_100.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=100/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_100.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=100/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_100.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=100/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_100.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=100/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_100.txt > ../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T=100/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 5 experiments
+conf_heirschedule_W5_0.1_44_10_100.txt
+conf_heirschedule_W5_0.25_44_10_100.txt
+conf_heirschedule_W5_0.5_44_10_100.txt
+conf_heirschedule_W5_0.75_44_10_100.txt
+conf_heirschedule_W5_1_44_10_100.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_44_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=2us/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_44_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=2us/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_44_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=2us/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_44_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=2us/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_44_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=2us/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 5 experiments
+conf_heirschedule_W5_0.1_11_10_100.txt
+conf_heirschedule_W5_0.25_11_10_100.txt
+conf_heirschedule_W5_0.5_11_10_100.txt
+conf_heirschedule_W5_0.75_11_10_100.txt
+conf_heirschedule_W5_1_11_10_100.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_11_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=0.5us/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_11_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=0.5us/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_11_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=0.5us/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_11_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=0.5us/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_11_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=0.5us/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 5 experiments

@@ -228,7 +228,8 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         params.param_str.append(line);
         params.param_str.append(", ");
     }
-    params.slot_length_in_s = params.slot_length * (params.mss + params.hdr_size) * 8 / params.bandwidth_data;
+    // params.slot_length_in_s = params.slot_length * (params.mss + params.hdr_size) * 8 / params.bandwidth_data;
+    params.slot_length_in_s = 1e-6;
     std::cout << "🐷 slot_length_in_s: " << params.slot_length_in_s << std::endl;
     params.arbiter_lag = 5e-6;
 

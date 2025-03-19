@@ -50,6 +50,8 @@ uint32_t backlog4 = 0;
 uint32_t total_completed_packets = 0;
 uint32_t sent_packets = 0;
 
+vector<vector<uint32_t>> failed_ratio;
+
 extern DCExpParams params;
 double start_time = -1;
 
@@ -108,7 +110,7 @@ void run_scenario() {
 
         last_evt_type = ev->type;
         
-        if(same_evt_count > 100000){
+        if(same_evt_count > 10000){
             std::cout << "Ended event dead loop. Type:" << last_evt_type << ", same_evt_cnt: " << same_evt_count << "\n";
             break;
         }

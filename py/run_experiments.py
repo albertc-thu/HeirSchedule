@@ -13,12 +13,12 @@ propagation_delay: 1e-6
 propagation_delay_data: 1e-06
 propagation_delay_ctrl: 1e-08
 bandwidth_data: 100000000000.0
-bandwidth_ctrl: 10000000000.0
+bandwidth_ctrl: 20000000000.0
 queue_size: 262144
 queue_size_ctrl: 26214
 slot_length: {slot_length}
 mss: 512
-T: 100
+T: {T}
 dctcp_mark_thresh: 0.125
 dir_name: {dir_name}
 queue_type: 1
@@ -92,48 +92,53 @@ def run_command(cmd, semaphore):
     # process.wait()
 
 threads = []
-semaphore = threading.Semaphore(35)
+semaphore = threading.Semaphore(5)
 
 runs = ['heirschedule']
 workloads = ['aditya', 'dctcp', 'datamining']
 workloads = ["W5_0.1", "W5_0.25", "W5_0.5", "W5_0.75", "W5_1"]
 # workloads = ["W5_0.5"]
-workloads = ["test"]
+# workloads = ["test"]
 # slot_lengths = [4, 8, 16, 32, 64]
-slot_lengths = [32]
+slot_lengths = [22]
 # max_slot_to_allocate = [1, 4, 10, 15, 20]
 max_slot_to_allocate = [10]
+Ts = [100]
 
 for r in runs:
     for msta in max_slot_to_allocate:
         for slot_length in slot_lengths:
-            for w in workloads:
-                cdf = cdf_temp.format(w)
-                numLines = 1000000
-                
-                dir_name = '../DATA/PS3/length_{slot_length}_msta_{msta}/125_intra/DATA_{w}'.format(slot_length=slot_length, w=w, msta=msta)
-                dir_name = '../DATA/125_intra/DATA_{w}'.format(slot_length=slot_length, w=w, msta=msta)
-                dir_name = '../DATA/Test'
-                os.makedirs(dir_name, exist_ok=True)
-                
-                flow_trace = "../flows/flow_data_test/flows_" + w + ".txt"
-                # flow_trace = "../flows/flow_data_8_28/flows_" + w + ".txt"
-                # flow_trace = "../flows/flow_data_125_28/flows_" + w + ".txt"
-                # flow_trace = "../flows/flow_data_125_intra/flows_" + w + ".txt"
+            for T in Ts:
+                for w in workloads:
+                    cdf = cdf_temp.format(w)
+                    numLines = 1000000
+                    
+                    # dir_name = '../DATA/PS3/length_{slot_length}_msta_{msta}/125_intra/DATA_{w}'.format(slot_length=slot_length, w=w, msta=msta)
+                    # dir_name = '../DATA/125_28_LRU_slide_for_all/DATA_{w}'.format(slot_length=slot_length, w=w, msta=msta)
+                    dir_name = '../DATA/125_28_SRF_slide_for_mice_allow_multi-srcs-dsts/T={T}/DATA_{w}'.format(slot_length=slot_length, w=w, msta=msta, T=T)
+                    dir_name = '../DATA/125_28_LRU_slide_for_all_allow_multi-srcs-dsts/T={T}/DATA_{w}'.format(slot_length=slot_length, w=w, msta=msta, T=T)
+                    # dir_name = '../DATA/125_28_LRU_slide_for_all/length=0.25us/DATA_{w}'.format(slot_length=slot_length, w=w, msta=msta, T=T)
+                    # dir_name = '../DATA/Test'
+                    os.makedirs(dir_name, exist_ok=True)
+                    
+                    flow_trace = "../flows/flow_data_test/flows_" + w + ".txt"
+                    # flow_trace = "../flows/flow_data_8_28/flows_" + w + ".txt"
+                    flow_trace = "../flows/flow_data_125_28/flows_" + w + ".txt"
+                    # flow_trace = "../flows/flow_data_125_intra/flows_" + w + ".txt"
 
-                #  generate conf file
-                if r == 'heirschedule':
-                    conf_str = conf_str_heirschedule.format(numLines, flow_trace=flow_trace, dir_name=dir_name, slot_length=slot_length, msta=msta)
-                else:
-                    assert False, r
+                    #  generate conf file
+                    if r == 'heirschedule':
+                        conf_str = conf_str_heirschedule.format(numLines, flow_trace=flow_trace, dir_name=dir_name, slot_length=slot_length, msta=msta, T=T)
+                    else:
+                        assert False, r
 
-                confFile = "conf_{r}_{w}_{slot_length}_{msta}.txt".format(r=r, w=w, slot_length=slot_length, msta=msta)
-                with open(confFile, 'w') as f:
-                    print(confFile)
-                    f.write(conf_str)
-                
-                command = '../simulator 1 {confFile} > {dir}/result_{r}_{w}.txt'.format(r=r, w=w, dir=dir_name, slot_length=slot_length, confFile=confFile)
-                threads.append(threading.Thread(target=run_command, args=(command, semaphore)))
+                    confFile = "conf_{r}_{w}_{slot_length}_{msta}_{T}.txt".format(r=r, w=w, slot_length=slot_length, msta=msta, T=T)
+                    with open(confFile, 'w') as f:
+                        print(confFile)
+                        f.write(conf_str)
+                    
+                    command = '../simulator 1 {confFile} > {dir}/result_{r}_{w}.txt'.format(r=r, w=w, dir=dir_name, slot_length=slot_length, confFile=confFile)
+                    threads.append(threading.Thread(target=run_command, args=(command, semaphore)))
 
 print('\n')
 [t.start() for t in threads]

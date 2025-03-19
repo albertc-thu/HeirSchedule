@@ -52,6 +52,9 @@ extern uint32_t arrival_packets_at_100;
 extern double start_time;
 extern double get_current_time();
 
+extern vector<vector<uint32_t>> failed_ratio;
+
+
 extern void run_scenario();
 
 void validate_flow(Flow* f){
@@ -266,7 +269,6 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
     //     }
     //     dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[i]->send_request_to_ga();
     // }
-
     // 
     // everything before this is setup; everything after is analysis
     //
@@ -287,6 +289,15 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
                 << "\n";
         }
     }
+
+    std::ofstream output_match(params.dir_name + "/match_ratio.txt");
+    for(int i = 0; i < failed_ratio.size(); i++){
+        for(int j = 0; j < failed_ratio[i].size(); j++){
+            output_match << failed_ratio[i][j] << " ";
+        }
+        output_match << "\n";
+    }
+    
 
     // 记录每个host的吞吐
     std::ofstream output_goodput(params.dir_name + "/GOODPUT.txt");

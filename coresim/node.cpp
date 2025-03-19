@@ -8,7 +8,11 @@
 #include <random>
 #include <bitset>
 #include <algorithm>
-# include <chrono>
+#include <chrono>
+
+#define INTRA_POD 0
+#define COME_IN 1
+#define GO_OUT 2
 
 using namespace std;
 using namespace std::chrono; // 开始计时点 
@@ -16,6 +20,8 @@ using namespace std::chrono; // 开始计时点
 extern DCExpParams params;
 extern Topology *topology;
 extern double get_current_time();
+
+extern vector<vector<uint32_t>> failed_ratio;
 
 struct Demand{
     uint32_t src_id;
@@ -40,6 +46,26 @@ struct Demand{
         this->agg_id = agg_id;
     }
 
+};
+
+class Traffic{
+public:
+    uint32_t src_id;
+    uint32_t dst_id;
+    uint32_t slot; // the slot to send at src
+    uint32_t size;
+    uint32_t type; // 0: inside pod, 1: come in, 2: go out
+    uint32_t src_agg_id;
+    uint32_t dst_agg_id;
+    uint32_t last_allocated_slot = 0;
+    bool aborted = false;
+    Traffic(uint32_t src_id, uint32_t dst_id, uint32_t slot, uint32_t size, uint32_t type){
+        this->src_id = src_id;
+        this->dst_id = dst_id;
+        this->slot = slot;
+        this->size = size;
+        this->type = type;
+    }
 };
 
 bool FlowComparator::operator() (Flow *a, Flow *b) {
@@ -189,6 +215,7 @@ void HeirScheduleHost::receive_schd_and_send_data(Packet* packet){
     double time_to_send = double(slot) * params.slot_length_in_s;
     // cout << "🤖 HeirScheduleHost " << this->id << " slot: " << slot << ", time_to_send: " << time_to_send << ", current time: " << get_current_time() << endl;
     if(time_to_send < get_current_time()){
+        cout << "slot: " << slot << endl;
         cout << "❌ HeirScheduleHost " << this->id << " time_to_send: " << time_to_send << ", current time: " << get_current_time() << endl;
         assert(false);
     }
@@ -205,6 +232,7 @@ void HeirScheduleHost::receive_schd_and_send_data(Packet* packet){
         // cout << "🍋‍🟩 Host " << this->id << " send data packet " << data_packet->unique_id << " with size: " << data_packet->size << " to " << schd->dst_host_id << " @ " << data_packet->sending_time << endl;
         // cout << "💜" << endl;
     }
+    // add_to_event_queue(RestoreLinkEvent(get_current_time(), schd));
 }
 
 
@@ -581,46 +609,43 @@ void LocalArbiter::receive_rts(Packet* packet){
 
 void LocalArbiter::schedule(){
     unordered_map<src_dst_pair, vector<uint32_t>> traffic;
-    
+    vector<Traffic*> traffic_list;
+    uint32_t current_slot = static_cast<uint32_t>(round(get_current_time() / params.slot_length_in_s));
+    // 1. 收集流量信息（Collecting traffic infomation）
     // 本Pod发出的流量
     for(auto it = src_dst_data_size_table.begin(); it != src_dst_data_size_table.end(); it++){
         uint32_t src_id = it->first.src;
         uint32_t dst_id = it->first.dst;
         uint32_t size = it->second;
-
+        uint32_t LAS = last_allocated_slot[{src_id, dst_id}];
         if(src_id / hosts_per_pod == dst_id / hosts_per_pod){ // 在同一个pod内
-            uint32_t Slot = static_cast<uint32_t>(ceil((get_current_time() + params.arbiter_lag * 2) / params.slot_length_in_s));
-            uint32_t slots_needed = static_cast<uint32_t>(ceil(double(size) / (params.mss * params.slot_length)));
-            uint32_t slot_end = Slot + min(params.max_slot_to_allocate, slots_needed - inschedule_slot_table[{src_id, dst_id}]) - 1;
-            uint32_t slot_down = Slot - static_cast<uint32_t>(ceil(params.slot_length_in_s / params.propagation_delay_data));
-            uint32_t slot_down_end = slot_down + (slot_end - Slot) + 1; // 多分配一个slot
-            // if(this->host_is_src_last_slot[src_id % hosts_per_pod] >= Slot || this->host_is_dst_last_slot[dst_id % hosts_per_pod] >= slot_down){
-            //     // if(src_id == 60 && dst_id == 50){
-            //     //     cout << "❕ Skipping src_id: " << src_id << " dst_id: " << dst_id << " Slot: " << Slot << " slot_end: " << slot_end << " slot_down: " << slot_down << " slot_down_end: " << slot_down_end << " host_is_src_last_slot[src_id % hosts_per_pod]: " << host_is_src_last_slot[src_id % hosts_per_pod] << " host_is_dst_last_slot[dst_id % hosts_per_pod]: " << host_is_dst_last_slot[dst_id % hosts_per_pod] << " @ slot " << int(get_current_time() / params.slot_length_in_s) << endl;
-            //     // }
-            //     continue;
+            uint32_t slot = static_cast<uint32_t>(ceil((get_current_time() + params.arbiter_lag * 2) / params.slot_length_in_s));
+            Traffic* traff = new Traffic(src_id, dst_id, slot, size, INTRA_POD);
+            traff->last_allocated_slot = LAS;
+            traffic_list.push_back(traff);
+            // if(size == 1688){
+            //     cout << "⭕️ Flow with size 1688 @ slot " << current_slot << endl;
             // }
-            if(inschedule_slot_table[{src_id, dst_id}] >= slots_needed){
-                continue;
-            }
-            traffic[{src_id, dst_id}] = {size, Slot, slot_end};
+            // if(src_id == 11 && dst_id == 19){
+            //     cout << "0️⃣ flow " << src_id << " -> " << dst_id << ", type: " << type << " slot: " << slot << ", current_slot: " << current_slot << endl;
+            // }
         }
         else{ // 不在同一个pod内
-            uint32_t Slot = static_cast<uint32_t>(ceil((get_current_time() + params.arbiter_lag * 4) / params.slot_length_in_s));
-            uint32_t slots_needed = static_cast<uint32_t>(ceil(double(size) / (params.mss * params.slot_length)));
-            uint32_t slot_end = Slot + min(params.max_slot_to_allocate, slots_needed - inschedule_slot_table[{src_id, dst_id}]) - 1;
-            
-            // if(this->host_is_src_last_slot[src_id % hosts_per_pod] >= Slot){
+            // Design choice: over schedule，不考虑正在schedule的那部分流量
+            // Design choice: no over schedule，考虑正在schedule的那部分流量
+            // if(inschedule_slot_table[{src_id, dst_id}] >= 2 * size/(params.mss*params.slot_length) + 1){
             //     continue;
             // }
-            if(inschedule_slot_table[{src_id, dst_id}] >= slots_needed){
-                continue;
-            }
-            traffic[{src_id, dst_id}] = {size, Slot, slot_end};
+            uint32_t slot = static_cast<uint32_t>(ceil((get_current_time() + params.arbiter_lag * 4) / params.slot_length_in_s));
+            Traffic* traff = new Traffic(src_id, dst_id, slot, size, GO_OUT);
+            traff->last_allocated_slot = LAS;
+            traffic_list.push_back(traff);
+            // if(src_id == 1 && dst_id == 41){
+            //     cout << "🍎 slot: " << slot << ", current_slot: " << current_slot << ", params.T: " << params.T << endl;
+            // }
         }
     }
     // 本Pod接收的流量
-    unordered_map<src_dst_pair, vector<uint32_t>> received_traffic;
     for(auto ipr_pkt = received_ipr_packets.begin(); ipr_pkt != received_ipr_packets.end(); ipr_pkt++){
         for (auto it = (*ipr_pkt)->ipr_info.begin(); it != (*ipr_pkt)->ipr_info.end(); it++){
             ipr* ipr = *it;
@@ -628,376 +653,302 @@ void LocalArbiter::schedule(){
             uint32_t dst_id = ipr->dst_host_id;
             uint32_t src_agg_id = ipr->src_agg_id;
             uint32_t size = ipr->size;
-            uint32_t Slot = ipr->slot;
-            uint32_t slot_end = ipr->slot_end;
-            // if(host_is_dst_last_slot[dst_id % hosts_per_pod] >= Slot){
-            //     ipd* ipd_info = new ipd(Slot, slot_end, src_id, src_agg_id, dst_id);
-            //     LocalArbiter* src_la = dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[src_id / (params.k * params.k / 4)];
-            //     HeirScheduleIPDPkt* ipd_packet = new HeirScheduleIPDPkt(get_current_time(), this, src_la, ipd_info);
-            //     send_deny_to_la(src_la, ipd_packet);
+            uint32_t slot = ipr->slot;
+            uint32_t LAS = last_allocated_slot[{src_id, dst_id}];
+            Traffic* traff = new Traffic(src_id, dst_id, slot, size, COME_IN);
+            traff->last_allocated_slot = LAS;
+            traffic_list.push_back(traff);
+            traff->src_agg_id = src_agg_id;
+            // if(src_id == 11 && dst_id == 121){
+            //     cout << "🍆 flow " << src_id << " -> " << dst_id << " slot: " << slot << ", src_agg_id: " << src_agg_id << ", current_slot: " << current_slot << endl;
+            // }
+        }
+    }
+
+    // 2. 分配时间槽（Allocate time slots）
+    // 2.1 排序(按照remaining size从小到大排序)
+    // sort(traffic_list.begin(), traffic_list.end(), [](Traffic* a, Traffic* b){
+    //     return a->size < b->size;
+    // });
+    // random_shuffle(traffic_list.begin(), traffic_list.end());
+    //按照last_allocated_slot从小到大排序
+    sort(traffic_list.begin(), traffic_list.end(), [](Traffic* a, Traffic* b){
+        return a->last_allocated_slot < b->last_allocated_slot;
+    });
+
+    // 2.2 分配时间槽
+    // design choice: 单次调度中，一个host只能分配一次，为了防止：1.小流被大流积压；2.超出时间槽T（可以设想100条大流和1条小流前往同一个dst，且小流一个slot发不完，这样子的话，尽管有小流优先，但小流还是会被挤压到很后面）
+    vector<bool> host_is_src_this_schedule(params.k * params.k / 4, false); 
+    vector<bool> host_is_dst_this_schedule(params.k * params.k / 4, false);
+    for(auto it = traffic_list.begin(); it != traffic_list.end(); it++){
+        Traffic* traff = *it;
+        uint32_t src_id = traff->src_id;
+        uint32_t dst_id = traff->dst_id;
+        uint32_t slot = traff->slot;
+        uint32_t type = traff->type;
+        // if(src_id == 11 && dst_id == 19){
+        //     cout << "1️⃣ flow " << src_id << " -> " << dst_id << ", type: " << type << " slot: " << slot << ", current_slot: " << current_slot << endl;
+        // }
+        if(type == INTRA_POD){
+            // if(host_is_src_this_schedule[src_id % hosts_per_pod] == true || host_is_dst_this_schedule[dst_id % hosts_per_pod] == true){
+            //     traff->aborted = true; // 本次调度失败
+            //     // if(src_id == 11 && dst_id == 19){
+            //     //     cout << "2️⃣ flow " << src_id << " -> " << dst_id << ", type: " << type << " slot: " << slot << ", current_slot: " << current_slot << endl;
+            //     // }
+            //     // if(traff->size == 1688){
+            //     //     cout << "❕ failed due to host is allocated this time " << host_is_src_this_schedule[src_id % hosts_per_pod] << " " << host_is_dst_this_schedule[dst_id % hosts_per_pod] << "@ slot " << current_slot << endl;
+            //     // }
             //     continue;
             // }
-            traffic[{src_id, dst_id}] = {size, Slot, slot_end};
-            received_traffic[{src_id, dst_id}] = {size, Slot, slot_end, src_agg_id};
-        }
-    }
-
-    // unordered_map<LocalArbiter*, HeirScheduleIPRPkt*> ipr_packets_total; // LA-id, IPR packets
-    // HeirScheduleCoreRequestPkt* core_request_packet_total = new HeirScheduleCoreRequestPkt(get_current_time(), this, dynamic_cast<HeirScheduleTopology*>(topology)->global_arbiter);
-    // for (auto it = dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters.begin(); it != dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters.end(); it++){
-    //     LocalArbiter* la = *it;
-    //     if (la->id == this->id){
-    //         continue;
-    //     }
-    //     HeirScheduleIPRPkt *ipr_packet = new HeirScheduleIPRPkt(get_current_time(), this, la);
-    //     ipr_packets_total[la] = ipr_packet;
-    // }
-    // vector<HeirScheduleSCHDPkt*> schedule_packets_total;
-    vector<ipr*> ipr_info_total;
-    vector<core_rts*> core_rts_info_total;
-    vector<SCHD*> schd_info_total;
-
-    // 开始调度
-    for(int iter = 0; iter < 5; iter++){
-
-        // unordered_map<LocalArbiter*, HeirScheduleIPRPkt*> ipr_packets; // LA-id, IPR packets
-        // HeirScheduleCoreRequestPkt* core_request_packet = new HeirScheduleCoreRequestPkt(get_current_time(), this, dynamic_cast<HeirScheduleTopology*>(topology)->global_arbiter);
-        
-        // for (auto it = dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters.begin(); it != dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters.end(); it++){
-        //     LocalArbiter* la = *it;
-        //     if (la->id == this->id){
-        //         continue;
-        //     }
-        //     HeirScheduleIPRPkt *ipr_packet = new HeirScheduleIPRPkt(get_current_time(), this, la);
-        //     ipr_packets[la] = ipr_packet;
-        // }
-        // vector<HeirScheduleSCHDPkt*> schedule_packets;
-        vector<ipr*> ipr_info;
-        vector<core_rts*> core_rts_info;
-        vector<SCHD*> schd_info;
-        // 1. 选Agg
-        unordered_map<uint32_t, vector<Demand>> aggs;
-        unordered_map<uint32_t, vector<Demand>> dsts;
-        unordered_map<uint32_t, vector<Demand>> srcs;
-        // unordered_map<uint32_t, vector<Demand>> dsts;
-        // unordered_map<uint32_t, vector<Demand>> srcs;
-    
-        // random_shuffle(k_2.begin(), k_2.end());
-        for(auto it : traffic){
-            uint32_t src = it.first.src;
-            uint32_t dst = it.first.dst;
-            uint32_t agg_id = rand() % (params.k/2);
-            if(agg_id >= k/2){
-                cout << "❌ LocalArbiter " << this->id << " agg_id: " << agg_id << ", k/2: " << k/2 << endl;
-                assert(false);
-            }
-            aggs[agg_id].push_back(Demand(src, dst, it.second[0], it.second[1], it.second[2]));
-        }
-    
-        // 拷贝一份ToR2Agg_last_slot
-        vector<vector<uint32_t>> ToR2Agg_last_slot_copy;
-        for(uint32_t i = 0; i < params.k/2; i++){
-            vector<uint32_t> tmp;
-            for(uint32_t j = 0; j < params.k/2; j++){
-                tmp.push_back(ToR2Agg_last_slot[i][j]);
-            }
-            ToR2Agg_last_slot_copy.push_back(tmp);
-        }
-        // 拷贝一份Agg2ToR_last_slot
-        vector<vector<uint32_t>> Agg2ToR_last_slot_copy;
-        for(uint32_t i = 0; i < params.k/2; i++){
-            vector<uint32_t> tmp;
-            for(uint32_t j = 0; j < params.k/2; j++){
-                tmp.push_back(Agg2ToR_last_slot[i][j]);
-            }
-            Agg2ToR_last_slot_copy.push_back(tmp);
-        }
-        // 拷贝一份host_is_dst_last_slot
-        vector<uint32_t> host_is_dst_last_slot_copy;
-        for(uint32_t i = 0; i < hosts_per_pod; i++){
-            host_is_dst_last_slot_copy.push_back(host_is_dst_last_slot[i]);
-        }
-        // 拷贝一份host_is_src_last_slot
-        vector<uint32_t> host_is_src_last_slot_copy;
-        for(uint32_t i = 0; i < hosts_per_pod; i++){
-            host_is_src_last_slot_copy.push_back(host_is_src_last_slot[i]);
-        }
-    
-        // 2. Agg做grant
-        for (uint32_t i = 0; i < k/2; i++){
-            sort(aggs[i].begin(), aggs[i].end(), [](Demand a, Demand b){
-                return a.size < b.size;
-            });
-            
-            for(auto traff : aggs[i]){
-                uint32_t src_id = traff.src_id;
-                uint32_t dst_id = traff.dst_id;
-                uint32_t size = traff.size;
-                uint32_t Slot = traff.Slot;
-                uint32_t slot_end = traff.slot_end;
-                uint32_t src_tor_id = src_id / (params.k / 2);
-                uint32_t dst_tor_id = dst_id / (params.k / 2);
-                // 本Pod内的流量
-                if(src_id / hosts_per_pod == this->id && dst_id / hosts_per_pod == this->id){
-                    uint32_t slot_down = Slot - static_cast<uint32_t>(ceil(2 * params.propagation_delay_data / params.slot_length_in_s));
-                    uint32_t slot_down_end = slot_down + (slot_end - Slot) + 1; // 多分配一个slot
-                    if(ToR2Agg_last_slot_copy[src_tor_id % (params.k/2)][i] < Slot && Agg2ToR_last_slot_copy[i][dst_tor_id % (params.k/2)] < slot_down){
-                        ToR2Agg_last_slot_copy[src_tor_id % (params.k/2)][i] = slot_end;
-                        Agg2ToR_last_slot_copy[i][dst_tor_id % (params.k/2)] = slot_down_end;
-                        
-                        // 发送给dst
-                        dsts[dst_id % hosts_per_pod].push_back(Demand(src_id, dst_id, size, Slot, slot_end, i));
-                    }
-                }
-                // 本Pod前往其他Pod的流量
-                else if(src_id / hosts_per_pod == this->id && dst_id / hosts_per_pod != this->id){
-                    if(ToR2Agg_last_slot_copy[src_tor_id % (params.k/2)][i] < Slot){
-                        ToR2Agg_last_slot_copy[src_tor_id % (params.k/2)][i] = slot_end;
-                        
-                        // 发送给src
-                        srcs[src_id % hosts_per_pod].push_back(Demand(src_id, dst_id, size, Slot, slot_end, i));
-                    }
-                }
-                // 其他Pod前往本Pod的流量
-                else if(src_id / hosts_per_pod != this->id && dst_id / hosts_per_pod == this->id){
-                    if(Agg2ToR_last_slot_copy[i][dst_tor_id % (params.k/2)] < Slot){
-                        Agg2ToR_last_slot_copy[i][dst_tor_id % (params.k/2)] = slot_end;
-    
-                        // 发送给dst
-                        dsts[dst_id % hosts_per_pod].push_back(Demand(src_id, dst_id, size, Slot, slot_end, i));
-                    }
+            while(1){
+                if(host_is_src[slot % params.T][src_id % hosts_per_pod] == false && host_is_dst[slot % params.T][dst_id % hosts_per_pod] == false){
+                    host_is_src[slot % params.T][src_id % hosts_per_pod] = true;
+                    host_is_dst[slot % params.T][dst_id % hosts_per_pod] = true;
+                    host_is_src_this_schedule[src_id % hosts_per_pod] = true;
+                    host_is_dst_this_schedule[dst_id % hosts_per_pod] = true;
+                    traff->slot = slot;
+                    // if(src_id == 11 && dst_id == 19){
+                    //     cout << "🫐 uplink flow " << src_id << " -> " << dst_id << " slot: " << slot << ", current_slot: " << current_slot << endl;
+                    // }
+                    break;
                 }
                 else{
-                    cout << "❌ LocalArbiter " << this->id << " src_id: " << src_id << ", dst_id: " << dst_id << endl;
-                    assert(false);
-                }
-            }
-        }
-    
-        // 3. Dst做grant
-        for (uint32_t i = 0; i < hosts_per_pod; i++){
-            if(dsts[i].size() == 0){
-                continue;
-            }
-            sort(dsts[i].begin(), dsts[i].end(), [](Demand a, Demand b){
-                return a.size < b.size;
-            });
-            if(i + hosts_per_pod * this->id == 85){
-                cout << "🍆 host_is_dst_last_slot_copy[" << i << "]: " << host_is_dst_last_slot_copy[i] << endl;
-            }
-            // if(i + hosts_per_pod * this->id == 85){
-            //     cout << 
-            // }
-            // cout << endl;
-            // for(auto it : dsts[i]){
-            //     cout << "🐣 LocalArbiter " << this->id << " dsts: src_id: " << it.src_id << " dst_id: " << it.dst_id << " size: " << it.size << " Slot: " << it.Slot << " slot_end: " << it.slot_end << " agg_id: " << it.agg_id << " @ " << get_current_time() << endl;
-            // }
-            // cout << "🐣 LocalArbiter " << this->id << " host_is_dst_last_slot_copy[" << i << "]: " << host_is_dst_last_slot_copy[i] << endl;
-
-            for(Demand& demand : dsts[i]){
-                // Demand demand = dsts[i][0];
-                uint32_t src_id = demand.src_id;
-                uint32_t dst_id = demand.dst_id;
-                uint32_t size = demand.size;
-                uint32_t Slot = demand.Slot;
-                uint32_t slot_end = demand.slot_end;
-                uint32_t agg_id = demand.agg_id;
-                // 本Pod内的流量
-                if(src_id / hosts_per_pod == this->id && dst_id / hosts_per_pod == this->id){
-                    uint32_t slot_down = demand.Slot - static_cast<uint32_t>(ceil(2 * params.propagation_delay_data / params.slot_length_in_s));
-                    uint32_t slot_down_end = slot_down + (demand.slot_end - demand.Slot) + 1; // 多分配一个slot
-                    if(host_is_dst_last_slot_copy[i] < slot_down){
-                        host_is_dst_last_slot_copy[i] = slot_down_end;
-                        srcs[src_id % hosts_per_pod].push_back(demand);
-                        if(dst_id == 85){
-                            cout << "🍎 LocalArbiter " << this->id << " allocate slot " << Slot << " to " << slot_end << " for flow " << src_id << " -> " << dst_id << ", dst_Agg is " << agg_id << ", dst_ToR is " << dst_id/(k/2) << " @ slot " << int(get_current_time() / params.slot_length_in_s) << ", " << get_current_time() << endl;
-                            cout << "Slot: " << Slot << ", demand.Slot: " << demand.Slot << endl;
-                        }
+                    if(traff->size <= 1e10){
+                        slot++;
                     }
                     else{
-                        uint32_t margin = 1 + host_is_dst_last_slot_copy[i] - slot_down;
-                        slot_down += margin; // 从last_slot的下一个slot开始
-                        slot_down_end += margin;
-                        demand.Slot += margin;
-                        demand.slot_end += margin;
-                        host_is_dst_last_slot_copy[i] = slot_down_end;
-                        srcs[src_id % hosts_per_pod].push_back(demand);
-                        if(dst_id == 85){
-                            cout << "🍏 LocalArbiter " << this->id << " allocate slot " << demand.Slot << " to " << demand.slot_end << " for flow " << src_id << " -> " << dst_id << ", dst_Agg is " << agg_id << ", dst_ToR is " << dst_id/(k/2) << " @ slot " << int(get_current_time() / params.slot_length_in_s) << ", " << get_current_time() << endl;
-                            cout << "host_is_dst_last_slot_copy[" << i << "]: " << host_is_dst_last_slot_copy[i] << endl;
-                        }
+                        traff->aborted = true; // 本次调度失败
+                        break;
                     }
+                    // slot++;
                 }
-                // 其他Pod前往本Pod的流量
-                else if (src_id / hosts_per_pod != this->id && dst_id / hosts_per_pod == this->id){
-                    if(host_is_dst_last_slot_copy[i] < demand.Slot){
-                        host_is_dst_last_slot_copy[i] = demand.slot_end;
-                        core_rts* _core_rts = new core_rts(Slot, slot_end, size, src_id, received_traffic[{src_id, dst_id}][3], dst_id, agg_id);
-                        core_rts_info.push_back(_core_rts);
-                        core_rts_info_total.push_back(_core_rts);
-                        // cout << "🐣 LocalArbiter " << this->id << " allocate slot " << Slot << " for flow " << src_id << " -> " << dst_id << ", dst_Agg is " << agg_id << ", dst_ToR is " << dst_id/(k/2) << " @ " << get_current_time() << endl;
-                    }
-                }
-                else{
-                    assert(false);
+                if(slot - current_slot >= params.T){
+                    traff->aborted = true; // 本次调度失败
+                    // cout << "❌ slot: " << slot << ", current_slot: " << current_slot << ", traff->slot: " << traff->slot << ", params.T: " << params.T << endl;
+                    // cout << "❌ src_id: " << src_id << ", dst_id: " << dst_id << endl;
+                    // assert(false);
+                    break;
                 }
             }
         }
-    
-        // 4. Src做grant
-        for(uint32_t i = 0; i < hosts_per_pod; i++){
-            if(srcs[i].size() == 0){
-                continue;
-            }
-            sort(srcs[i].begin(), srcs[i].end(), [](Demand a, Demand b){
-                return a.size < b.size;
-            });
-            for(Demand& demand : srcs[i]){
-
-                // Demand demand = srcs[i][0];
-                uint32_t src_id = demand.src_id;
-                uint32_t dst_id = demand.dst_id;
-                uint32_t size = demand.size;
-                uint32_t Slot = demand.Slot;
-                uint32_t slot_end = demand.slot_end;
-                uint32_t agg_id = demand.agg_id;
-                if(src_id / hosts_per_pod == this->id && dst_id / hosts_per_pod == this->id){ // 可以生成完整路径
-                    if(host_is_src_last_slot_copy[i] < Slot){
-                        host_is_src_last_slot_copy[i] = slot_end;
-                        SCHD* schd = new SCHD(Slot, slot_end, src_id, src_id/(k/2), agg_id, 10000, agg_id, dst_id/(k/2), dst_id);
-                        // HeirScheduleSCHDPkt *schd_packet = new HeirScheduleSCHDPkt(get_current_time(), this, dynamic_cast<HeirScheduleTopology*>(topology)->hosts[src_id], schd);
-                        // schedule_packets.push_back(schd_packet);
-                        // schedule_packets_total.push_back(schd_packet);
-                        schd_info.push_back(schd);
-                        schd_info_total.push_back(schd);
-                        if(dst_id == 85){
-                            cout << "🍑 LocalArbiter " << this->id << " allocate slot " << Slot << " to " << slot_end << " for flow " << src_id << " -> " << dst_id << ", dst_Agg is " << agg_id << ", dst_ToR is " << dst_id/(k/2) << " @ slot " << int(get_current_time() / params.slot_length_in_s) << ", " << get_current_time() << endl;
-                        }
+        else if(type == GO_OUT){
+            // if(host_is_src_this_schedule[src_id % hosts_per_pod] == true){
+            //     traff->aborted = true; // 本次调度失败
+            //     continue;
+            // }
+            while(1){
+                if(host_is_src[slot % params.T][src_id % hosts_per_pod] == false){
+                    host_is_src[slot % params.T][src_id % hosts_per_pod] = true;
+                    host_is_src_this_schedule[src_id % hosts_per_pod] = true;
+                    traff->slot = slot;
+                    // if(src_id == 11 && dst_id == 121){
+                    //     cout << "🥕 uplink flow " << src_id << " -> " << dst_id << " slot: " << slot << ", current_slot: " << current_slot << endl;
+                    // }
+                    break;
+                }
+                else{
+                    if(traff->size <= 1e10){
+                        slot++;
                     }
                     else{
-                        uint32_t margin = host_is_src_last_slot_copy[i] - Slot + 1;
-                        Slot += margin; // 从last_slot的下一个slot开始
-                        slot_end += margin;
-                        demand.Slot += margin;
-                        demand.slot_end += margin;
-                        host_is_src_last_slot_copy[i] = slot_end;
-                        SCHD* schd = new SCHD(Slot, slot_end, src_id, src_id/(k/2), agg_id, 10000, agg_id, dst_id/(k/2), dst_id);
-                        schd_info.push_back(schd);
-                        schd_info_total.push_back(schd);
-                        if(dst_id == 85){
-                            cout << "🍉 LocalArbiter " << this->id << " allocate slot " << Slot << " to " << slot_end << " for flow " << src_id << " -> " << dst_id << ", dst_Agg is " << agg_id << ", dst_ToR is " << dst_id/(k/2) << " @ slot " << int(get_current_time() / params.slot_length_in_s) << ", " << get_current_time() << endl;
-                        }
+                        traff->aborted = true; // 本次调度失败
+                        break;
                     }
+                    // slot++;
                 }
-                else if (src_id / hosts_per_pod == this->id && dst_id / hosts_per_pod != this->id){
-                    if(host_is_src_last_slot_copy[i] < Slot){
-                        host_is_src_last_slot_copy[i] = slot_end;
-                        ipr* _ipr = new ipr(Slot, slot_end, size, src_id, agg_id, dst_id);
-                        ipr_info.push_back(_ipr);
-                        ipr_info_total.push_back(_ipr);
-                        // cout << "🥚 LocalArbiter " << this->id << " allocate slot " << Slot << ", to slot " << slot_end << " for flow " << src_id << " -> " << dst_id << ", src_tor is " << src_id/(k/2) << ", src_Agg is " << agg_id << " @ slot " << int(get_current_time() / params.slot_length_in_s) << ", " << get_current_time() << endl;
-                    }
+                if(slot - current_slot >= params.T){
+                    traff->aborted = true; // 本次调度失败
+                    // cout << "❌ slot: " << slot << ", current_slot: " << current_slot << ", traff->slot: " << traff->slot << ", params.T: " << params.T << endl;
+                    // cout << "❌ src_id: " << src_id << ", dst_id: " << dst_id << endl;
+                    // assert(false);
+                    break;
                 }
-                else{
-                    assert(false);
-                }
+                
+                assert(slot - current_slot < params.T);
             }
         }
-    
-        // 5. 更新状态
-        for(auto schd : schd_info){
-            uint32_t src_id = schd->src_host_id;
-            uint32_t dst_id = schd->dst_host_id;
-            uint32_t Slot = schd->Slot;
-            uint32_t slot_end = schd->slot_end;
-            uint32_t slot_down = Slot - static_cast<uint32_t>(ceil(2 * params.propagation_delay_data / params.slot_length_in_s));
-            uint32_t slot_down_end = slot_down + (slot_end - Slot) + 1; // 多分配一个slot
-            host_is_src_last_slot[src_id % hosts_per_pod] = max(slot_end, host_is_src_last_slot[src_id % hosts_per_pod]);
-            host_is_dst_last_slot[dst_id % hosts_per_pod] = max(slot_down_end, host_is_dst_last_slot[dst_id % hosts_per_pod]);
-            ToR2Agg_last_slot[schd->src_tor_id % (k/2)][schd->src_agg_id % (k/2)] = max(slot_end, ToR2Agg_last_slot[schd->src_tor_id % (k/2)][schd->src_agg_id % (k/2)]);
-            Agg2ToR_last_slot[schd->dst_agg_id % (k/2)][schd->dst_tor_id % (k/2)] = max(slot_down_end, Agg2ToR_last_slot[schd->dst_agg_id % (k/2)][schd->dst_tor_id % (k/2)]);
-            // if(dst_id == 85){
-            //     cout << "🫐 LocalArbiter " << this->id << " allocate slot " << Slot << ", to slot " << slot_end << " for flow " << src_id << " -> " << dst_id << ", src_tor is " << src_id/(k/2) << ", src_Agg is " << schd->src_agg_id << ", dst_Agg is " << schd->dst_agg_id << ", dst_ToR is " << dst_id/(k/2) << " @ slot " << int(get_current_time() / params.slot_length_in_s) << ", " << get_current_time() << endl;
-
+        else if(type == COME_IN){
+            // if(host_is_dst_this_schedule[dst_id % hosts_per_pod] == true){
+            //     traff->aborted = true; // 本次调度失败
+            //     continue;
             // }
 
-            traffic.erase({src_id, dst_id});
+            uint32_t slot_down = slot + static_cast<uint32_t>(round(params.propagation_delay_data * 2 / params.slot_length_in_s)); // 跨Pod流量，会晚到两个propagation delay
+            if(host_is_dst[slot_down % params.T][dst_id % hosts_per_pod] == false){
+                host_is_dst[slot_down % params.T][dst_id % hosts_per_pod] = true;
+                host_is_dst_this_schedule[dst_id % hosts_per_pod] = true;
+                // traff->slot = slot;
+            }
+            else{
+                traff->aborted = true; // 本次调度失败
+            }
+            if(slot - current_slot >= params.T){
+                traff->aborted = true; // 本次调度失败
+                cout << static_cast<uint32_t>(round(params.propagation_delay_data * 2 / params.slot_length_in_s)) << endl;
+                cout << "❌ slot: " << slot << ", current_slot: " << current_slot << ", traff->slot: " << traff->slot << ", params.T: " << params.T << endl;
+                cout << "❌ src_id: " << src_id << ", dst_id: " << dst_id << endl;
+                // assert(false);
+                continue;
+            }
         }
-        for(auto ipr : ipr_info){
-            uint32_t src_id = ipr->src_host_id;
-            uint32_t dst_id = ipr->dst_host_id;
-            uint32_t Slot = ipr->slot;
-            uint32_t slot_end = ipr->slot_end;
-            uint32_t size = ipr->size;
-            uint32_t src_tor_id = src_id / (params.k / 2);
-            uint32_t src_agg_id = ipr->src_agg_id;
-            host_is_src_last_slot[src_id % hosts_per_pod] = slot_end;
-            ToR2Agg_last_slot[src_tor_id % (k/2)][src_agg_id % (k/2)] = slot_end;
-
-            traffic.erase({src_id, dst_id});
-        }
-    
-        for(auto it : core_rts_info){
-            uint32_t src_id = it->src_id;
-            uint32_t dst_id = it->dst_id;
-            uint32_t slot_end = it->slot_end;
-            uint32_t dst_agg_id = it->dst_agg_id;
-            uint32_t dst_tor_id = dst_id / (params.k / 2);
-            host_is_dst_last_slot[dst_id % hosts_per_pod] = slot_end;
-            Agg2ToR_last_slot[dst_agg_id % (k/2)][dst_tor_id % (k/2)] = slot_end;
-
-            traffic.erase({src_id, dst_id});
-            received_traffic.erase({src_id, dst_id});
+        if(traff->aborted == false){
+            last_allocated_slot[{src_id, dst_id}] = traff->slot;
         }
     }
 
-    // 向host发送schd
-    for(auto schd : schd_info_total){
-        uint32_t src_id = schd->src_host_id;
-        uint32_t dst_id = schd->dst_host_id;
-        uint32_t Slot = schd->Slot;
-        uint32_t slot_end = schd->slot_end;
-        schd->src_agg_id += this->id * (params.k/2);
-        schd->dst_agg_id += this->id * (params.k/2);
-        if(src_dst_data_size_table[{src_id, dst_id}] <= params.mss * params.slot_length * (slot_end - Slot + 1)){
-            // cout << "💊 LA " << this->id << " erase src_dst_data_size_table! src: " << src_id << ", dst: " << dst_id << ", size: " << src_dst_data_size_table[{src_id, dst_id}] << ", params.mss * params.slot_length: " << params.mss * params.slot_length << endl;
-            // for(auto it = src_dst_data_size_table.begin(); it != src_dst_data_size_table.end(); it++){
-            //     cout << "🐱 src_dst_data_size_table: src: " << it->first.src << ", dst: " << it->first.dst << ", size: " << it->second << endl;
-            // }
-            src_dst_data_size_table.erase({src_id, dst_id});
+    uint32_t failed_cnt = 0;
+    uint32_t success_cnt = 0;
+    // 3. 路径选择（Path selection）(选择Agg)
+    for(auto it : traffic_list){
+        Traffic* traff = it;
+        if(traff->aborted == true){
+            continue;
         }
-        else{
-            src_dst_data_size_table[{src_id, dst_id}] -= params.mss * params.slot_length * (slot_end - Slot + 1);
-            // allocate_uplink();
+        uint32_t src_id = traff->src_id;
+        uint32_t dst_id = traff->dst_id;
+        uint32_t slot = traff->slot;
+        uint32_t type = traff->type;
+        random_shuffle(k_2.begin(), k_2.end());
+        bool flag = false;
+        if(type == INTRA_POD){
+            uint32_t src_tor_id = src_id % hosts_per_pod / (k/2);
+            uint32_t dst_tor_id = dst_id % hosts_per_pod / (k/2);
+            for(auto agg_id : k_2){
+                if(ToR2Agg[slot % params.T][src_tor_id][agg_id] == false && Agg2ToR[slot % params.T][agg_id][dst_tor_id] == false){
+                    ToR2Agg[slot % params.T][src_tor_id][agg_id] = true;
+                    Agg2ToR[slot % params.T][agg_id][dst_tor_id] = true;
+                    traff->src_agg_id = agg_id;
+                    traff->dst_agg_id = agg_id;
+                    flag = true;
+                    // if(src_id == 11 && dst_id == 19){
+                    //     cout << "3️⃣ flow " << src_id << " -> " << dst_id << ", type: " << type << " slot: " << slot << ", current_slot: " << current_slot << endl;
+                    // }
+                    // if(src_id == 89 && dst_id == 83){
+                    //     cout << "🍇 slot: " << slot << ", src_agg_id: " << traff->src_agg_id << " for flow " << src_id << " -> " << dst_id << " @ slot " << static_cast<uint32_t>(get_current_time()/params.slot_length_in_s) << endl;
+                    // }
+                    success_cnt++;
+                    break;
+                }
+            }
+            if(flag == false){
+                // 撤回已分配的slot（这里也可以不用撤回，因为这已经是最近的slot了，后续也用不到）
+                host_is_src[slot % params.T][src_id % hosts_per_pod] = false;
+                host_is_dst[slot % params.T][dst_id % hosts_per_pod] = false;
+                traff->aborted = true;
+                failed_cnt++;
+                // if(traff->size == 1688){
+                //     cout << "❗️ failed due to no available agg @ " << current_slot << endl;
+                // }
+            }
         }
-        HeirScheduleSCHDPkt *schd_packet = new HeirScheduleSCHDPkt(get_current_time(), this, dynamic_cast<HeirScheduleTopology*>(topology)->hosts[src_id], schd);
-        add_to_event_queue(new PacketQueuingEvent(get_current_time() + params.arbiter_lag, schd_packet, toLCSQueues[(src_id % hosts_per_pod) / (params.k/2)]));
-        // cout << "🍏 LocalArbiter " << this->id << " send schd to Host " << src_id << " @ " << get_current_time() << endl;
+        else if(type == GO_OUT){
+            uint32_t src_tor_id = src_id % hosts_per_pod / (k/2);
+            for(auto agg_id : k_2){
+                if(ToR2Agg[slot % params.T][src_tor_id][agg_id] == false){
+                    ToR2Agg[slot % params.T][src_tor_id][agg_id] = true;
+                    traff->src_agg_id = agg_id;
+                    flag = true;
+                    // if(src_id == 87 && dst_id == 3){
+                    //     cout << "🍇 LA " << this->id << " allocate uplink slot: " << slot << ", src_agg_id: " << traff->src_agg_id << " for flow " << src_id << " -> " << dst_id << " @ slot " << static_cast<uint32_t>(get_current_time()/params.slot_length_in_s) << endl;
+                    // }
+                    success_cnt++;
+                    break;
+                }
+            }
+            if(flag == false){
+                // 撤回已分配的slot
+                host_is_src[slot % params.T][src_id % hosts_per_pod] = false;
+                traff->aborted = true;
+                failed_cnt++;
+            }
+        }
+        else if(type == COME_IN){
+            uint32_t slot_down = slot + static_cast<uint32_t>(round(params.propagation_delay_data * 2 / params.slot_length_in_s)); 
+            uint32_t dst_tor_id = dst_id % hosts_per_pod / (k/2);
+            for(auto agg_id : k_2){
+                if(Agg2ToR[slot_down % params.T][agg_id][dst_tor_id] == false){
+                    Agg2ToR[slot_down % params.T][agg_id][dst_tor_id] = true;
+                    traff->dst_agg_id = agg_id;
+                    flag = true;
+                    success_cnt++;
+                    break;
+                }
+            }
+            if(flag == false){
+                // 撤回已分配的slot
+                host_is_dst[slot_down % params.T][dst_id % hosts_per_pod] = false;
+                traff->aborted = true;
+                failed_cnt++;
+            }
+        }
+    }
+    if(this->id == 2){
+        // cout << "💚 LA " << this->id << " success_cnt: " << success_cnt << ", failed_cnt: " << failed_cnt << endl;
+        failed_ratio.push_back({static_cast<uint32_t>(traffic_list.size()), success_cnt, failed_cnt});
     }
 
-    // 向dst LA发送聚合ipr
+    // 4. 根据调度结果发送控制包
+    HeirScheduleCoreRequestPkt* core_request_packet = new HeirScheduleCoreRequestPkt(get_current_time(), this, dynamic_cast<HeirScheduleTopology*>(topology)->global_arbiter);
     unordered_map<LocalArbiter*, HeirScheduleIPRPkt*> ipr_packets; // LA-id, IPR packets
-    for (auto it = dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters.begin(); it != dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters.end(); it++){
-        LocalArbiter* la = *it;
-        if (la->id == this->id){
+    for(auto la : dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters){
+        if(la->id == this->id){
             continue;
         }
         HeirScheduleIPRPkt *ipr_packet = new HeirScheduleIPRPkt(get_current_time(), this, la);
         ipr_packets[la] = ipr_packet;
     }
-    for(auto ipr : ipr_info_total){
-        uint32_t src_id = ipr->src_host_id;
-        uint32_t dst_id = ipr->dst_host_id;
-        inschedule_slot_table[{ipr->src_host_id, dst_id}] += ipr->slot_end - ipr->slot + 1;
-        // if(src_id == 0 && dst_id == 29){
-        //     cout << "1️⃣ allocating uplink !" << endl;
-        //     cout << "flow 0 -> 29 remaining size: " << src_dst_data_size_table[{src_id, dst_id}] << " @ slot " << int(get_current_time() / params.slot_length_in_s) << endl;
-        //     cout << "flow 0 -> 29 inschedule_slot: " << inschedule_slot_table[{src_id, dst_id}] << " @ slot " << int(get_current_time() / params.slot_length_in_s) << endl;
-        // }
-
-        ipr->src_agg_id += this->id * (params.k/2);
-        ipr_packets[dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[dst_id/hosts_per_pod]]->ipr_info.push_back(ipr);
+    for(auto it : traffic_list){
+        Traffic* traff = it;
+        uint32_t type = traff->type;
+        uint32_t src_id = traff->src_id;
+        uint32_t dst_id = traff->dst_id;
+        uint32_t slot = traff->slot;
+        if(traff->aborted == true){
+            if(type == COME_IN){
+                // 还原slot
+                ipd* ipd_info = new ipd(slot, slot, src_id, traff->src_agg_id, dst_id);
+                LocalArbiter* src_la = dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[src_id / hosts_per_pod];
+                HeirScheduleIPDPkt* ipd_packet = new HeirScheduleIPDPkt(get_current_time(), this, src_la, ipd_info);
+                send_deny_to_la(src_la, ipd_packet);
+            }
+            continue;
+        }
+        
+        if(type == INTRA_POD){
+            SCHD* schd_info = new SCHD(slot, slot, src_id, src_id/(k/2), traff->src_agg_id + this->id * (k/2), 10000, traff->dst_agg_id + this->id * (k/2), dst_id/(k/2), dst_id);
+            HeirScheduleSCHDPkt* schd_packet = new HeirScheduleSCHDPkt(get_current_time(), this, dynamic_cast<HeirScheduleTopology*>(topology)->hosts[src_id], schd_info);
+            add_to_event_queue(new PacketQueuingEvent(get_current_time() + params.arbiter_lag, schd_packet, toLCSQueues[(src_id % hosts_per_pod) / (params.k/2)]));
+            
+            if(src_dst_data_size_table[{src_id, dst_id}] <= params.mss * params.slot_length){
+                // cout << "💊 LA " << this->id << " erase src_dst_data_size_table! src: " << src_id << ", dst: " << dst_id << ", size: " << src_dst_data_size_table[{src_id, dst_id}] << ", params.mss * params.slot_length: " << params.mss * params.slot_length << endl;
+                // for(auto it = src_dst_data_size_table.begin(); it != src_dst_data_size_table.end(); it++){
+                //     cout << "🐱 src_dst_data_size_table: src: " << it->first.src << ", dst: " << it->first.dst << ", size: " << it->second << endl;
+                // }
+                src_dst_data_size_table.erase({src_id, dst_id});
+            }
+            else{
+                src_dst_data_size_table[{src_id, dst_id}] -= params.mss * params.slot_length;
+            }
+        }
+        else if(type == GO_OUT){
+            ipr* _ipr_info = new ipr(slot, slot, traff->size, src_id, traff->src_agg_id + this->id * (k/2), dst_id);
+            ipr_packets[dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[dst_id / hosts_per_pod]]->ipr_info.push_back(_ipr_info);
+            // if(src_id == 87 && dst_id == 3){
+            //     cout << "🍠 Local Arbiter allocate uplink slot " << slot << " for flow " << src_id << " -> " << dst_id << ", src_agg_id: " << _ipr_info->src_agg_id << " @ slot " << int(get_current_time() / params.slot_length_in_s) << endl;
+            // }
+            inschedule_slot_table[{src_id, dst_id}]++;
+        }
+        else if(type == COME_IN){
+            // 还原slot
+            // uint original_slot = traff->slot - static_cast<uint32_t>(round(params.propagation_delay_data * 2 / params.slot_length_in_s));
+            core_rts* _core_rts_info = new core_rts(slot, slot, traff->size, src_id, traff->src_agg_id, dst_id, traff->dst_agg_id + this->id * (k/2));
+            core_request_packet->core_rts_vector.push_back(_core_rts_info);
+            // if(src_id == 87 && dst_id == 3){
+            //     cout << "🫐 Local Arbiter " << this->id << " allocate downlink slot " << slot << " for flow " << src_id << " -> " << dst_id << ", src_agg_id: " << traff->src_agg_id << " @ slot " << int(get_current_time() / params.slot_length_in_s) << endl;
+            // }
+        }
     }
+
     // 发送聚合的ipr包
     for(auto it = dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters.begin(); it != dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters.end(); it++){
         LocalArbiter *la = *it;
@@ -1008,44 +959,40 @@ void LocalArbiter::schedule(){
         if(ipr_packet->ipr_info.size() > 0){
             ipr_packet->size += ipr_packet->ipr_info.size() * ipr::info_size; // 每个ipr_info 16B
             send_request_to_la(la, ipr_packet);
-            // cout << "🍄 LA " << this->id << " send interpod request to LA " << la->id << " @ " << get_current_time() << endl;
-            // for(auto it = ipr_packet->ipr_info.begin(); it != ipr_packet->ipr_info.end(); it++){
-            //     cout << (*it)->src_host_id << " -> " << (*it)->dst_host_id << endl;
-            // }
+            // cout << "🍓 LA " << this->id << " send ipr to LA " << la->id << " @ slot " << static_cast<uint32_t>(get_current_time()/params.slot_length_in_s) << ", " << get_current_time() << endl;
         }
     }
-
     // 向GA发送core_rts
-    HeirScheduleCoreRequestPkt* core_request_packet = new HeirScheduleCoreRequestPkt(get_current_time(), this, dynamic_cast<HeirScheduleTopology*>(topology)->global_arbiter);
-    for(auto core_rts : core_rts_info_total){
-        core_rts->dst_agg_id += this->id * (params.k/2);
-        core_request_packet->core_rts_vector.push_back(core_rts);
-    }
+
     core_request_packet->size += core_request_packet->core_rts_vector.size() * core_rts::info_size;
     if(core_request_packet->core_rts_vector.size() > 0){
         send_request_to_ga(core_request_packet);
     }
-    
+
+    // 5. 清理
+    for(auto it = traffic_list.begin(); it != traffic_list.end(); it++){
+        delete *it;
+    }
+    traffic_list.clear();
     for(auto it = received_ipr_packets.begin(); it != received_ipr_packets.end(); it++){
         delete *it;
     }
     received_ipr_packets.clear();
 
-    // 向dst LA发送deny
-    for(auto it : received_traffic){
-        uint32_t src_id = it.first.src;
-        uint32_t dst_id = it.first.dst;
-        uint32_t src_agg_id = it.second[3];
-        uint32_t Slot = it.second[1];
-        uint32_t slot_end = it.second[2];
-        ipd* ipd_info = new ipd(Slot, slot_end, src_id, src_agg_id, dst_id);
-        LocalArbiter* src_la = dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[src_id / (params.k * params.k / 4)];
-        HeirScheduleIPDPkt* ipd_packet = new HeirScheduleIPDPkt(get_current_time(), this, src_la, ipd_info);
-        send_deny_to_la(src_la, ipd_packet);
+    // 6. 复原本slot的状态，以便将来能够使用
+    for(uint32_t i = 0; i < params.k * params.k / 4; i++){
+        host_is_src[current_slot % params.T][i] = false;
+        host_is_dst[current_slot % params.T][i] = false;
+    }
+    for(uint32_t i = 0; i < params.k/2; i++){
+        for(uint32_t j = 0; j < params.k/2; j++){
+            ToR2Agg[current_slot % params.T][i][j] = false;
+            Agg2ToR[current_slot % params.T][i][j] = false;
+        }
     }
 
+    // 7. 下一次调度
     add_to_event_queue(new LocalArbiterScheduleEvent(get_current_time() + params.slot_length_in_s, this));
-
 }
 
 void LocalArbiter::allocate_uplink(){
@@ -1254,7 +1201,7 @@ void LocalArbiter::send_request_to_la(LocalArbiter *dst, HeirScheduleIPRPkt *ipr
 void LocalArbiter::receive_ipr(Packet *packet){
     HeirScheduleIPRPkt *ipr_packet = (HeirScheduleIPRPkt *)packet;
     received_ipr_packets.push_back(ipr_packet);
-    // cout << "🐺 LocalArbiter " << this->id << " receive interpod request from LocalArbiter " << packet->src->id << " @ " << get_current_time() << ", packet delay: " << get_current_time() - packet->sending_time << endl;
+    // cout << "🐺 LocalArbiter " << this->id << " receive interpod request from LocalArbiter " << packet->src->id << " @ slot " << static_cast<uint32_t>(get_current_time()/params.slot_length_in_s) << ", " << get_current_time() << ", packet delay: " << get_current_time() - packet->sending_time << endl;
     
     // allocate_downlink(ipr_packet);
 }
@@ -1410,14 +1357,14 @@ void LocalArbiter::receive_ipd(Packet *packet){
 
 void LocalArbiter::take_back_link(HeirScheduleIPDPkt *ipd_packet){
     ipd* ipd_info = ipd_packet->ipd_info;
-    uint32_t Slot = ipd_info->slot;
+    uint32_t slot = ipd_info->slot;
     uint32_t slot_end = ipd_info->slot_end;
     uint32_t src_id = ipd_info->src_host_id;
     uint32_t src_agg_id = ipd_info->src_agg_id;
     uint32_t dst_id = ipd_info->dst_host_id;
     uint32_t src_tor_id = src_id / (params.k / 2);
-    uint32_t dst_tor_id = dst_id / (params.k / 2);
-    LocalArbiter *src_la = dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[src_id / hosts_per_pod];
+    // uint32_t dst_tor_id = dst_id / (params.k / 2);
+    // LocalArbiter *src_la = dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[src_id / hosts_per_pod];
     // // host->ToR
     // assert(host_is_src[Slot % params.T][src_id % hosts_per_pod] == true);
     // host_is_src[Slot % params.T][src_id % hosts_per_pod] = false;
@@ -1427,16 +1374,18 @@ void LocalArbiter::take_back_link(HeirScheduleIPDPkt *ipd_packet){
 
     // dst->ToR
     // assert(host_is_src_last_slot[src_id % hosts_per_pod] == slot_end);
-    if(host_is_src_last_slot[src_id % hosts_per_pod] == slot_end){
-        host_is_src_last_slot[src_id % hosts_per_pod] = Slot - 1;
+    // if(host_is_src_last_slot[src_id % hosts_per_pod] == slot_end){
+    //     host_is_src_last_slot[src_id % hosts_per_pod] = Slot - 1;
+    // }
+    uint32_t current_slot = static_cast<uint32_t>(ceil(get_current_time() / params.slot_length_in_s));
+    if(slot > current_slot){
+        host_is_src[slot % params.T][src_id % hosts_per_pod] = false;
+        ToR2Agg[slot % params.T][src_tor_id % tors_per_pod][src_agg_id % aggs_per_pod] = false;
     }
-    // ToR->Agg
-    // assert(ToR2Agg_last_slot[src_tor_id % (params.k / 2)][src_agg_id % (params.k / 2)] == slot_end);
-    if(ToR2Agg_last_slot[src_tor_id % (params.k / 2)][src_agg_id % (params.k / 2)] == slot_end){
-        ToR2Agg_last_slot[src_tor_id % (params.k / 2)][src_agg_id % (params.k / 2)] = Slot - 1;
-    }
+    if(inschedule_slot_table[{src_id, dst_id}] == 0) assert(false);
+    inschedule_slot_table[{src_id, dst_id}]--;
     // 删除src_dst_slot_table的src-dst表项
-    inschedule_slot_table[{src_id, dst_id}] -= slot_end - Slot + 1;
+    // inschedule_slot_table[{src_id, dst_id}] -= slot_end - Slot + 1;
     // if(src_id == 0 && dst_id == 29){
     //     cout << "2️⃣ Inter-Pod Deny!" << endl;
     //     cout << "flow 0 -> 29 remaining size: " << src_dst_data_size_table[{src_id, dst_id}] << endl;
@@ -1500,8 +1449,7 @@ void LocalArbiter::receive_core_schd(Packet *packet){
 
 void LocalArbiter::generate_full_path(core_schd *core_schd_info){
     // core_schd* core_schd_info = core_schd_packet->core_schd_info;
-    uint32_t Slot = core_schd_info->Slot;
-    uint32_t slot_end = core_schd_info->slot_end;
+    uint32_t slot = core_schd_info->Slot;
     uint32_t src_id = core_schd_info->src_id;
     uint32_t src_tor_id = src_id / (params.k / 2);
     uint32_t src_agg_id = core_schd_info->src_agg_id;
@@ -1515,7 +1463,7 @@ void LocalArbiter::generate_full_path(core_schd *core_schd_info){
     // routing_table[{src_id, dst_id}]->dst_agg_id = dst_agg_id;
     // routing_table[{src_id, dst_id}]->dst_tor_id = dst_id / (params.k / 2);
     // routing_table[{src_id, dst_id}]->core_id = core_id;
-    inschedule_slot_table[{src_id, dst_id}] -= slot_end - Slot + 1;
+    // inschedule_slot_table[{src_id, dst_id}] -= slot_end - Slot + 1;
     // if(src_id == 0 && dst_id == 29){
     //     cout << "4️⃣ Generate Full Path!" << endl;
     //     cout << "flow 0 -> 29 remaining size: " << src_dst_data_size_table[{src_id, dst_id}] << " @ slot " << int(get_current_time() / params.slot_length_in_s) << endl;
@@ -1525,7 +1473,7 @@ void LocalArbiter::generate_full_path(core_schd *core_schd_info){
     // cout << "🐥 LA " << this->id << " generate full path for flow " << src_id << " -> " << dst_id << ", from slot " << Slot << " to slot " << slot_end << ", src_tor: " << src_tor_id << ", src_agg: " << src_agg_id << ", core: " << core_id << ", dst_agg: " << dst_agg_id << ", dst_tor: " << dst_tor_id << " @ slot " << int(get_current_time() / params.slot_length_in_s) << endl;
     // core_schd* core_schd_copy = new core_schd(Slot, slot_end, src_id, src_agg_id, core_id, dst_id, dst_agg_id);
     // delete core_schd_packet;
-    SCHD* schd = new SCHD(Slot, slot_end, src_id, src_tor_id, src_agg_id, core_id, dst_agg_id, dst_tor_id, dst_id);
+    SCHD* schd = new SCHD(slot, slot, src_id, src_tor_id, src_agg_id, core_id, dst_agg_id, dst_tor_id, dst_id);
     HeirScheduleSCHDPkt *schd_packet = new HeirScheduleSCHDPkt(get_current_time(), this, dynamic_cast<HeirScheduleTopology*>(topology)->hosts[src_id], schd);
     add_to_event_queue(new PacketQueuingEvent(get_current_time(), schd_packet, toLCSQueues[(src_id % hosts_per_pod) / (params.k/2)]));
     
@@ -1539,7 +1487,9 @@ void LocalArbiter::generate_full_path(core_schd *core_schd_info){
     // ga->CoreOccupationIn[Slot % params.T][core_id][src_agg_id] = false;
     // ga->CoreOccupationOut[Slot % params.T][core_id][dst_agg_id] = false;
     // add_to_event_queue(new RestoreLinkEvent(Slot * params.slot_length_in_s, core_schd_copy));
-    if(src_dst_data_size_table[{src_id, dst_id}] <= params.mss * params.slot_length * (slot_end - Slot + 1)){
+    if(inschedule_slot_table[{src_id, dst_id}] == 0) assert(false);
+    inschedule_slot_table[{src_id, dst_id}]--;
+    if(src_dst_data_size_table[{src_id, dst_id}] <= params.mss * params.slot_length){
         // cout << "💊 LA " << this->id << " erase src_dst_data_size_table! src: " << src_id << ", dst: " << dst_id << ", size: " << src_dst_data_size_table[{src_id, dst_id}] << ", params.mss * params.slot_length: " << params.mss * params.slot_length << endl;
         // for(auto it = src_dst_data_size_table.begin(); it != src_dst_data_size_table.end(); it++){
         //     cout << "🐱 src_dst_data_size_table: src: " << it->first.src << ", dst: " << it->first.dst << ", size: " << it->second << endl;
@@ -1547,11 +1497,9 @@ void LocalArbiter::generate_full_path(core_schd *core_schd_info){
         src_dst_data_size_table.erase({src_id, dst_id});
     }
     else{
-        src_dst_data_size_table[{src_id, dst_id}] -= params.mss * params.slot_length * (slot_end - Slot + 1);
+        src_dst_data_size_table[{src_id, dst_id}] -= params.mss * params.slot_length;
         // allocate_uplink();
     }
-        
-    
 }
 
 void LocalArbiter::receive_core_deny(Packet *packet){
@@ -1567,8 +1515,7 @@ void LocalArbiter::receive_core_deny(Packet *packet){
 
 void LocalArbiter::take_back_link(core_deny *core_deny_info){
     // core_deny* core_deny_info = core_deny_packet->core_deny_info;
-    uint32_t Slot = core_deny_info->Slot;
-    uint32_t slot_end = core_deny_info->slot_end;
+    uint32_t slot = core_deny_info->Slot;
     uint32_t src_id = core_deny_info->src_id;
     uint32_t src_agg_id = core_deny_info->src_agg_id;
     uint32_t dst_id = core_deny_info->dst_id;
@@ -1576,48 +1523,21 @@ void LocalArbiter::take_back_link(core_deny *core_deny_info){
     uint32_t src_tor_id = src_id / (params.k / 2);
     uint32_t dst_tor_id = dst_id / (params.k / 2);
     bool is_src_la = core_deny_info->is_src_la;
+    uint32_t current_slot = static_cast<uint32_t>(ceil(get_current_time() / params.slot_length_in_s));
     if (is_src_la){
-        inschedule_slot_table[{src_id, dst_id}] -= (1 + slot_end - Slot);
-        // if(src_id == 0 && dst_id == 29){
-        //     cout << "3️⃣ Core Deny!" << endl;
-        //     cout << "flow 0 -> 29 remaining size: " << src_dst_data_size_table[{src_id, dst_id}] << endl;
-        //     cout << "flow 0 -> 29 inschedule_slot: " << inschedule_slot_table[{src_id, dst_id}] << endl;
-        // }
-        // if(src_id == 24 && dst_id == 4){
-        //     cout << "🍒 inschedule_slot_table[{src_id, dst_id}]: " << inschedule_slot_table[{src_id, dst_id}] << ", slot_end: " << slot_end << ", Slot: " << Slot << ", 1 + slot_end - Slot: " << 1 + slot_end - Slot << endl;
-        // }
-        // host->ToR
-        // assert(host_is_src[Slot % params.T][src_id % hosts_per_pod] == true);
-        // host_is_src[Slot % params.T][src_id % hosts_per_pod] = false;
-        // // ToR->Agg
-        // assert(ToR2Agg[Slot % params.T][src_tor_id % tors_per_pod][src_agg_id % aggs_per_pod] == true);
-        // ToR2Agg[Slot % params.T][src_tor_id % tors_per_pod][src_agg_id % aggs_per_pod] = false;
-
-        if(host_is_src_last_slot[src_id % hosts_per_pod] == slot_end){
-            host_is_src_last_slot[src_id % hosts_per_pod] = Slot - 1;
+        if(current_slot < slot){
+            host_is_src[slot % params.T][src_id % hosts_per_pod] = false;
+            ToR2Agg[slot % params.T][src_tor_id % tors_per_pod][src_agg_id % aggs_per_pod] = false;
         }
-
-        if(ToR2Agg_last_slot[src_tor_id % (params.k / 2)][src_agg_id % (params.k / 2)] == slot_end){
-            ToR2Agg_last_slot[src_tor_id % (params.k / 2)][src_agg_id % (params.k / 2)] = Slot - 1;
-        }
-    
-        // 删除src_dst_slot_table的src-dst表项
-        // src_dst_slot_table.erase({src_id, dst_id});
-        // 删除routing_table的src-dst表项
-        // routing_table.erase({src_id, dst_id});
+        if(inschedule_slot_table[{src_id, dst_id}] == 0) assert(false);
+        inschedule_slot_table[{src_id, dst_id}]--;
     }
     else{
-        // Agg->ToR
-        // assert(Agg2ToR[Slot % params.T][dst_agg_id % aggs_per_pod][dst_tor_id % tors_per_pod] == true);
-        // Agg2ToR[Slot % params.T][dst_agg_id % aggs_per_pod][dst_tor_id % tors_per_pod] = false;
-        // // ToR->host
-        // assert(host_is_dst[Slot % params.T][dst_id % hosts_per_pod] == true);
-        // host_is_dst[Slot % params.T][dst_id % hosts_per_pod] = false;
-        if(Agg2ToR_last_slot[dst_agg_id % (params.k / 2)][dst_tor_id % (params.k / 2)] == slot_end){
-            Agg2ToR_last_slot[dst_agg_id % (params.k / 2)][dst_tor_id % (params.k / 2)] = Slot - 1;
-        }
-        if(host_is_dst_last_slot[dst_id % hosts_per_pod] == slot_end){
-            host_is_dst_last_slot[dst_id % hosts_per_pod] = Slot - 1;
+        // 注意，在dstPod中，slot需要加上一个偏置
+        slot += static_cast<uint32_t>(round(params.propagation_delay_data * 2 / params.slot_length_in_s));
+        if(current_slot < slot){
+            host_is_dst[slot % params.T][dst_id % hosts_per_pod] = false;
+            Agg2ToR[slot % params.T][dst_agg_id % aggs_per_pod][dst_tor_id % tors_per_pod] = false;
         }
     }
     // delete core_deny_packet;
@@ -1697,6 +1617,7 @@ void GlobalArbiter::receive_core_rts(Packet *packet){
 
 void GlobalArbiter::allocate_core_link(){
     // cout << "🐛 GlobalArbiter " << this->id << " allocate core link @ " << get_current_time() << endl;
+    uint32_t current_slot = static_cast<uint32_t>(ceil(get_current_time() / params.slot_length_in_s));
     unordered_map<LocalArbiter*, HeirScheduleCoreSCHDPkt*> core_schd_map;
     unordered_map<LocalArbiter*, HeirScheduleCoreDenyPkt*> core_deny_map;
     for(auto it = dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters.begin(); it != dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters.end(); it++){
@@ -1708,7 +1629,7 @@ void GlobalArbiter::allocate_core_link(){
     for(auto core_rts_packet : received_core_rts_packets){
         for(auto it = core_rts_packet->core_rts_vector.begin(); it != core_rts_packet->core_rts_vector.end(); it++){
             core_rts* core_rts_info = *it;
-            src_dst_data_size_vector.push_back({core_rts_info, core_rts_info->slot_end - core_rts_info->Slot + 1});
+            src_dst_data_size_vector.push_back({core_rts_info, core_rts_info->size});
         }
     }
     sort(src_dst_data_size_vector.begin(), src_dst_data_size_vector.end(), [](pair<core_rts*, uint32_t> a, pair<core_rts*, uint32_t> b){
@@ -1716,52 +1637,45 @@ void GlobalArbiter::allocate_core_link(){
     });
     for(auto it = src_dst_data_size_vector.begin(); it != src_dst_data_size_vector.end(); it++){
         core_rts* core_rts_info = it->first;
-        uint32_t Slot = core_rts_info->Slot;
-        uint32_t slot_end = core_rts_info->slot_end;
+        uint32_t slot = core_rts_info->Slot;
         uint32_t src_id = core_rts_info->src_id;
         uint32_t src_agg_id = core_rts_info->src_agg_id;
         uint32_t dst_id = core_rts_info->dst_id;
         uint32_t dst_agg_id = core_rts_info->dst_agg_id;
-        // if(Slot < 700000 || Slot > 1500000){
-        //     cout << "❌ LA " << this->id << " Slot: " << Slot << " @ " << get_current_time() << endl;
-        //     assert(false);
-        // }
-        // cout << "🌿 core rts: src_agg: " << src_agg_id << ", dst_agg: " << dst_agg_id << ", Slot: " << Slot << ", slot_end: " << slot_end << " @ " << get_current_time() << endl;  
-        
         uint32_t core_id = dynamic_cast<HeirScheduleTopology*>(topology)->src_dst_agg_to_core_map[{src_agg_id, dst_agg_id}];
-        // if(CoreOccupationIn[Slot % params.T][core_id][src_agg_id] == false && CoreOccupationOut[Slot % params.T][core_id][dst_agg_id] == false){
-            // CoreOccupationIn[Slot % params.T][core_id][src_agg_id] = true;
-            // CoreOccupationOut[Slot % params.T][core_id][dst_agg_id] = true;
-        // cout << "🍑 core_id: " << core_id << ", src_agg_id: " << src_agg_id << ", dst_agg_id: " << dst_agg_id << ", Slot: " << Slot << ", slot_end: " << slot_end << endl;
-        if(CoreOccupationIn_last_slot[core_id][src_agg_id] < Slot && CoreOccupationOut_last_slot[core_id][dst_agg_id] < Slot){
-            CoreOccupationIn_last_slot[core_id][src_agg_id] = slot_end;
-            CoreOccupationOut_last_slot[core_id][dst_agg_id] = slot_end;
-            // if(src_id == 0 && dst_id == 29){
-            //     cout << "🐤 GlobalArbiter " << this->id << " allocate slot " << Slot << " to " << slot_end << " for flow " << src_id << " -> " << dst_id << ", core is " << core_id << ", src_Agg is " << src_agg_id << ", dst_Agg is " << dst_agg_id << " @ " << get_current_time() << endl;
+        uint32_t port_In = dynamic_cast<HeirScheduleTopology*>(topology)->core_to_agg_port[core_id][src_agg_id];
+        uint32_t port_Out = dynamic_cast<HeirScheduleTopology*>(topology)->core_to_agg_port[core_id][dst_agg_id];
+        if(slot <= current_slot){
+            cout << "❌ Global arbiter slot: " << slot << ", current_slot: " << current_slot << endl;
+            cout << "❌ Global arbiter src_id: " << src_id << ", src_agg_id: " << src_agg_id << ", dst_id: " << dst_id << ", dst_agg_id: " << dst_agg_id << ", core_id: " << core_id << ", port_In: " << port_In << ", port_Out: " << port_Out << endl;
+            assert(slot > current_slot);
+        }
+        if(CoreOccupationIn[slot % params.T][core_id][port_In] == false && CoreOccupationOut[slot % params.T][core_id][port_Out] == false){
+            // 分配成功
+            CoreOccupationIn[slot % params.T][core_id][port_In] = true;
+            CoreOccupationOut[slot % params.T][core_id][port_Out] = true;
+            core_schd* core_schd_info = new core_schd(slot, slot, src_id, src_agg_id, core_id, dst_id, dst_agg_id);
+            // if(src_id == 11 && dst_id == 121){
+            //     cout << "🥭 Global Arbiter allocate slot " << slot << " for flow " << src_id << " -> " << dst_id << ", core_id: " << core_id << ", src_agg_id: " << src_agg_id << ", dst_agg_id: " << dst_agg_id << " @ slot " << int(get_current_time() / params.slot_length_in_s) << endl;
             // }
-            core_schd* core_schd_info = new core_schd(Slot, slot_end, src_id, src_agg_id, core_id, dst_id, dst_agg_id);
             LocalArbiter *src_la = dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[src_id / (params.k * params.k / 4)];
-            // HeirScheduleCoreSCHDPkt* core_schd_packet = new HeirScheduleCoreSCHDPkt(get_current_time(), this, src_la, core_schd_info);
-            // send_core_schd_to_la(core_schd_packet);
             core_schd_map[src_la]->core_schd_vector.push_back(core_schd_info);
         }
         else{
-            core_deny* core_deny_info_src = new core_deny(Slot, slot_end, src_id, src_agg_id, dst_id, dst_agg_id);
+            // 分配失败
+            core_deny* core_deny_info_src = new core_deny(slot, slot, src_id, src_agg_id, dst_id, dst_agg_id);
             LocalArbiter *src_la = dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[src_id / (params.k * params.k / 4)];
             core_deny_info_src->is_src_la = true;
-            // HeirScheduleCoreDenyPkt* core_deny_packet_src = new HeirScheduleCoreDenyPkt(get_current_time(), this, src_la, core_deny_info_src);
-            // send_core_deny_to_la(core_deny_packet_src);
             core_deny_map[src_la]->core_deny_vector.push_back(core_deny_info_src);
             
-            core_deny* core_deny_info_dst = new core_deny(Slot, slot_end, src_id, src_agg_id, dst_id, dst_agg_id);
+            core_deny* core_deny_info_dst = new core_deny(slot, slot, src_id, src_agg_id, dst_id, dst_agg_id);
             LocalArbiter *dst_la = dynamic_cast<HeirScheduleTopology*>(topology)->local_arbiters[dst_id / (params.k * params.k / 4)];
             core_deny_info_dst->is_src_la = false;
-            // HeirScheduleCoreDenyPkt* core_deny_packet_dst = new HeirScheduleCoreDenyPkt(get_current_time(), this, dst_la, core_deny_info_dst);
-            // send_core_deny_to_la(core_deny_packet_dst);
             core_deny_map[dst_la]->core_deny_vector.push_back(core_deny_info_dst);
 
-            // cout << "❌ GlobalArbiter " << this->id << " deny core link for flow " << src_id << " -> " << dst_id << " @ " << get_current_time() << endl;
+            // cout << "❌ Global arbiter src_id: " << src_id << ", src_agg_id: " << src_agg_id << ", dst_id: " << dst_id << ", dst_agg_id: " << dst_agg_id << ", core_id: " << core_id << ", port_In: " << port_In << ", port_Out: " << port_Out << endl;
         }
+        
     }
 
     // Debug
@@ -1777,8 +1691,8 @@ void GlobalArbiter::allocate_core_link(){
         HeirScheduleCoreDenyPkt *core_deny_packet = it->second;
         total_deny += core_deny_packet->core_deny_vector.size();
     }
-    // if(total_rts > 0){
-    //     cout << "📈 GlobalArbiter " << this->id << " total_rts: " << total_rts << ", total_schd: " << total_schd << ", ratio: " << double(total_schd) / double(total_rts) << "total_deny: " << total_deny/2 << ", ratio: " << double(total_deny/2) / double(total_rts) << endl;
+    // if(total_deny > 0){
+    //     cout << "📉 GlobalArbiter " << this->id << " total_rts: " << total_rts << ", total_schd: " << total_schd << ", ratio: " << double(total_schd) / double(total_rts) << ", total_deny: " << total_deny/2 << ", ratio: " << double(total_deny/2) / double(total_rts) << endl;
     // }
     if(double(total_deny/2) / double(total_rts) > 0.5){
         cout << "📈 Global arbiter rts:" << endl;
@@ -1837,7 +1751,14 @@ void GlobalArbiter::allocate_core_link(){
         total_deny += core_deny_packet->core_deny_vector.size();
     }
     
-    
+    // 复原本slot的链路状态
+    for(uint32_t i = 0; i < params.k * params.k / 4; i++){
+        for(uint32_t j = 0; j < params.k / 2; j++){
+            CoreOccupationIn[current_slot % params.T][i][j] = false;
+            CoreOccupationOut[current_slot % params.T][i][j] = false;
+        }
+    }
+
     // add_to_event_queue(new CoreAllocateLinkEvent(get_current_time() + params.arbiter_lag * params.slot_length_in_s, this));
     add_to_event_queue(new CoreAllocateLinkEvent(get_current_time() + params.slot_length_in_s, this));
 

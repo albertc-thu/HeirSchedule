@@ -277,6 +277,8 @@ public:
     vector<uint32_t> host_is_dst_last_slot; // 记录host_is_dst中最后一个T的位置
     vector<vector<uint32_t>> ToR2Agg_last_slot; // 记录ToR2Agg中最后一个T的位置
     vector<vector<uint32_t>> Agg2ToR_last_slot; // 记录Agg2ToR中最后一个T的位置
+    
+    unordered_map<src_dst_pair, uint32_t> last_allocated_slot; // 记录每个源-目的对应的最后一个分配的slot
 };
 
 class GlobalArbiter : public Host {
