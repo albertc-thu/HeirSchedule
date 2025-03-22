@@ -5,6 +5,7 @@
 #include <queue>
 #include <map>
 #include <set>
+#include <unordered_set>
 // #include <priority_queue>
 #include "queue.h"
 #include "packet.h"
@@ -171,6 +172,9 @@ class HeirScheduleHost : public Host{
         void receive_data_packet(Packet *packet);
 
         HeirScheduleDataPkt* get_data_packet(uint32_t dst_id);
+        HeirScheduleDataPkt* get_data_packet_by_priority(uint32_t dst_id);
+
+        unordered_map<uint32_t, vector<std::queue<Flow*>>> per_dst_priority_queues; // <dst_id, <priority, flows>>
         
         Queue *toToRQueue;
         Queue *toLAQueue; //前往local arbiter的队列
@@ -268,6 +272,8 @@ public:
     vector<vector<vector<bool>>> Agg2ToR; // 一个$T * \frac{k}{2} * \frac{k}{2}$的矩阵, Agg2ToR[t][i][j]表示第t个时隙，Agg i->ToR j的链路是否被分配
     unordered_map<src_dst_pair, uint32_t> src_dst_data_size_table; // 记录每个源-目的对应的数据总量
     vector<HeirScheduleIPRPkt*> received_ipr_packets;
+
+    unordered_map<Flow*, uint32_t> flow_size_table;
 
     // unordered_map<src_dst_pair, uint32_t> src_dst_slot_table; // 记录每个源-目的对应的时间槽
     // unordered_map<src_dst_pair, SCHD*> routing_table; // 记录每个源-目的对应的调度信息

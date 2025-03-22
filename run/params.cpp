@@ -207,6 +207,10 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         else if (key == "max_slot_to_allocate"){
             lineStream >> params.max_slot_to_allocate;
         }
+        else if (key == "Threshold"){
+            lineStream >> params.Threshold;
+            std::cout << "Threshold: " << params.Threshold << std::endl;
+        }
         else if (key == "pias"){
             lineStream >> params.pias;
         }

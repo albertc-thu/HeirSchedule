@@ -127,6 +127,28 @@ FlowArrivalEvent::FlowArrivalEvent(double time, Flow* flow) : Event(FLOW_ARRIVAL
 FlowArrivalEvent::~FlowArrivalEvent() {
 }
 
+uint32_t getPriority(uint32_t flow_size){
+    if(flow_size <= params.host_priority_1){
+        return 0;
+    }else if(flow_size <= params.host_priority_2){
+        return 1;
+    }else if(flow_size <= params.host_priority_3){
+        return 2;
+    }else if(flow_size <= params.host_priority_4){
+        return 3;
+    }else if(flow_size <= params.host_priority_5){
+        return 4;
+    }else if(flow_size <= params.host_priority_6){
+        return 5;
+    }else if(flow_size <= params.host_priority_7){
+        return 6;
+    }else{
+        return 7;
+    }
+
+    return 0;
+}
+
 void FlowArrivalEvent::process_event() {
     if (flow_arrivals.size() > 0) // Flow arrival 的链式连锁反应
     {
@@ -144,6 +166,13 @@ void FlowArrivalEvent::process_event() {
     HeirScheduleHost* dst = dynamic_cast<HeirScheduleHost*>(flow->dst);
 
     src->sending_flows.insert(flow);
+    // if(!src->per_dst_priority_queues.count(dst->id)){
+    //     src->per_dst_priority_queues[dst->id] = vector<unordered_set<Flow*>>(8);
+    // }
+    uint32_t priority = getPriority(flow->size);
+    flow->remaining_size_to_send = flow->size;
+    src->per_dst_priority_queues[dst->id][priority].emplace(flow);
+
 
     if(params.pias == 1){
 

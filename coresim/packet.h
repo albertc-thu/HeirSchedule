@@ -97,6 +97,7 @@ public:
     uint32_t src_host_id;
     uint32_t src_agg_id;
     uint32_t dst_host_id;
+    Flow* flow;
     static const uint32_t info_size = 16;
     ipr(){}
     ipr(uint32_t slot, uint32_t slot_end, uint32_t size, uint32_t src_host_id, uint32_t src_agg_id, uint32_t dst_host_id)
@@ -137,6 +138,7 @@ public:
     uint32_t src_host_id;
     uint32_t src_agg_id;
     uint32_t dst_host_id;
+    static const uint32_t info_size = 16;
     ipd(){}
     ipd(uint32_t slot, uint32_t slot_end, uint32_t src_host_id, uint32_t src_agg_id, uint32_t dst_host_id)
     {
@@ -158,6 +160,7 @@ public:
     uint32_t dst_id;
     uint32_t src_agg_id;
     uint32_t dst_agg_id;
+    Flow* flow;
     static const uint32_t info_size = 20;
     core_rts(){}
     core_rts(uint32_t Slot, uint32_t slot_end, uint32_t size, uint32_t src_id, uint32_t src_agg_id, uint32_t dst_id, uint32_t dst_agg_id)
@@ -183,6 +186,7 @@ public:
     uint32_t src_agg_id;
     uint32_t core_id;
     uint32_t dst_agg_id;
+    Flow* flow;
     static const uint32_t info_size = 20;
     core_schd(){}
     core_schd(uint32_t Slot, uint32_t slot_end, uint32_t src_id, uint32_t src_agg_id, uint32_t core_id, uint32_t dst_id, uint32_t dst_agg_id)
@@ -206,6 +210,7 @@ public:
     uint32_t dst_id;
     uint32_t src_agg_id;
     uint32_t dst_agg_id;
+    Flow* flow;
     bool is_src_la; // 给src_la还是dst_la
     static const uint32_t info_size = 20;
     core_deny(){}
@@ -405,6 +410,7 @@ public:
      * src,dst,type in packet
     */
     std::vector<rts> rts_vector;
+    Flow* flow_to_request;
     // only core switch has this attribute
     // std::vector<uint32_t> available_pods;
 
@@ -476,10 +482,10 @@ public:
 class HeirScheduleIPDPkt : public Packet // IPD: Inter-pod Deny 用于LA之间传递拒绝信息
 {
 public:
-    HeirScheduleIPDPkt(double sending_time, Host *src, Host *dst, ipd* ipd_info);
+    HeirScheduleIPDPkt(double sending_time, Host *src, Host *dst);
     ~HeirScheduleIPDPkt();
 
-    ipd* ipd_info;
+    vector<ipd*> ipd_info;
     static int new_num;
     static int delete_num;
 };

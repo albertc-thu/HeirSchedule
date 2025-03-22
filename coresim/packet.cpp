@@ -207,16 +207,19 @@ HeirScheduleIPSPkt::~HeirScheduleIPSPkt()
 
 int HeirScheduleIPDPkt::new_num = 0;
 int HeirScheduleIPDPkt::delete_num = 0;
-HeirScheduleIPDPkt::HeirScheduleIPDPkt(double sending_time, Host *src, Host *dst, ipd* ipd_info): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
+HeirScheduleIPDPkt::HeirScheduleIPDPkt(double sending_time, Host *src, Host *dst): Packet(sending_time, NULL, 0, 0, params.hdr_size, src, dst)
 {
     this->type = HeirScheduleIPD;
-    this->ipd_info = ipd_info;
+    // this->ipd_info = ipd_info;
     new_num++;
 }
 
 HeirScheduleIPDPkt::~HeirScheduleIPDPkt()
 {
-    delete ipd_info;
+    // delete ipd_info;
+    for(auto it = ipd_info.begin(); it != ipd_info.end(); it++){
+        delete *it;
+    }
     delete_num++;
 }
 

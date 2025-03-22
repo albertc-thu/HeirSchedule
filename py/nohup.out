@@ -913,3 +913,16 @@ conf_heirschedule_W5_1_11_10_100.txt
 ../simulator 1 conf_heirschedule_W5_0.75_11_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=0.5us/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
 ../simulator 1 conf_heirschedule_W5_1_11_10_100.txt > ../DATA/125_28_LRU_slide_for_all/length=0.5us/DATA_W5_1/result_heirschedule_W5_1.txt
 finished 5 experiments
+conf_heirschedule_W5_0.1_22_10_100.txt
+conf_heirschedule_W5_0.25_22_10_100.txt
+conf_heirschedule_W5_0.5_22_10_100.txt
+conf_heirschedule_W5_0.75_22_10_100.txt
+conf_heirschedule_W5_1_22_10_100.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_22_10_100.txt > ../DATA/SRF-flow-based/Treshold=1e5/single-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_22_10_100.txt > ../DATA/SRF-flow-based/Treshold=1e5/single-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_22_10_100.txt > ../DATA/SRF-flow-based/Treshold=1e5/single-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_22_10_100.txt > ../DATA/SRF-flow-based/Treshold=1e5/single-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_22_10_100.txt > ../DATA/SRF-flow-based/Treshold=1e5/single-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 5 experiments

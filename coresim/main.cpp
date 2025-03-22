@@ -125,7 +125,7 @@ int main (int argc, char ** argv) {
     time_t start_time;
     time(&start_time);
 
-    // srand(time(NULL));
+    srand(time(NULL));
     // srand(0);
     std::cout.precision(15);
 

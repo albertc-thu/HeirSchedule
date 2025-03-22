@@ -98,6 +98,16 @@ class DCExpParams {
         uint32_t pias_1;
         uint32_t pias_2;
         double start_time = 1.0;
+        uint32_t Threshold;
+
+
+        uint32_t host_priority_1 = 20000; // bytes
+        uint32_t host_priority_2 = 50000;
+        uint32_t host_priority_3 = 100000;
+        uint32_t host_priority_4 = 500000;
+        uint32_t host_priority_5 = 1000000;
+        uint32_t host_priority_6 = 2000000;
+        uint32_t host_priority_7 = 5000000;
 
 };
 
