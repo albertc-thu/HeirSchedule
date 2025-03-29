@@ -214,7 +214,8 @@ void HeirScheduleHost::receive_schd_and_send_data(Packet* packet){
     SCHD* schd = schd_packet->schd;
     // cout << "🥭schd address: " << schd << endl;
     // 输出schd信息
-    // cout << "👀 HeirScheduleHost " << this->id << " receive schd: slot: " << schd->slot << ", to slot " << schd->slot_end << ", src_host_id: " << schd->src_host_id << ", dst_host_id: " << schd->dst_host_id << ", src_tor_id: " << schd->src_tor_id << ", dst_tor_id: " << schd->dst_tor_id << ", src_agg_id: " << schd->src_agg_id << ", dst_agg_id: " << schd->dst_agg_id << ", core_id: " << schd->core_id << endl;
+    // cout << "✅ HeirScheduleHost " << this->id << " receive schd: slot: " << schd->Slot << ", src_host_id: " << schd->src_host_id << ", dst_host_id: " << schd->dst_host_id << ", src_tor_id: " << schd->src_tor_id << ", dst_tor_id: " << schd->dst_tor_id << ", src_agg_id: " << schd->src_agg_id << ", dst_agg_id: " << schd->dst_agg_id << ", core_id: " << schd->core_id << endl;
+    cout << "✅ HeirScheduleHost " << this->id << " receive schd: slot: " << schd->Slot << ", current slot: " << static_cast<uint32_t>(round(get_current_time() / params.slot_length_in_s)) << endl;
     uint32_t slot = schd->Slot;
     uint32_t slot_end = schd->slot_end;
     assert(slot_end >= slot);
@@ -487,7 +488,7 @@ void HeirScheduleHost::receive_data_packet(Packet *packet){
             f->dst->received_last_packet_time = get_current_time(); // 更新最后一次收包时间
             f->dst->now_receiving.erase(f);
 
-            cout << "✅ Flow " << f->id << " finished at " << get_current_time() << ", oracle fct is " << dynamic_cast<HeirScheduleTopology*>(topology)->get_oracle_fct(f) << "us, slowdown is " << 1e6*f->flow_completion_time / dynamic_cast<HeirScheduleTopology*>(topology)->get_oracle_fct(f) << endl;
+            // cout << "✅ Flow " << f->id << " finished at " << get_current_time() << ", oracle fct is " << dynamic_cast<HeirScheduleTopology*>(topology)->get_oracle_fct(f) << "us, slowdown is " << 1e6*f->flow_completion_time / dynamic_cast<HeirScheduleTopology*>(topology)->get_oracle_fct(f) << endl;
         }
     }
 }
@@ -694,9 +695,9 @@ void LocalArbiter::schedule(){
         else{ // 不在同一个pod内
             // Design choice: over schedule，不考虑正在schedule的那部分流量
             // Design choice: no over schedule，考虑正在schedule的那部分流量
-            // if(inschedule_slot_table[{src_id, dst_id}] >= 2 * size/(params.mss*params.slot_length) + 1){
-            //     continue;
-            // }
+            if(inschedule_slot_table[{src_id, dst_id}] >= size/(params.mss*params.slot_length) + 1){
+                continue;
+            }
             uint32_t slot = static_cast<uint32_t>(ceil((get_current_time() + params.arbiter_lag * 4) / params.slot_length_in_s));
             Traffic* traff = new Traffic(src_id, dst_id, slot, size, GO_OUT);
             traff->last_allocated_slot = LAS;
@@ -730,15 +731,33 @@ void LocalArbiter::schedule(){
     }
 
     // 2. 分配时间槽（Allocate time slots）
-    // 2.1 排序(按照remaining size从小到大排序)
-    sort(traffic_list.begin(), traffic_list.end(), [](Traffic* a, Traffic* b){
-        return a->size < b->size;
-    });
-    // random_shuffle(traffic_list.begin(), traffic_list.end());
-    //按照last_allocated_slot从小到大排序
-    // sort(traffic_list.begin(), traffic_list.end(), [](Traffic* a, Traffic* b){
-    //     return a->last_allocated_slot < b->last_allocated_slot;
-    // });
+    // 2.1 排序
+    if(params.policy == "SRF"){
+        // 按照remaining size从小到大排序
+        sort(traffic_list.begin(), traffic_list.end(), [](Traffic* a, Traffic* b){
+            return a->size < b->size;
+        });
+    }
+    else if(params.policy == "LRU"){
+        //按照last_allocated_slot从小到大排序
+        sort(traffic_list.begin(), traffic_list.end(), [](Traffic* a, Traffic* b){
+            return a->last_allocated_slot < b->last_allocated_slot;
+        });
+    }
+    else if(params.policy == "RND"){
+        random_shuffle(traffic_list.begin(), traffic_list.end());
+    }
+    else if(params.policy == "FCFS"){
+        // 按照flow的start_time从小到大排序
+        sort(traffic_list.begin(), traffic_list.end(), [](Traffic* a, Traffic* b){
+            return a->flow->start_time < b->flow->start_time;
+        });
+    }
+    else{
+        cout << "❌ policy error" << endl;
+        assert(false);
+    }
+    
 
     // 2.2 分配时间槽
     // design choice: 单次调度中，一个host只能分配一次，为了防止：1.小流被大流积压；2.超出时间槽T（可以设想100条大流和1条小流前往同一个dst，且小流一个slot发不完，这样子的话，尽管有小流优先，但小流还是会被挤压到很后面）

@@ -100,6 +100,7 @@ class DCExpParams {
         double start_time = 1.0;
         uint32_t Threshold;
 
+        std::string policy;
 
         uint32_t host_priority_1 = 20000; // bytes
         uint32_t host_priority_2 = 50000;

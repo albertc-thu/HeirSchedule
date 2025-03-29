@@ -926,3 +926,315 @@ conf_heirschedule_W5_1_22_10_100.txt
 ../simulator 1 conf_heirschedule_W5_0.75_22_10_100.txt > ../DATA/SRF-flow-based/Treshold=1e5/single-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
 ../simulator 1 conf_heirschedule_W5_1_22_10_100.txt > ../DATA/SRF-flow-based/Treshold=1e5/single-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
 finished 5 experiments
+conf_heirschedule_test_LRU_22_100_Threshold=100000.txt
+conf_heirschedule_test_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_test_RND_22_100_Threshold=100000.txt
+conf_heirschedule_test_FCFS_22_100_Threshold=100000.txt
+
+
+../simulator 1 conf_heirschedule_test_LRU_22_100_Threshold=100000.txt > ../DATA/LRU/Treshold=100000/single-srcs-dsts/DATA_test/result_heirschedule_test.txt
+../simulator 1 conf_heirschedule_test_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/single-srcs-dsts/DATA_test/result_heirschedule_test.txt
+../simulator 1 conf_heirschedule_test_RND_22_100_Threshold=100000.txt > ../DATA/RND/Treshold=100000/single-srcs-dsts/DATA_test/result_heirschedule_test.txt
+../simulator 1 conf_heirschedule_test_FCFS_22_100_Threshold=100000.txt > ../DATA/FCFS/Treshold=100000/single-srcs-dsts/DATA_test/result_heirschedule_test.txt
+Traceback (most recent call last):
+  File "/root/HeirSchedule/py/run_experiments.py", line 153, in <module>
+    [t.join() for t in threads]
+  File "/root/HeirSchedule/py/run_experiments.py", line 153, in <listcomp>
+    [t.join() for t in threads]
+     ^^^^^^^^
+  File "/root/anaconda3/lib/python3.11/threading.py", line 1112, in join
+    self._wait_for_tstate_lock()
+  File "/root/anaconda3/lib/python3.11/threading.py", line 1132, in _wait_for_tstate_lock
+    if lock.acquire(block, timeout):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+conf_heirschedule_W5_0.1_LRU_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.25_LRU_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.5_LRU_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.75_LRU_22_100_Threshold=100000.txt
+conf_heirschedule_W5_1_LRU_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.1_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.25_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.5_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.75_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_1_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.1_RND_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.25_RND_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.5_RND_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.75_RND_22_100_Threshold=100000.txt
+conf_heirschedule_W5_1_RND_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.1_FCFS_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.25_FCFS_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.5_FCFS_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.75_FCFS_22_100_Threshold=100000.txt
+conf_heirschedule_W5_1_FCFS_22_100_Threshold=100000.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_LRU_22_100_Threshold=100000.txt > ../DATA/LRU/Treshold=100000/single-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_LRU_22_100_Threshold=100000.txt > ../DATA/LRU/Treshold=100000/single-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_LRU_22_100_Threshold=100000.txt > ../DATA/LRU/Treshold=100000/single-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_LRU_22_100_Threshold=100000.txt > ../DATA/LRU/Treshold=100000/single-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_LRU_22_100_Threshold=100000.txt > ../DATA/LRU/Treshold=100000/single-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/single-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/single-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/single-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/single-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/single-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_RND_22_100_Threshold=100000.txt > ../DATA/RND/Treshold=100000/single-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_RND_22_100_Threshold=100000.txt > ../DATA/RND/Treshold=100000/single-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_RND_22_100_Threshold=100000.txt > ../DATA/RND/Treshold=100000/single-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_RND_22_100_Threshold=100000.txt > ../DATA/RND/Treshold=100000/single-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_RND_22_100_Threshold=100000.txt > ../DATA/RND/Treshold=100000/single-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_FCFS_22_100_Threshold=100000.txt > ../DATA/FCFS/Treshold=100000/single-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_FCFS_22_100_Threshold=100000.txt > ../DATA/FCFS/Treshold=100000/single-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_FCFS_22_100_Threshold=100000.txt > ../DATA/FCFS/Treshold=100000/single-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_FCFS_22_100_Threshold=100000.txt > ../DATA/FCFS/Treshold=100000/single-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_FCFS_22_100_Threshold=100000.txt > ../DATA/FCFS/Treshold=100000/single-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 20 experiments
+conf_heirschedule_W5_0.1_LRU_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.25_LRU_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.5_LRU_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.75_LRU_22_100_Threshold=100000.txt
+conf_heirschedule_W5_1_LRU_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.1_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.25_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.5_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.75_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_1_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.1_RND_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.25_RND_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.5_RND_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.75_RND_22_100_Threshold=100000.txt
+conf_heirschedule_W5_1_RND_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.1_FCFS_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.25_FCFS_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.5_FCFS_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.75_FCFS_22_100_Threshold=100000.txt
+conf_heirschedule_W5_1_FCFS_22_100_Threshold=100000.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_LRU_22_100_Threshold=100000.txt > ../DATA/LRU/Treshold=100000/single-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_LRU_22_100_Threshold=100000.txt > ../DATA/LRU/Treshold=100000/single-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_LRU_22_100_Threshold=100000.txt > ../DATA/LRU/Treshold=100000/single-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_LRU_22_100_Threshold=100000.txt > ../DATA/LRU/Treshold=100000/single-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_LRU_22_100_Threshold=100000.txt > ../DATA/LRU/Treshold=100000/single-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/single-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/single-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/single-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/single-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/single-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_RND_22_100_Threshold=100000.txt > ../DATA/RND/Treshold=100000/single-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_RND_22_100_Threshold=100000.txt > ../DATA/RND/Treshold=100000/single-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_RND_22_100_Threshold=100000.txt > ../DATA/RND/Treshold=100000/single-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_RND_22_100_Threshold=100000.txt > ../DATA/RND/Treshold=100000/single-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_RND_22_100_Threshold=100000.txt > ../DATA/RND/Treshold=100000/single-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_FCFS_22_100_Threshold=100000.txt > ../DATA/FCFS/Treshold=100000/single-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_FCFS_22_100_Threshold=100000.txt > ../DATA/FCFS/Treshold=100000/single-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_FCFS_22_100_Threshold=100000.txt > ../DATA/FCFS/Treshold=100000/single-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_FCFS_22_100_Threshold=100000.txt > ../DATA/FCFS/Treshold=100000/single-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_FCFS_22_100_Threshold=100000.txt > ../DATA/FCFS/Treshold=100000/single-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 20 experiments
+conf_heirschedule_W5_0.1_SRF_22_100_Threshold=1.txt
+conf_heirschedule_W5_0.25_SRF_22_100_Threshold=1.txt
+conf_heirschedule_W5_0.5_SRF_22_100_Threshold=1.txt
+conf_heirschedule_W5_0.75_SRF_22_100_Threshold=1.txt
+conf_heirschedule_W5_1_SRF_22_100_Threshold=1.txt
+conf_heirschedule_W5_0.1_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.25_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.5_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.75_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_1_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.1_SRF_22_100_Threshold=1000000.txt
+conf_heirschedule_W5_0.25_SRF_22_100_Threshold=1000000.txt
+conf_heirschedule_W5_0.5_SRF_22_100_Threshold=1000000.txt
+conf_heirschedule_W5_0.75_SRF_22_100_Threshold=1000000.txt
+conf_heirschedule_W5_1_SRF_22_100_Threshold=1000000.txt
+conf_heirschedule_W5_0.1_SRF_22_100_Threshold=10000000.txt
+conf_heirschedule_W5_0.25_SRF_22_100_Threshold=10000000.txt
+conf_heirschedule_W5_0.5_SRF_22_100_Threshold=10000000.txt
+conf_heirschedule_W5_0.75_SRF_22_100_Threshold=10000000.txt
+conf_heirschedule_W5_1_SRF_22_100_Threshold=10000000.txt
+conf_heirschedule_W5_0.1_SRF_22_100_Threshold=10000000000.txt
+conf_heirschedule_W5_0.25_SRF_22_100_Threshold=10000000000.txt
+conf_heirschedule_W5_0.5_SRF_22_100_Threshold=10000000000.txt
+conf_heirschedule_W5_0.75_SRF_22_100_Threshold=10000000000.txt
+conf_heirschedule_W5_1_SRF_22_100_Threshold=10000000000.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_SRF_22_100_Threshold=1.txt > ../DATA/SRF/Treshold=1/single-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_22_100_Threshold=1.txt > ../DATA/SRF/Treshold=1/single-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_22_100_Threshold=1.txt > ../DATA/SRF/Treshold=1/single-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_22_100_Threshold=1.txt > ../DATA/SRF/Treshold=1/single-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_22_100_Threshold=1.txt > ../DATA/SRF/Treshold=1/single-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/single-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/single-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/single-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/single-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/single-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_SRF_22_100_Threshold=1000000.txt > ../DATA/SRF/Treshold=1000000/single-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_22_100_Threshold=1000000.txt > ../DATA/SRF/Treshold=1000000/single-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_22_100_Threshold=1000000.txt > ../DATA/SRF/Treshold=1000000/single-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_22_100_Threshold=1000000.txt > ../DATA/SRF/Treshold=1000000/single-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_22_100_Threshold=1000000.txt > ../DATA/SRF/Treshold=1000000/single-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_SRF_22_100_Threshold=10000000.txt > ../DATA/SRF/Treshold=10000000/single-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_22_100_Threshold=10000000.txt > ../DATA/SRF/Treshold=10000000/single-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_22_100_Threshold=10000000.txt > ../DATA/SRF/Treshold=10000000/single-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_22_100_Threshold=10000000.txt > ../DATA/SRF/Treshold=10000000/single-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_22_100_Threshold=10000000.txt > ../DATA/SRF/Treshold=10000000/single-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_SRF_22_100_Threshold=10000000000.txt > ../DATA/SRF/Treshold=10000000000/single-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_22_100_Threshold=10000000000.txt > ../DATA/SRF/Treshold=10000000000/single-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_22_100_Threshold=10000000000.txt > ../DATA/SRF/Treshold=10000000000/single-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_22_100_Threshold=10000000000.txt > ../DATA/SRF/Treshold=10000000000/single-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_22_100_Threshold=10000000000.txt > ../DATA/SRF/Treshold=10000000000/single-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 25 experiments
+conf_heirschedule_W5_0.1_SRF_22_100_Threshold=1.txt
+conf_heirschedule_W5_0.25_SRF_22_100_Threshold=1.txt
+conf_heirschedule_W5_0.5_SRF_22_100_Threshold=1.txt
+conf_heirschedule_W5_0.75_SRF_22_100_Threshold=1.txt
+conf_heirschedule_W5_1_SRF_22_100_Threshold=1.txt
+conf_heirschedule_W5_0.1_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.25_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.5_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.75_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_1_SRF_22_100_Threshold=100000.txt
+conf_heirschedule_W5_0.1_SRF_22_100_Threshold=1000000.txt
+conf_heirschedule_W5_0.25_SRF_22_100_Threshold=1000000.txt
+conf_heirschedule_W5_0.5_SRF_22_100_Threshold=1000000.txt
+conf_heirschedule_W5_0.75_SRF_22_100_Threshold=1000000.txt
+conf_heirschedule_W5_1_SRF_22_100_Threshold=1000000.txt
+conf_heirschedule_W5_0.1_SRF_22_100_Threshold=10000000.txt
+conf_heirschedule_W5_0.25_SRF_22_100_Threshold=10000000.txt
+conf_heirschedule_W5_0.5_SRF_22_100_Threshold=10000000.txt
+conf_heirschedule_W5_0.75_SRF_22_100_Threshold=10000000.txt
+conf_heirschedule_W5_1_SRF_22_100_Threshold=10000000.txt
+conf_heirschedule_W5_0.1_SRF_22_100_Threshold=10000000000.txt
+conf_heirschedule_W5_0.25_SRF_22_100_Threshold=10000000000.txt
+conf_heirschedule_W5_0.5_SRF_22_100_Threshold=10000000000.txt
+conf_heirschedule_W5_0.75_SRF_22_100_Threshold=10000000000.txt
+conf_heirschedule_W5_1_SRF_22_100_Threshold=10000000000.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_SRF_22_100_Threshold=1.txt > ../DATA/SRF/Treshold=1/multi-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_22_100_Threshold=1.txt > ../DATA/SRF/Treshold=1/multi-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_22_100_Threshold=1.txt > ../DATA/SRF/Treshold=1/multi-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_22_100_Threshold=1.txt > ../DATA/SRF/Treshold=1/multi-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_22_100_Threshold=1.txt > ../DATA/SRF/Treshold=1/multi-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/multi-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/multi-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/multi-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/multi-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_22_100_Threshold=100000.txt > ../DATA/SRF/Treshold=100000/multi-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_SRF_22_100_Threshold=1000000.txt > ../DATA/SRF/Treshold=1000000/multi-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_22_100_Threshold=1000000.txt > ../DATA/SRF/Treshold=1000000/multi-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_22_100_Threshold=1000000.txt > ../DATA/SRF/Treshold=1000000/multi-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_22_100_Threshold=1000000.txt > ../DATA/SRF/Treshold=1000000/multi-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_22_100_Threshold=1000000.txt > ../DATA/SRF/Treshold=1000000/multi-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_SRF_22_100_Threshold=10000000.txt > ../DATA/SRF/Treshold=10000000/multi-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_22_100_Threshold=10000000.txt > ../DATA/SRF/Treshold=10000000/multi-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_22_100_Threshold=10000000.txt > ../DATA/SRF/Treshold=10000000/multi-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_22_100_Threshold=10000000.txt > ../DATA/SRF/Treshold=10000000/multi-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_22_100_Threshold=10000000.txt > ../DATA/SRF/Treshold=10000000/multi-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_SRF_22_100_Threshold=10000000000.txt > ../DATA/SRF/Treshold=10000000000/multi-srcs-dsts/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_22_100_Threshold=10000000000.txt > ../DATA/SRF/Treshold=10000000000/multi-srcs-dsts/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_22_100_Threshold=10000000000.txt > ../DATA/SRF/Treshold=10000000000/multi-srcs-dsts/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_22_100_Threshold=10000000000.txt > ../DATA/SRF/Treshold=10000000000/multi-srcs-dsts/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_22_100_Threshold=10000000000.txt > ../DATA/SRF/Treshold=10000000000/multi-srcs-dsts/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 25 experiments
+conf_heirschedule_W5_0.1_SRF_5_100_Threshold=100000.txt
+conf_heirschedule_W5_1_SRF_5_100_Threshold=100000.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_SRF_5_100_Threshold=100000.txt > ../DATA/PS-Slot-length/length=5/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_5_100_Threshold=100000.txt > ../DATA/PS-Slot-length/length=5/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 2 experiments
+conf_heirschedule_W5_0.1_SRF_22_50_Threshold=100000.txt
+conf_heirschedule_W5_0.25_SRF_22_50_Threshold=100000.txt
+conf_heirschedule_W5_0.5_SRF_22_50_Threshold=100000.txt
+conf_heirschedule_W5_0.75_SRF_22_50_Threshold=100000.txt
+conf_heirschedule_W5_1_SRF_22_50_Threshold=100000.txt
+conf_heirschedule_W5_0.1_SRF_22_200_Threshold=100000.txt
+conf_heirschedule_W5_0.25_SRF_22_200_Threshold=100000.txt
+conf_heirschedule_W5_0.5_SRF_22_200_Threshold=100000.txt
+conf_heirschedule_W5_0.75_SRF_22_200_Threshold=100000.txt
+conf_heirschedule_W5_1_SRF_22_200_Threshold=100000.txt
+conf_heirschedule_W5_0.1_SRF_22_400_Threshold=100000.txt
+conf_heirschedule_W5_0.25_SRF_22_400_Threshold=100000.txt
+conf_heirschedule_W5_0.5_SRF_22_400_Threshold=100000.txt
+conf_heirschedule_W5_0.75_SRF_22_400_Threshold=100000.txt
+conf_heirschedule_W5_1_SRF_22_400_Threshold=100000.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_SRF_22_50_Threshold=100000.txt > ../DATA/slot-to-maintain/T=50/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_22_50_Threshold=100000.txt > ../DATA/slot-to-maintain/T=50/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_22_50_Threshold=100000.txt > ../DATA/slot-to-maintain/T=50/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_22_50_Threshold=100000.txt > ../DATA/slot-to-maintain/T=50/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_22_50_Threshold=100000.txt > ../DATA/slot-to-maintain/T=50/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_SRF_22_200_Threshold=100000.txt > ../DATA/slot-to-maintain/T=200/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_22_200_Threshold=100000.txt > ../DATA/slot-to-maintain/T=200/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_22_200_Threshold=100000.txt > ../DATA/slot-to-maintain/T=200/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_22_200_Threshold=100000.txt > ../DATA/slot-to-maintain/T=200/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_22_200_Threshold=100000.txt > ../DATA/slot-to-maintain/T=200/DATA_W5_1/result_heirschedule_W5_1.txt
+../simulator 1 conf_heirschedule_W5_0.1_SRF_22_400_Threshold=100000.txt > ../DATA/slot-to-maintain/T=400/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_22_400_Threshold=100000.txt > ../DATA/slot-to-maintain/T=400/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_22_400_Threshold=100000.txt > ../DATA/slot-to-maintain/T=400/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_22_400_Threshold=100000.txt > ../DATA/slot-to-maintain/T=400/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_22_400_Threshold=100000.txt > ../DATA/slot-to-maintain/T=400/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 15 experiments
+conf_heirschedule_W5_0.1_SRF_45_50_Threshold=100000.txt
+conf_heirschedule_W5_0.25_SRF_45_50_Threshold=100000.txt
+conf_heirschedule_W5_0.5_SRF_45_50_Threshold=100000.txt
+conf_heirschedule_W5_0.75_SRF_45_50_Threshold=100000.txt
+conf_heirschedule_W5_1_SRF_45_50_Threshold=100000.txt
+conf_heirschedule_W5_0.1_SRF_45_200_Threshold=100000.txt
+conf_heirschedule_W5_0.25_SRF_45_200_Threshold=100000.txt
+conf_heirschedule_W5_0.5_SRF_45_200_Threshold=100000.txt
+conf_heirschedule_W5_0.75_SRF_45_200_Threshold=100000.txt
+conf_heirschedule_W5_1_SRF_45_200_Threshold=100000.txt
+conf_heirschedule_W5_0.1_SRF_45_400_Threshold=100000.txt
+conf_heirschedule_W5_0.25_SRF_45_400_Threshold=100000.txt
+conf_heirschedule_W5_0.5_SRF_45_400_Threshold=100000.txt
+conf_heirschedule_W5_0.75_SRF_45_400_Threshold=100000.txt
+conf_heirschedule_W5_1_SRF_45_400_Threshold=100000.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_SRF_45_50_Threshold=100000.txt > ../DATA/2x/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_45_50_Threshold=100000.txt > ../DATA/2x/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_45_50_Threshold=100000.txt > ../DATA/2x/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_45_50_Threshold=100000.txt > ../DATA/2x/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_45_50_Threshold=100000.txt > ../DATA/2x/DATA_W5_1/result_heirschedule_W5_1.txt
+Traceback (most recent call last):
+  File "/root/HeirSchedule/py/run_experiments.py", line 157, in <module>
+    print('\n')
+    ^^^^^^^^^^^^
+  File "/root/HeirSchedule/py/run_experiments.py", line 157, in <listcomp>
+    print('\n')
+     ^^^^^^^^
+  File "/root/anaconda3/lib/python3.11/threading.py", line 1112, in join
+    self._wait_for_tstate_lock()
+  File "/root/anaconda3/lib/python3.11/threading.py", line 1132, in _wait_for_tstate_lock
+    if lock.acquire(block, timeout):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Exception ignored in: <module 'threading' from '/root/anaconda3/lib/python3.11/threading.py'>
+Traceback (most recent call last):
+  File "/root/anaconda3/lib/python3.11/threading.py", line 1583, in _shutdown
+    lock.acquire()
+KeyboardInterrupt: 
+../simulator 1 conf_heirschedule_W5_0.1_SRF_45_200_Threshold=100000.txt > ../DATA/2x/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_45_200_Threshold=100000.txt > ../DATA/2x/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_45_200_Threshold=100000.txt > ../DATA/2x/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_45_200_Threshold=100000.txt > ../DATA/2x/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_45_200_Threshold=100000.txt > ../DATA/2x/DATA_W5_1/result_heirschedule_W5_1.txt
+conf_heirschedule_W5_0.1_SRF_45_100_Threshold=100000.txt
+conf_heirschedule_W5_0.25_SRF_45_100_Threshold=100000.txt
+conf_heirschedule_W5_0.5_SRF_45_100_Threshold=100000.txt
+conf_heirschedule_W5_0.75_SRF_45_100_Threshold=100000.txt
+conf_heirschedule_W5_1_SRF_45_100_Threshold=100000.txt
+
+
+../simulator 1 conf_heirschedule_W5_0.1_SRF_45_100_Threshold=100000.txt > ../DATA/2x/W5/DATA_W5_0.1/result_heirschedule_W5_0.1.txt
+../simulator 1 conf_heirschedule_W5_0.25_SRF_45_100_Threshold=100000.txt > ../DATA/2x/W5/DATA_W5_0.25/result_heirschedule_W5_0.25.txt
+../simulator 1 conf_heirschedule_W5_0.5_SRF_45_100_Threshold=100000.txt > ../DATA/2x/W5/DATA_W5_0.5/result_heirschedule_W5_0.5.txt
+../simulator 1 conf_heirschedule_W5_0.75_SRF_45_100_Threshold=100000.txt > ../DATA/2x/W5/DATA_W5_0.75/result_heirschedule_W5_0.75.txt
+../simulator 1 conf_heirschedule_W5_1_SRF_45_100_Threshold=100000.txt > ../DATA/2x/W5/DATA_W5_1/result_heirschedule_W5_1.txt
+finished 5 experiments
