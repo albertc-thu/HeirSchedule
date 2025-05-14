@@ -6,6 +6,7 @@
 #include <sstream>
 
 DCExpParams params;
+using namespace std;
 
 /* Read parameters from a config file */
 void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
@@ -23,6 +24,7 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
 
 
         lineStream >> key;
+        std::cout << key << std::endl;
         assert(key[key.length()-1] == ':');
         key = key.substr(0, key.length()-1);
         if (key == "init_cwnd") {
@@ -194,6 +196,7 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         }
         else if (key == "mss"){
             lineStream >> params.mss;
+            std::cout << params.mss << std::endl;
         }
         else if (key == "slot_length"){
             lineStream >> params.slot_length;

@@ -130,13 +130,13 @@ for r in runs:
                         # dir_name = '../DATA/{policy}/slot-probing-off/single-srcs-dsts/DATA_{w}'.format(slot_length=slot_length, w=w, T=T, Threshold=Threshold, policy=policy)
                         # dir_name = '../DATA/LRU-flow-based/Treshold={Threshold}/single-srcs-dsts/DATA_{w}'.format(slot_length=slot_length, w=w, msta=msta, T=T, Threshold=Threshold)
                         # dir_name = '../DATA/125_28_LRU_slide_for_all/length=0.25us/DATA_{w}'.format(slot_length=slot_length, w=w, msta=msta, T=T)
-                        # dir_name = '../DATA/Test'
+                        dir_name = '../DATA/Test'
                         os.makedirs(dir_name, exist_ok=True)
                         
                         flow_trace = "../flows/flow_data_test/flows_" + w + ".txt"
                         # flow_trace = "../flows/flow_data_8_28/flows_" + w + ".txt"
-                        flow_trace = "../flows/flow_data_125_28/flows_" + w + ".txt"
-                        flow_trace = "../flows/flow_data_125_pureincast/flows_" + w + ".txt"
+                        # flow_trace = "../flows/flow_data_125_28/flows_" + w + ".txt"
+                        # flow_trace = "../flows/flow_data_125_pureincast/flows_" + w + ".txt"
                         # flow_trace = "../flows/flow_data_125_intra/flows_" + w + ".txt"
 
                         #  generate conf file

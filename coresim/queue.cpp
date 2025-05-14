@@ -79,7 +79,7 @@ void Queue::enque(Packet *packet) {
     //     pkt_drop++;
     //     drop(packet);
     // }
-    // cout << "Now in " << queue_type_map[this->location] << " " << node_type_map[this->src->type] << " " << this->src->id << " to " << node_type_map[this->dst->type] << " " << this->dst->id << ", queue size: " << packets.size() << " @ " << get_current_time() << endl;
+    cout << "Now in " << queue_type_map[this->location] << " " << node_type_map[this->src->type] << " " << this->src->id << " to " << node_type_map[this->dst->type] << " " << this->dst->id << ", queue size: " << packets.size() << " @ " << get_current_time() << endl;
     if(packets.size() >= 1){ // 零缓存
         cout << "💥 collossion! " << queue_type_map[this->location] << ", now in " << node_type_map[this->src->type] << " " << this->src->id << " to " << node_type_map[this->dst->type] << " " << this->dst->id << ", queue size: " << packets.size() << " @ " << get_current_time() << endl;
         cout << "Packet to be enqueued: from " << packet->src->id << " -> " << packet->dst->id << ", unique_id: " << packet->unique_id << " @ " << get_current_time();

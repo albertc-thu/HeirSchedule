@@ -16,3 +16,4 @@ simulator
 simdebug
 
 DATA/
+vgcore*

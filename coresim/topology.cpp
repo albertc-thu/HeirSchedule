@@ -487,7 +487,11 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
     // 数字23在排列中的位置：[4, 7, 10, 18, 21]
     // 数字24在排列中的位置：[4, 8, 12, 16, 20]
     int conn_core_agg[num_core_switches][params.k/2] = {
-        
+        {0, 5, 10, 15, 20}, {0, 5, 10, 15, 20}, {0, 5, 10, 15, 20}, {0, 5, 10, 15, 20}, {0, 5, 10, 15, 20},
+        {1, 6, 11, 16, 21}, {1, 6, 11, 16, 21}, {1, 6, 11, 16, 21}, {1, 6, 11, 16, 21}, {1, 6, 11, 16, 21}, 
+        {2, 7, 12, 17, 22}, {2, 7, 12, 17, 22}, {2, 7, 12, 17, 22}, {2, 7, 12, 17, 22}, {2, 7, 12, 17, 22}, 
+        {3, 8, 13, 18, 23}, {3, 8, 13, 18, 23}, {3, 8, 13, 18, 23}, {3, 8, 13, 18, 23}, {3, 8, 13, 18, 23}, 
+        {4, 9, 14, 19, 24}, {4, 9, 14, 19, 24}, {4, 9, 14, 19, 24}, {4, 9, 14, 19, 24}, {4, 9, 14, 19, 24}
     };
 
     for(int i = 0; i < num_core_switches; i++){ // core id
@@ -495,7 +499,7 @@ HeirScheduleTopology::HeirScheduleTopology(uint32_t k, double rate_data, double 
             for(int m = 0; m < params.k/2; m++){ // port out
                 uint32_t src_agg = conn_core_agg[i][j];
                 uint32_t dst_agg = conn_core_agg[i][m];
-                src_dst_agg_to_core_map[{src_agg, dst_agg}] = i;
+                src_dst_agg_to_core_map[{src_agg, dst_agg}].push_back(i);
                 printf("🍐 src_dst_agg_to_core_map[{%d, %d}] = %d\n", src_agg, dst_agg, i);
             }
         }
